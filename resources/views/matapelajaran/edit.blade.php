@@ -1,24 +1,23 @@
 @extends('layouts.app')
-@section('title','Input Data Mata Pelajaran')
+@section('title','Edit Data Mata Pelajaran')
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Input Data Mata Pelajaran</div>
+                <div class="card-header">Edit Data Mata Pelajaran</div>
 
                 <div class="card-body">
-
                     @include('validation_error')
-                    
-                    {{ Form::open(['url'=>'matapelajaran'])}}
+
+                    {{ Form::model($matapelajaran,['url'=>'matapelajaran/'.$matapelajaran->kode_mp,'method'=>'PUT'])}}
 
                         @csrf
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label text-md-right">Kode Mata Pelajaran</label>
-                            <div class="col-md-3">
-                                {{ Form::text('kode_mp',null,['class'=>'form-control','placeholder'=>'Kode Mata Pelajaran'])}}
+                            <div class="col-md-6">
+                                {{ Form::text('kode_mp',null,['class'=>'form-control','placeholder'=>'Kode Mata Pelajaran','readonly'=>''])}}
                             </div>
                         </div>
 

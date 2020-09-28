@@ -22,6 +22,7 @@
                                 <th>Kode MP</th>
                                 <th>Nama Mata Pelajaran</th>
                                 <th>jumlah Jam</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                     </table>
@@ -41,7 +42,8 @@ $(function() {
         columns: [
             { data: 'kode_mp', name: 'kode_mp' },
             { data: 'nama_mp', name: 'nama_mp' },
-            { data: 'jml_jam', name: 'jml_jam' }
+            { data: 'jml_jam', name: 'jml_jam' },
+            { data: 'action', name: 'action' }
         ]
     });
 });
