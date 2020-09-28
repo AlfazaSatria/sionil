@@ -29,7 +29,7 @@ class MataPelajaranController extends Controller
      */
     public function create()
     {
-        //
+        return view('matapelajaran.create');
     }
 
     /**
@@ -40,7 +40,9 @@ class MataPelajaranController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $matapelajaran= New Matapelajaran();
+        $matapelajaran->create($request->all());
+        return redirect('/matapelajaran');
     }
 
     /**

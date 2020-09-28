@@ -6,5 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MataPelajaran extends Model
 {
-    public $table = 'matapelajaran';
+    protected $table = 'matapelajaran';
+
+    protected $fillable=['kode_mp','nama_mp','jml_jam'];
 }

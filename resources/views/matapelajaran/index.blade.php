@@ -13,7 +13,9 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
+                    
+                    <a href="/matapelajaran/create" class="btn btn-primary">Input Data Baru</a>
+                    <hr>
                     <table class="table table-bordered" id="users-table">
                         <thead>
                             <tr>
