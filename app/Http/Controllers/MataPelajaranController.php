@@ -55,7 +55,7 @@ class MataPelajaranController extends Controller
 
         $matapelajaran= New Matapelajaran();
         $matapelajaran->create($request->all());
-        return redirect('/matapelajaran');
+        return redirect('/matapelajaran')->with('status','Data Mata Pelajaran Berhasil Disimpan');
     }
 
     /**
@@ -98,7 +98,7 @@ class MataPelajaranController extends Controller
 
         $matapelajaran = Matapelajaran::where('kode_mp',$kode_mp);
         $matapelajaran ->update($request->except('_method','_token'));
-        return redirect('/matapelajaran');
+        return redirect('/matapelajaran')->with('status','Data Mata Pelajaran Berhasil Dirubah');
     }
 
     /**
@@ -111,6 +111,6 @@ class MataPelajaranController extends Controller
     {
         $matapelajaran = Matapelajaran::where('kode_mp',$kode_mp);
         $matapelajaran->delete();
-        return redirect('/matapelajaran');
+        return redirect('/matapelajaran')->with('status','Data Mata Pelajaran Berhasil Dihapus');
     }
 }
