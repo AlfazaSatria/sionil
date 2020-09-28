@@ -16,6 +16,6 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
+Route::get('/matapelajaran/json','MatapelajaranController@json');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/matapelajaran', 'MataPelajaranController');

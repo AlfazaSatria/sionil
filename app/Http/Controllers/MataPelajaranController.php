@@ -1,11 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
+use DataTables;
 
 use Illuminate\Http\Request;
+use App\MataPelajaran;
 
 class MataPelajaranController extends Controller
 {
+
+    function json(){
+        return DataTables::of(Matapelajaran::all())->make(true);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +19,7 @@ class MataPelajaranController extends Controller
      */
     public function index()
     {
-        //
+        return view('matapelajaran.index');
     }
 
     /**
