@@ -15,7 +15,7 @@ class GuruController extends Controller
                 ->join('jenjang','jenjang.kode_jenjang','=','guru.kode_jenjang')
                 ->get();
 
-        return Datatables::of($guru)
+        return DataTables::of($guru)
         ->addColumn('action', function ($row) {
             $action  = '<a href="/guru/'.$row->nign.'/edit" class="btn btn-primary btn-sm"><i class="fas fa-pencil-alt"></i></a>';
             $action .= \Form::open(['url'=>'guru/'.$row->nidn,'method'=>'delete','style'=>'float:right']);

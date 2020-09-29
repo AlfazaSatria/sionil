@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Jenjang;
+use DataTables;
+
 class JenjangController extends Controller
 {
     function json(){
-        return Datatables::of(Jenjang::all())
+        return DataTables::of(Jenjang::all())
         ->addColumn('action', function ($row) {
             $action  = '<a href="/jenjang/'.$row->kode_jenjang.'/edit" class="btn btn-primary btn-sm"><i class="fas fa-pencil-alt"></i></a>';
             $action .= \Form::open(['url'=>'jenjang/'.$row->kode_jenjang,'method'=>'delete','style'=>'float:right']);
@@ -51,12 +53,12 @@ class JenjangController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kode_jenjang' => 'required|unique:jenjang|min:4',
+            'kode_jenjang' => 'required|min:4',
             'nama_jenjang' => 'required|min:6'
         ]);
 
 
-        $jenjang = New jenjang();
+        $jenjang = New Jenjang();
         $jenjang->create($request->all());
         return redirect('/jenjang')->with('status','Data jenjang Berhasil Disimpan');
     }

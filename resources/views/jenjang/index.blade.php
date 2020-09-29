@@ -29,8 +29,6 @@
         </div>
     </div>
 </div>
-@endsection
-
 
 @push('scripts')
 <script>
@@ -48,3 +46,9 @@ $(function() {
 });
 </script>
 @endpush
+
+@endsection
+
+
+
+
