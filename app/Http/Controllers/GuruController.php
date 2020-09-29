@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Hash;
 use DataTables;
-
+use App\Jenjang;
 use App\Guru;
+use Auth;
 use Illuminate\Http\Request;
 
 class GuruController extends Controller

@@ -14,7 +14,7 @@
 <div class="form-group row">
         <label class="col-md-2 col-form-label text-md-right">Jenjang</label>
         <div class="col-md-8">
-            {{ Form::select('kode_jenjang',$fakultas,null,['class'=>'form-control'])}}
+            {{ Form::select('kode_jenjang',$jenjang,null,['class'=>'form-control'])}}
         </div>
 </div>
 
