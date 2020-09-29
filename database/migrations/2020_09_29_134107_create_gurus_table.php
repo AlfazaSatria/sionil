@@ -15,11 +15,13 @@ class CreateGurusTable extends Migration
     {
         Schema::create('gurus', function (Blueprint $table) {
             // $table->increments('id');
-            $table->string('nign');
+            $table->increments('nign');
+            $table->string('kode_guru');
             $table->string('nama_guru');
+            $table->string('kode_jenjang');
             $table->string('no_hp');
             $table->string('email');
-            
+            $table->string('password');
             $table->timestamps();
         });
     }

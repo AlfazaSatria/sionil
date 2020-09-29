@@ -20,3 +20,4 @@ Route::get('/matapelajaran/json','MatapelajaranController@json');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/matapelajaran', 'MataPelajaranController');
 Route::resource('guru','GuruController');
+Route::get('/guru/json','GuruController@json');
