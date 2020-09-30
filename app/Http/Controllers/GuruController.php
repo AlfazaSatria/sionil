@@ -18,7 +18,7 @@ class GuruController extends Controller
         return DataTables::of($guru)
         ->addColumn('action', function ($row) {
             $action  = '<a href="/guru/'.$row->nign.'/edit" class="btn btn-primary btn-sm"><i class="fas fa-pencil-alt"></i></a>';
-            $action .= \Form::open(['url'=>'guru/'.$row->nidn,'method'=>'delete','style'=>'float:right']);
+            $action .= \Form::open(['url'=>'guru/'.$row->nign,'method'=>'delete','style'=>'float:right']);
             $action .= "<button type='submit'class='btn btn-danger btn-sm'><i class='fas fa-trash-alt'></i></button>";
             $action .= \Form::close();
             return $action;
@@ -64,7 +64,7 @@ class GuruController extends Controller
 
 
         $guru = New guru();
-        $guru->nidn            = $request->nign;
+        $guru->nign            = $request->nign;
         $guru->kode_guru       = $request->kode_guru;
         $guru->nama_guru       = $request->nama_guru;
         $guru->no_hp           = $request->no_hp;
@@ -95,7 +95,7 @@ class GuruController extends Controller
     public function edit($nign)
     {
         $data['jenjang'] = Jenjang::pluck('nama_jenjang','kode_jenjang');
-        $data['guru'] = guru::where('nidn',$nign)->first();
+        $data['guru'] = guru::where('nign',$nign)->first();
         return view('guru.edit',$data);
     }
 
@@ -115,7 +115,7 @@ class GuruController extends Controller
         ]);
 
 
-        $guru = guru::where('nidn',$nign)->first();
+        $guru = guru::where('nign',$nign)->first();
         $guru->nign        = $request->nign;
         $guru->kode_guru  = $request->kode_guru;
         $guru->nama_guru        = $request->nama_guru;
@@ -138,7 +138,7 @@ class GuruController extends Controller
      */
     public function destroy($nign)
     {
-        $guru = guru::where('nidn',$nign);
+        $guru = guru::where('nign',$nign);
         $guru->delete();
         return redirect('/guru')->with('status','Data guru Berhasil Dihapus');;
     }
@@ -160,8 +160,8 @@ class GuruController extends Controller
         ->addColumn('action', function ($row) {
             $action  = '<a href="/nilai/'.$row->id.'" class="btn btn-primary btn-sm"><i class="fas fa-address-book"></i> Nilai</a> ';
             $action  .= '<a href="/kehadiran/'.$row->id.'" class="btn btn-primary btn-sm"><i class="fas fa-address-book"></i> Kehadiran</a>';
-            //$action .= \Form::open(['url'=>'guru/'.$row->nidn,'method'=>'delete','style'=>'float:right']);
-            //$action .= "<button type='submit'class='btn btn-danger btn-sm'><i class='fas fa-trash-alt'></i></button>";
+            $action .= \Form::open(['url'=>'guru/'.$row->nign,'method'=>'delete','style'=>'float:right']);
+            $action .= "<button type='submit'class='btn btn-danger btn-sm'><i class='fas fa-trash-alt'></i></button>";
             return $action;
         })
         ->make(true);
