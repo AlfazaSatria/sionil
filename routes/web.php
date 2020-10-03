@@ -18,9 +18,11 @@ Route::get('/', function () {
 Auth::routes();
 Route::get('/matapelajaran/json','MatapelajaranController@json');
 Route::get('/guru/json','GuruController@json');
+Route::get('/kelas/json','KelasController@json');
 Route::get('/jenjang/json','JenjangController@json');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/matapelajaran', 'MataPelajaranController');
 Route::resource('/guru','GuruController');
+Route::resource('/kelas','KelasController');
 Route::resource('/jenjang','JenjangController');
 
