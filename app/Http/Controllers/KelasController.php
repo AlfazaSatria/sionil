@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Jenjang;
 use App\Kelas;
-
+use DataTables;
 class KelasController extends Controller
 {
     function json(){
