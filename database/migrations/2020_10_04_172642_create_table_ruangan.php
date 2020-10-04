@@ -13,7 +13,11 @@ class CreateTableRuangan extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('ruangan', function (Blueprint $table) {
+            $table->string('kode_ruangan')->primary();
+            $table->string('nama_ruangan');
+            $table->timestamps();
+        });
     }
 
     /**
