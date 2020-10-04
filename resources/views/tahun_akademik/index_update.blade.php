@@ -18,8 +18,11 @@
                     <table class="table table-bordered" id="users-table">
                             <thead>
                                 <tr>
-                                    <th width="100">Kode</th>
+                                    <th width="50">Kode</th>
                                     <th>Tahun akademik</th>
+                                    <th>Periode Perkuliahan</th>
+                                    <th>Periode UTS</th>
+                                    <th>Periode UAS</th>
                                     <th>Status</th>
                                     <th width="53">Action</th>
                                 </tr>
@@ -43,6 +46,9 @@ $(function() {
         columns: [
             { data: 'kode_tahun_akademik', name: 'kode_tahun_akademik' },
             { data: 'tahun_akademik', name: 'tahun_akademik' },
+            { data: 'periode_sekolah', name: 'periode_sekolah' },
+            { data: 'periode_uts', name: 'periode_uts' },
+            { data: 'periode_uas', name: 'periode_uas' },
             { data: 'status', name: 'status' },
             { data: 'action', name: 'action' }
         ]
