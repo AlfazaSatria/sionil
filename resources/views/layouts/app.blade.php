@@ -63,6 +63,9 @@
                             <a class="nav-link" href="/tahunakademik">Tahun Akademik</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="/siswa">Siswa</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="/kelas">Kelas</a>
                         </li>
                         <li class="nav-item dropdown">
