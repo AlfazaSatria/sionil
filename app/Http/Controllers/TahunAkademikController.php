@@ -23,11 +23,11 @@ class TahunAkademikController extends Controller
             return $row->status=='y'?'Aktif':'Tidak Aktif';
         })
         ->addColumn('periode_sekolah', function ($row) {
-            $awal = DateTime::createFromFormat('Y-m-d', $row->tanggal_awal_kuliah);
-            $akhir = DateTime::createFromFormat('Y-m-d', $row->tanggal_akhir_kuliah);
+            $awal = DateTime::createFromFormat('Y-m-d', $row->tanggal_awal_sekolah);
+            $akhir = DateTime::createFromFormat('Y-m-d', $row->tanggal_akhir_sekolah);
 
             return $awal->format('d-M-Y').' - '.$akhir->format('d-M-Y');
-            //return $row->tanggal_awal_kuliah.' - '.$row->tanggal_akhir_kuliah;
+            //return $row->tanggal_awal_sekolah.' - '.$row->tanggal_akhir_sekolah;
         })
         ->addColumn('periode_uts', function ($row) {
             $awal = DateTime::createFromFormat('Y-m-d', $row->tanggal_awal_uts);

@@ -16,10 +16,10 @@
 <label class="col-md-2 col-form-label text-md-right">Periode Sekolah</label>
 <div class="row">
     <div class="col-md-6">
-        {{ Form::date('tanggal_awal_kuliah',null,['class'=>'form-control','placeholder'=>'Tanggal Awal Kuliah'])}}
+        {{ Form::date('tanggal_awal_sekolah',null,['class'=>'form-control','placeholder'=>'Tanggal Awal Sekolah'])}}
     </div>
     <div class="col-md-6">
-        {{ Form::date('tanggal_akhir_kuliah',null,['class'=>'form-control','placeholder'=>'Tanggal Akhir Kuliah'])}}
+        {{ Form::date('tanggal_akhir_sekolah',null,['class'=>'form-control','placeholder'=>'Tanggal Akhir Sekolah'])}}
     </div>
 </div>
 </div>

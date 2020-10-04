@@ -60,6 +60,9 @@
                             <a class="nav-link" href="/jenjang">Jenjang</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="/tahunakademik">Tahun Akademik</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="/kelas">Kelas</a>
                         </li>
                         <li class="nav-item dropdown">
