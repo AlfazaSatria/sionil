@@ -20,6 +20,8 @@ class CreateTableSiswa extends Migration
             $table->string('password');
             $table->string('kode_kelas');
             $table->text('alamat');
+            $table->string('kode_tahun_akademik');
+            $table->integer('semester_aktif');
             $table->timestamps();
         });
     }
