@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableKehadiran extends Migration
+class CreateTableJamPelajaran extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,9 @@ class CreateTableKehadiran extends Migration
      */
     public function up()
     {
-        Schema::create('kehadiran', function (Blueprint $table){
+        Schema::create('jam_pelajaran', function(Blueprint $table){
             $table->increments('id');
-            $table->string('kode_mp');
-            $table->string('kode_guru');
-            $table->string('kode_kelas');
-            $table->string('kode_tahun_akademik');
-            $table->integer('pertemuan_ke');
-            $table->timestamps();
+            $table->string('jam');
         });
     }
 
