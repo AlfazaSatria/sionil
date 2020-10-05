@@ -18,13 +18,13 @@ class JadwalpelajaranController extends Controller
         $semester = $request->get('semester');
 
 
-        $data['jadwal'] = \DB::table('jadwal_kuliah')
-                    ->join('matapelajaran','matapelajaran.kode_mp','=','jadwal_kuliah.kode_mp')
-                    ->join('guru','guru.kode_guru','=','jadwal_kuliah.kode_guru')
-                    ->join('ruangan','ruangan.kode_ruangan','=','jadwal_kuliah.kode_ruangan')
-                    ->join('jam_kuliah','jam_kuliah.id','=','jadwal_kuliah.jam')
-                    ->where('jadwal_kuliah.kode_kelas',$kelas)
-                    ->where('jadwal_kuliah.semester',$semester)
+        $data['jadwal'] = \DB::table('jadwal_pelajaran')
+                    ->join('matapelajaran','matapelajaran.kode_mp','=','jadwal_pelajaran.kode_mp')
+                    ->join('guru','guru.kode_guru','=','jadwal_pelajaran.kode_guru')
+                    ->join('ruangan','ruangan.kode_ruangan','=','jadwal_pelajaran.kode_ruangan')
+                    ->join('jam_pelajaran','jam_pelajaran.id','=','jadwal_pelajaran.jam')
+                    ->where('jadwal_pelajaran.kode_kelas',$kelas)
+                    ->where('jadwal_pelajaran.semester',$semester)
                     ->get();
         $data['kelas'] = Kelas::pluck('nama_kelas','kode_kelas');
         $data['kelas_terpilih'] = $kelas;
@@ -49,6 +49,6 @@ class JadwalpelajaranController extends Controller
     {
         $jadwal = new jadwalPelajaran();
         $jadwal->create($request->all());
-        return redirect('jadwalpelajaran')->with('status','Jadwal Kuliah Berhasil Di Input');
+        return redirect('jadwalpelajaran')->with('status','Jadwal Pelajaran Berhasil Di Input');
     }
 }
