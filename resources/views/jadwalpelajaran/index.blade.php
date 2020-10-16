@@ -25,7 +25,7 @@
                                         <td>{{ Form::select('kelas',$kelas,$kelas_terpilih,['class'=>'form-control'])}}</td></tr>
                                     <tr>
                                         <td>Semester</td>
-                                        <td>{{ Form::select('semester',['1'=>'Semester 1','2'=>'Semester 2','3'=>'Semester 3','4'=>'Semester 4','5'=>'Semester 5','6'=>'Semester 6','7'=>'Semester 7','8'=>'Semester 8'],$semester_terpilih,['class'=>'form-control'])}}</td>
+                                        <td>{{ Form::select('semester',['1'=>'Semester 1','2'=>'Semester 2'],$semester_terpilih,['class'=>'form-control'])}}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">
@@ -38,13 +38,13 @@
                             </div>
                             <div class="col-md-8">
                                 <table class="table table-bordered">
-                                    <tr><th>HARI</th><th>JAM</th><th>MATApelajaran</th><th>GURU</th><th>RUANG</th><th></th></tr>
+                                    <tr><th>HARI</th><th>JAM</th><th>MATA PELAJARAN</th><th>GURU</th><th>RUANG</th><th></th></tr>
                                     @foreach($jadwal as $row)
                                     <tr>
                                         <td>{{ $row->hari }}</td>
                                         <td>{{ $row->jam }}</td>
                                         <td>{{ $row->nama_mp }}</td>
-                                        <td>{{ $row->nama }}</td>
+                                        <td>{{ $row->nama_guru}}</td>
                                         <td>{{ $row->nama_ruangan }}</td>
                                         <td><a href="jadwalpelajaran/{{ $row->id }}/edit"><i class="fas fa-edit"></i></a></td>
                                     <tr>

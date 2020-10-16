@@ -37,7 +37,7 @@ class JadwalpelajaranController extends Controller
     function create(){
         $data['matapelajaran'] = Matapelajaran::pluck('nama_mp','kode_mp');
         $data['kelas'] = Kelas::pluck('nama_kelas','kode_kelas');
-        $data['guru'] = Guru::pluck('nama','kode_guru');
+        $data['guru'] = Guru::pluck('nama_guru','kode_guru');
         $data['ruangan'] = Ruangan::pluck('nama_ruangan','kode_ruangan');
         $data['jampelajaran'] = jampelajaran::pluck('jam','id');
         $data['hari'] = ['senin'=>'senin','selasa'=>'selasa','rabu'=>'rabu','kamis'=>'kamis','jumat'=>'jumat','sabtu'=>'sabtu','minggu'=>'minggu'];

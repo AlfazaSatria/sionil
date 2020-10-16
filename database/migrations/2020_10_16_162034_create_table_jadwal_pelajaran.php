@@ -18,6 +18,7 @@ class CreateTableJadwalPelajaran extends Migration
             $table->string('hari');
             $table->string('kode_mp');
             $table->string('kode_guru');
+            $table->string('jam');
             $table->string('kode_kelas');
             $table->string('kode_ruangan');
             $table->string('kode_tahun_akademik');

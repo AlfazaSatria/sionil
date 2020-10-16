@@ -37,6 +37,7 @@ Route::resource('/guru','GuruController');
 Route::resource('/kelas','KelasController');
 Route::resource('/jenjang','JenjangController');
 Route::resource('/tahunakademik','TahunAkademikController');
+Route::resource('/jadwalpelajaran','JadwalpelajaranController');
 Route::resource('/siswa','SiswaController');
 Route::resource('/ruangan','RuanganController');
 

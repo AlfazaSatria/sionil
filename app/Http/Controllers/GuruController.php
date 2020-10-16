@@ -149,21 +149,21 @@ class GuruController extends Controller
     }
 
     function jadwal_mengajar_json(){
-        $jadwal = \DB::table('jadwal_kuliah')
-                ->join('ruangan','ruangan.kode_ruangan','=','jadwal_kuliah.kode_ruangan')
-                ->join('matakuliah','matakuliah.kode_mk','=','jadwal_kuliah.kode_mk')
-                ->join('jam_kuliah','jam_kuliah.id','=','jadwal_kuliah.jam')
-                ->join('kelas','kelas.kode_kelas','=','jadwal_kuliah.kode_kelas')
-                ->where('jadwal_kuliah.kode_guru',Auth::guard('guru')->user()->kode_guru);
+        $jadwal = \DB::table('jadwal_pelajaran')
+                ->join('ruangan','ruangan.kode_ruangan','=','jadwal_pelajaran.kode_ruangan')
+                ->join('matapelajaran','matapelajaran.kode_mp','=','jadwal_pelajaran.kode_mp')
+                ->join('jam_pelajaran','jam_pelajaran.id','=','jadwal_pelajaran.jam')
+                ->join('kelas','kelas.kode_kelas','=','jadwal_pelajaran.kode_kelas')
+                ->where('jadwal_pelajaran.kode_guru',Auth::guard('guru')->user()->kode_guru);
 
         return Datatables::of($jadwal)
-        ->addColumn('action', function ($row) {
-            $action  = '<a href="/nilai/'.$row->id.'" class="btn btn-primary btn-sm"><i class="fas fa-address-book"></i> Nilai</a> ';
-            $action  .= '<a href="/kehadiran/'.$row->id.'" class="btn btn-primary btn-sm"><i class="fas fa-address-book"></i> Kehadiran</a>';
-            $action .= \Form::open(['url'=>'guru/'.$row->nign,'method'=>'delete','style'=>'float:right']);
-            $action .= "<button type='submit'class='btn btn-danger btn-sm'><i class='fas fa-trash-alt'></i></button>";
-            return $action;
-        })
+        // ->addColumn('action', function ($row) {
+        //     $action  = '<a href="/nilai/'.$row->id.'" class="btn btn-primary btn-sm"><i class="fas fa-address-book"></i> Nilai</a> ';
+        //     $action  .= '<a href="/kehadiran/'.$row->id.'" class="btn btn-primary btn-sm"><i class="fas fa-address-book"></i> Kehadiran</a>';
+        //     $action .= \Form::open(['url'=>'guru/'.$row->nign,'method'=>'delete','style'=>'float:right']);
+        //     $action .= "<button type='submit'class='btn btn-danger btn-sm'><i class='fas fa-trash-alt'></i></button>";
+        //     return $action;
+        // })
         ->make(true);
     }
 }

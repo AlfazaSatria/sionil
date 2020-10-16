@@ -1,7 +1,7 @@
 <div class="form-group row">
     <label class="col-md-2 col-form-label text-md-right">kelas</label>
     <div class="col-md-8">
-            {{ Form::select('kode_jurusan',$jurusan,null,['class'=>'form-control'])}}
+            {{ Form::select('kode_kelas',$kelas,null,['class'=>'form-control'])}}
             {{ Form::hidden('kode_tahun_akademik',$tahun_akademik->kode_tahun_akademik)}}
     </div>
 </div>
@@ -14,7 +14,7 @@
 </div>
 
 <div class="form-group row">
-        <label class="col-md-2 col-form-label text-md-right">matapelajaran</label>
+        <label class="col-md-2 col-form-label text-md-right">mata pelajaran</label>
         <div class="col-md-8">
                 {{ Form::select('kode_mp',$matapelajaran,null,['class'=>'form-control'])}}
         </div>
