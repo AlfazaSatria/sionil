@@ -45,6 +45,11 @@ return [
             'driver' => 'token',
             'provider' => 'users',
         ],
+
+        'guru' => [
+            'driver' => 'session',
+            'provider' => 'guru',
+        ],
     ],
 
     /*
@@ -70,10 +75,10 @@ return [
             'model' => App\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'guru' => [
+            'driver' => 'eloquent',
+            'model' => App\Guru::class,
+        ],
     ],
 
     /*

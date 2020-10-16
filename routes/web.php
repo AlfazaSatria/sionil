@@ -15,6 +15,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/guru/login','LoginGuruController@index');
+Route::post('/guru/login','LoginGuruController@submit');
+
+Route::group(['middleware' => ['auth:guru']], function () {
+    Route::get('jadwal_mengajar','GuruController@jadwal_mengajar');
+    Route::get('jadwal_mengajar/json','GuruController@jadwal_mengajar_json');
+});
+
 Auth::routes();
 Route::get('/matapelajaran/json','MatapelajaranController@json');
 Route::get('/guru/json','GuruController@json');
