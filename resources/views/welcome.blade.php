@@ -5,15 +5,17 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>SIONIL | Sistem Olah Nilai SMP Islam Mumtaza</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
 
         <!-- Styles -->
         <style>
             html, body {
-                background-color: #fff;
+                background-color: #00404F;
                 color: #636b6f;
                 font-family: 'Raleway', sans-serif;
                 font-weight: 100;
@@ -71,25 +73,29 @@
                     @auth
                         <a href="{{ url('/home') }}">Home</a>
                     @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
+                        
                     @endauth
                 </div>
             @endif
 
             <div class="content">
-                <div class="title m-b-md">
-                    Laravel
+                <div class=" m-b-md text-light">
+                    <h1 class="font-weight-bold ">SISTEM OLAH NILAI</h1> 
+                    <img src="{{ asset('/images/logo_mumtazajhs.png') }}" class="logo">
                 </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+              
+                <div class="container">
+                    <a href="walas/login" class="btn btn-info text-light btn-lg font-weight-bold"><i class="fas fa-users"></i> Login Wali Kelas</a>
+                    <a href="/siswa/login" class="btn btn-danger text-light btn-lg font-weight-bold"><i class="fas fa-user-graduate"></i> Login Siswa</a>
+                    <a href="/guru/login" class="btn btn-success text-light btn-lg font-weight-bold"><i class="fas fa-chalkboard-teacher"></i> Login Guru </a>
                 </div>
             </div>
         </div>
     </body>
 </html>
+
+<style>
+    .logo{
+        width: 50em;
+    }
+</style>
