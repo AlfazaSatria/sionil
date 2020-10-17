@@ -17,6 +17,8 @@ Route::get('/', function () {
 
 Route::get('/guru/login','LoginGuruController@index');
 Route::post('/guru/login','LoginGuruController@submit');
+Route::get('/siswa/login','LoginSiswaController@index');
+Route::post('/siswa/login','LoginSiswaController@submit');
 
 Route::group(['middleware' => ['auth:guru']], function () {
     Route::get('jadwal_mengajar','GuruController@jadwal_mengajar');

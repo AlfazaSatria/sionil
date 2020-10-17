@@ -50,6 +50,10 @@ return [
             'driver' => 'session',
             'provider' => 'guru',
         ],
+        'siswa' => [
+            'driver' => 'session',
+            'provider' => 'siswa',
+        ],
     ],
 
     /*
@@ -78,6 +82,11 @@ return [
         'guru' => [
             'driver' => 'eloquent',
             'model' => App\Guru::class,
+        ],
+
+        'siswa' => [
+            'driver' => 'eloquent',
+            'model' => App\Siswa::class,
         ],
     ],
 
