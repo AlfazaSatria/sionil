@@ -3,15 +3,24 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Guru extends Authenticatable
+class Guru extends Model
 {
-    protected $guard = 'guru';
-    protected $table=('guru');
-    protected $fillable=['nign','nama_guru','email','no_hp','kode_jenjang'];
+    use SoftDeletes;
 
-    protected $primaryKey = "kode_guru";
+    protected $fillable = ['id_card', 'nip', 'nama_guru', 'mapel_id', 'kode', 'jk', 'telp', 'tmp_lahir', 'tgl_lahir', 'foto'];
 
-    public $incrementing = false;
+    public function mapel()
+    {
+        return $this->belongsTo('App\Mapel')->withDefault();
+    }
+
+    public function dsk($id)
+    {
+        $dsk = Nilai::where('guru_id', $id)->first();
+        return $dsk;
+    }
+
+    protected $table = 'guru';
 }

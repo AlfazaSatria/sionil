@@ -1,161 +1,142 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
+@section('page', 'Login Authentication')
+@section('content')
+<div class="card-body login-card-body">
+  <p class="login-box-msg">Sign in to start your session</p>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
-        integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
-
-    <title>SIONIL | Sistem Olah Nilai SMP Islamic Mumtaz</title>
-</head>
-
-<body>
-    <div class="body">
-        <div class="content">
-            <form method="POST" action="{{ route('login') }}" aria-label="{{ __('Login') }}">
-                @csrf
-                <div style="text-align:center;margin-bottom:3px;">
-                    <img src="{{ asset('/images/LogoMumtaza.png') }}">
-                </div>
-                <div class="alert alert-danger" id="alert-login" style="text-align:center;/* margin-bottom: 0; */">
-                    Masukkan Email dan Password </div>
-                <div class="form-group row">
-
-
-                    <input id="email" type="email" placeholder="Email"
-                        class="mt-4 form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email"
-                        value="{{ old('email') }}" required autofocus>
-
-                    @if ($errors->has('email'))
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $errors->first('email') }}</strong>
-                    </span>
-                    @endif
-
-                </div>
-
-                <div class="form-group row">
-
-
-                    <input id="password" type="password" placeholder="Password"
-                        class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password"
-                        required>
-
-                    @if ($errors->has('password'))
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $errors->first('password') }}</strong>
-                    </span>
-                    @endif
-
-                </div>
-
-                <div class="form-actions" style="text-align:left">
-                    <div class="form-group row mb-0">
-
-                        <button type="submit" class="btn btn-success">
-                            {{ __('LOGIN') }}
-                            <i class="fa fa-arrow-right"></i>
-                        </button>
-
-                        {{-- <a class="forget-password" href="{{ route('password.request') }}">
-                        {{ __('Forgot Password?') }}
-                        </a> --}}
-
-                    </div>
-                </div>
-                <div class="footer" style="color:#FFFFFF;font-weight:bold">
-                    2020 © Sistem Olah Nilai - 2
-                </div>
-            </form>
-
+  <form action="{{ route('login') }}" method="post">
+    @csrf
+    <div class="input-group mb-3">
+      <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" placeholder="{{ __('E-Mail Address') }}" name="email" value="{{ old('email') }}" autocomplete="off" autofocus>
+      <div class="input-group-append">
+        <div class="input-group-text">
+          <span class="fas fa-envelope"></span>
         </div>
+      </div>
+      @error('email')
+        <span class="invalid-feedback" role="alert">
+          <strong>{{ $message }}</strong>
+        </span>
+      @enderror
     </div>
-</body>
+    <div class="input-group mb-3">
+      <input id="password" type="password" placeholder="{{ __('Password') }}" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="current-password" disabled>
+      <div class="input-group-append">
+        <div class="input-group-text">
+          <span class="fas fa-lock"></span>
+        </div>
+      </div>
+      @error('password')
+        <span class="invalid-feedback" role="alert">
+          <strong>{{ $message }}</strong>
+        </span>
+      @enderror
+    </div>
+    <div class="row mb-1">
+      <div class="col-7">
+        <div class="icheck-primary">
+          <input type="checkbox" id="remember" class="form-check-input" type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }} disabled>
+          <label for="remember">
+            {{ __('Remember Me') }}
+          </label>
+        </div>
+      </div>
+      <!-- /.col -->
+      <div class="col-5">
+        <button type="submit" id="btn-login"class="btn btn-primary btn-block" disabled>{{ __('Login') }} &nbsp; <i class="nav-icon fas fa-sign-in-alt"></i></button>
+      </div>
+      <!-- /.col -->
+    </div>
+  </form>
 
-</html>
+  <p class="mb-1">
+    @if (Route::has('password.request'))
+      <a class="text-center" href="{{ route('password.request') }}">
+        {{ __('Lupa Password?') }}
+      </a>
+    @endif
+  </p>
+  <p class="mb-0">
+    <a class="text-center" href="{{ route('register') }}">Buat Akun Baru</a>
+  </p>
+</div>
+@endsection
+@section('script')
+  <script>
+    $("#email").keyup(function(){
+        var email = $("#email").val();
 
+        if (email.length >= 5){
+          $.ajax({
+              type:"GET",
+              data: {
+                  email : email
+              },
+              dataType:"JSON",
+              url:"{{ url('/login/cek_email/json') }}",
+              success:function(data){
+                if (data.success) {
+                  $("#email").removeClass("is-invalid");
+                  $("#email").addClass("is-valid");
+                  $("#password").val('');
+                  $("#password").removeAttr("disabled", "disabled");
+                } else {
+                  $("#email").removeClass("is-valid");
+                  $("#email").addClass("is-invalid");
+                  $("#password").val('');
+                  $("#password").attr("disabled", "disabled");
+                  $("#remember").attr("disabled", "disabled");
+                  $("#btn-login").attr("disabled", "disabled");
+                }
+              },
+              error:function(){
+              }
+          });
+        } else {
+          $("#email").removeClass("is-valid");
+          $("#email").removeClass("is-invalid");
+          $("#password").val('');
+          $("#password").attr("disabled", "disabled");
+          $("#remember").attr("disabled", "disabled");
+          $("#btn-login").attr("disabled", "disabled");
+        }
+    });
 
+    $("#password").keyup(function(){
+        var email = $("#email").val();
+        var password = $("#password").val();
 
-
-
-
-
-<style>
-    html,
-    body {
-        background-color: #00404F;
-        color: #636b6f;
-
-        height: 100vh;
-        margin: 0;
-    }
-
-    .form-group {
-        margin-bottom: 15px;
-    }
-
-    .btn-success {
-        color: #fff;
-        background-color: #45B6AF;
-        border-color: #3ea49d;
-        padding: 10px 20px !important;
-    }
-
-
-
-    .content {
-        background-color: #eceef1;
-        -webkit-border-radius: 7px;
-        -moz-border-radius: 7px;
-        -ms-border-radius: 7px;
-        -o-border-radius: 7px;
-        border-radius: 7px;
-        width: 400px;
-        margin: 40px auto 10px auto;
-        padding: 30px;
-        padding-top: 10px;
-        overflow: hidden;
-        position: relative;
-    }
-
-    .content .form-control {
-        border: none;
-        background-color: #dde3ec;
-        height: 43px;
-        color: #8290a3;
-        border: 1px solid #dde3ec;
-    }
-
-    .content .form-actions {
-        clear: both;
-        border: 0px;
-        border-bottom: 1px solid #eee;
-        padding: 0px 30px 25px 30px;
-        margin-left: -30px;
-        margin-right: -30px;
-    }
-
-    /* .content .forget-password {
-        font-size: 14px;
-        float: right;
-        display: inline-block;
-        margin-top: 10px;
-    } */
-
-    .content .footer {
-        margin: 0 -40px -40px -40px;
-        padding: 15px 0 17px 0;
-        text-align: center;
-        background-color: #6c7a8d;
-        -webkit-border-radius: 0 0 7px 7px;
-        -moz-border-radius: 0 0 7px 7px;
-        -ms-border-radius: 0 0 7px 7px;
-        -o-border-radius: 0 0 7px 7px;
-        border-radius: 0 0 7px 7px;
-    }
-</style>
+        if (password.length >= 8){
+          $.ajax({
+              type:"GET",
+              data: {
+                  email : email,
+                  password : password
+              },
+              dataType:"JSON",
+              url:"{{ url('/login/cek_password/json') }}",
+              success:function(data){
+                if (data.success) {
+                  $("#password").removeClass("is-invalid");
+                  $("#password").addClass("is-valid");
+                  $("#remember").removeAttr("disabled", "disabled");
+                  $("#btn-login").removeAttr("disabled", "disabled");
+                } else {
+                  $("#password").removeClass("is-valid");
+                  $("#password").addClass("is-invalid");
+                  $("#remember").attr("disabled", "disabled");
+                  $("#btn-login").attr("disabled", "disabled");
+                }
+              },
+              error:function(){
+              }
+          });
+        } else {
+          $("#password").removeClass("is-valid");
+          $("#password").removeClass("is-invalid");
+          $("#remember").attr("disabled", "disabled");
+          $("#btn-login").attr("disabled", "disabled");
+        }
+    });
+  </script>
+@endsection

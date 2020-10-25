@@ -2,15 +2,41 @@
 
 namespace App;
 
+use Auth;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-class Siswa extends Authenticatable
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Siswa extends Model
 {
-    protected $table="siswa";
+    use SoftDeletes;
 
-    protected $fillable=['nisn','nama_siswa','email','password','kode_kelas','alamat','kode_tahun_akademik','semester_aktif','password'];
+    protected $fillable = ['no_induk', 'nis', 'nama_siswa', 'kelas_id', 'jk', 'telp', 'tmp_lahir', 'tgl_lahir', 'foto'];
 
-    protected $primaryKey = 'nisn';
+    public function kelas()
+    {
+        return $this->belongsTo('App\Kelas')->withDefault();
+    }
 
-    public $incrementing = false;
+    public function ulangan($id)
+    {
+        $guru = Guru::where('id_card', Auth::user()->id_card)->first();
+        $nilai = Ulangan::where('siswa_id', $id)->where('guru_id', $guru->id)->first();
+        return $nilai;
+    }
+
+    public function sikap($id)
+    {
+        $guru = Guru::where('id_card', Auth::user()->id_card)->first();
+        $nilai = Sikap::where('siswa_id', $id)->where('guru_id', $guru->id)->first();
+        return $nilai;
+    }
+
+    public function nilai($id)
+    {
+        $guru = Guru::where('id_card', Auth::user()->id_card)->first();
+        $nilai = Rapot::where('siswa_id', $id)->where('guru_id', $guru->id)->first();
+        return $nilai;
+    }
+
+    protected $table = 'siswa';
 }
