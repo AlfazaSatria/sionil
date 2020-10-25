@@ -48,7 +48,7 @@ $(function() {
             { data: 'nama_guru', name: 'nama_guru' },
             { data: 'email', name: 'email' },
             { data: 'no_hp', name: 'no_hp' },
-            { data: 'jenjang', name: 'jenjang' },
+            { data: 'nama_jenjang', name: 'nama_jenjang' },
             { data: 'action', name: 'action' }
         ]
     });
