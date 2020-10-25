@@ -16,6 +16,7 @@ class CreateKonselingTable extends Migration
         Schema::create('konseling', function (Blueprint $table) {
             $table->string('nign')->primary();
             $table->string('nama_konseling');
+            $table->string('kode_konseling');
             $table->string('email');
             $table->string('kode_kelas');
             $table->string('no_hp');

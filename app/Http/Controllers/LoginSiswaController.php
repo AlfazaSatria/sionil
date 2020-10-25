@@ -23,7 +23,7 @@ class LoginSiswaController extends Controller
       // Attempt to log the user in
       if (Auth::guard('siswa')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
         // if successful, then redirect to their intended location
-        return redirect()->intended('/raport');
+        return redirect()->intended('/index');
       }
       // if unsuccessful, then redirect back to the login with the form data
       return redirect('siswa/login')->withInput($request->only('email', 'remember'));

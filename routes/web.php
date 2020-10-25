@@ -19,11 +19,29 @@ Route::get('/guru/login','LoginGuruController@index');
 Route::post('/guru/login','LoginGuruController@submit');
 Route::get('/siswa/login','LoginSiswaController@index');
 Route::post('/siswa/login','LoginSiswaController@submit');
+Route::get('/konseling/login','LoginSiswaController@index');
+Route::post('/konseling/login','LoginSiswaController@submit');
+Route::get('/tahfizh/login','LoginSiswaController@index');
+Route::post('/tahfizh/login','LoginSiswaController@submit');
 
 Route::group(['middleware' => ['auth:guru']], function () {
     Route::get('jadwal_mengajar','GuruController@jadwal_mengajar');
     Route::get('jadwal_mengajar/json','GuruController@jadwal_mengajar_json');
 });
+
+// Route::group(['middleware' => ['auth:konseling']], function () {
+//     Route::get('jadwal_mengajar','GuruController@jadwal_mengajar');
+//     Route::get('jadwal_mengajar/json','GuruController@jadwal_mengajar_json');
+// });
+
+// Route::group(['middleware' => ['auth:siswa']], function () {
+//     Route::get('/siswa', 'HomeController@index');
+// });
+
+// Route::group(['middleware' => ['auth:tahfizh']], function () {
+//     Route::get('jadwal_mengajar','GuruController@jadwal_mengajar');
+//     Route::get('jadwal_mengajar/json','GuruController@jadwal_mengajar_json');
+// });
 
 Auth::routes();
 Route::get('/matapelajaran/json','MatapelajaranController@json');

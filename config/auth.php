@@ -54,6 +54,16 @@ return [
             'driver' => 'session',
             'provider' => 'siswa',
         ],
+
+        'konseling' => [
+            'driver' => 'session',
+            'provider' => 'konseling',
+        ],
+
+        'konseling' => [
+            'driver' => 'session',
+            'provider' => 'konseling',
+        ],
     ],
 
     /*
@@ -87,6 +97,16 @@ return [
         'siswa' => [
             'driver' => 'eloquent',
             'model' => App\Siswa::class,
+        ],
+
+        'konseling' => [
+            'driver' => 'eloquent',
+            'model' => App\Konseling::class,
+        ],
+
+        'tahfizh' => [
+            'driver' => 'eloquent',
+            'model' => App\Tahfizh::class,
         ],
     ],
 

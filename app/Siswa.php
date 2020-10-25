@@ -3,8 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
-class Siswa extends Model
+use Illuminate\Foundation\Auth\User as Authenticatable;
+class Siswa extends Authenticatable
 {
     protected $table="siswa";
 
