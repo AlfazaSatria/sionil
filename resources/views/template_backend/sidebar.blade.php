@@ -2,8 +2,8 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="" class="brand-link" style="">
-        <img src="{{ asset('img/favicon.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3">
-        <span class="brand-text font-weight-light">SIAKAD</span>
+        <img src="{{ asset('img/logosionil.png') }}" alt="AdminLTE Logo" class="brand-image ">
+        <span class="brand-text font-weight-light">SIONIL</span>
     </a>
 
     <!-- Sidebar -->
