@@ -19,7 +19,7 @@
                 <tr>
                     <th>No.</th>
                     <th>Nama Mapel</th>
-                    <th>Paket</th>
+              
                     <th>Kelompok</th>
                     <th>Aksi</th>
                 </tr>
@@ -29,11 +29,7 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $data->nama_mapel }}</td>
-                    @if ( $data->paket_id == 9 )
-                      <td>{{ 'Semua' }}</td>
-                    @else
-                      <td>{{ $data->paket->ket }}</td>
-                    @endif
+                    
                     <td>{{ $data->kelompok }}</td>
                     <td>
                         <form action="{{ route('mapel.kill', $data->id) }}" method="post">
