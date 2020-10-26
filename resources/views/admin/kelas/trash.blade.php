@@ -16,7 +16,7 @@
                 <tr>
                     <th>No.</th>
                     <th>Kelas</th>
-                    <th>Paket Keahlian</th>
+                   
                     <th>Wali Kelas</th>
                     <th>Aksi</th>
                 </tr>
@@ -26,7 +26,7 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $data->nama_kelas }}</td>
-                    <td>{{ $data->paket->ket }}</td>
+                   
                     <td>{{ $data->guru->nama_guru }}</td>
                     <td>
                         <form action="{{ route('kelas.kill', $data->id) }}" method="post">
