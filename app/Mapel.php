@@ -10,12 +10,8 @@ class Mapel extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['id', 'nama_mapel', 'paket_id', 'kelompok'];
+    protected $fillable = ['id', 'nama_mapel' , 'kelompok'];
 
-    public function paket()
-    {
-        return $this->belongsTo('App\Paket')->withDefault();
-    }
 
     public function sikap($id)
     {
