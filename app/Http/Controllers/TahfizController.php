@@ -65,6 +65,31 @@ class TahfizController extends Controller
         return redirect()->back()->with('success', 'Berhasil menambahkan data tahfiz baru!');
     }
 
+    public function ubah_foto($id)
+    {
+        $id = Crypt::decrypt($id);
+        $tahfiz = Tahfiz::findorfail($id);
+        return view('admin.tahfiz.ubah-foto', compact('tahfiz'));
+    }
+
+    public function update_foto(Request $request, $id)
+    {
+        $this->validate($request, [
+            'foto' => 'required'
+        ]);
+
+        $tahfiz = Tahfiz::findorfail($id);
+        $foto = $request->foto;
+        $new_foto = date('s' . 'i' . 'H' . 'd' . 'm' . 'Y') . "_" . $foto->getClientOriginalName();
+        $tahfiz_data = [
+            'foto' => 'uploads/tahfiz/' . $new_foto,
+        ];
+        $foto->move('uploads/tahfiz/', $new_foto);
+        $tahfiz->update($tahfiz_data);
+
+        return redirect()->route('tahfiz.index')->with('success', 'Berhasil merubah foto!');
+    }
+
     public function mapel($id)
     {
         $id = Crypt::decrypt($id);

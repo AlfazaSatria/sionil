@@ -96,6 +96,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/guru/import_excel', 'GuruController@import_excel')->name('guru.import_excel');
     Route::delete('/guru/deleteAll', 'GuruController@deleteAll')->name('guru.deleteAll');
     Route::get('/tahfiz/mapel/{id}', 'TahfizController@mapel')->name('tahfiz.mapel');
+    Route::get('/tahfiz/ubah-foto/{id}', 'TahfizController@ubah_foto')->name('tahfiz.ubah-foto');
+    Route::post('/tahfiz/update-foto/{id}', 'TahfizController@update_foto')->name('tahfiz.update-foto');
     Route::delete('/tahfiz/deleteAll', 'TahfizController@deleteAll')->name('tahfiz.deleteAll');
     Route::resource('/guru', 'GuruController');
     Route::resource('/tahfiz', 'TahfizController');
