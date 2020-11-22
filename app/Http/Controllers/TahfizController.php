@@ -65,6 +65,13 @@ class TahfizController extends Controller
         return redirect()->back()->with('success', 'Berhasil menambahkan data tahfiz baru!');
     }
 
+    public function show($id)
+    {
+        $id = Crypt::decrypt($id);
+        $tahfiz = Tahfiz::findorfail($id);
+        return view('admin.tahfiz.details', compact('tahfiz'));
+    }
+
     public function ubah_foto($id)
     {
         $id = Crypt::decrypt($id);
