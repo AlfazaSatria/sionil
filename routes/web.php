@@ -95,7 +95,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/guru/export_excel', 'GuruController@export_excel')->name('guru.export_excel');
     Route::post('/guru/import_excel', 'GuruController@import_excel')->name('guru.import_excel');
     Route::delete('/guru/deleteAll', 'GuruController@deleteAll')->name('guru.deleteAll');
+    Route::get('/tahfiz/mapel/{id}', 'TahfizController@mapel')->name('tahfiz.mapel');
+    Route::delete('/tahfiz/deleteAll', 'TahfizController@deleteAll')->name('tahfiz.deleteAll');
     Route::resource('/guru', 'GuruController');
+    Route::resource('/tahfiz', 'TahfizController');
     Route::get('/kelas/edit/json', 'KelasController@getEdit');
     Route::resource('/kelas', 'KelasController');
     Route::get('/siswa/kelas/{id}', 'SiswaController@kelas')->name('siswa.kelas');
