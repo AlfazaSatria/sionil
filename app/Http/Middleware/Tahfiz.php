@@ -15,8 +15,8 @@ class Tahfiz
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user()->role != 'Guru') {
-            return redirect('home');
+        if ($request->user()->role != 'Tahfiz') {
+            return redirect('/');
         }
         return $next($request);
     }

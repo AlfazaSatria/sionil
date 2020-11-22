@@ -27,6 +27,12 @@ class User extends Authenticatable
         return $guru;
     }
 
+    public function tahfiz($id)
+    {
+        $tahfiz = Tahfiz::where('id_card', $id)->first();
+        return $tahfiz;
+    }
+
     public function siswa($id)
     {
         $siswa = Siswa::where('no_induk', $id)->first();
