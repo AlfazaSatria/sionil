@@ -11,6 +11,7 @@ use App\Kelas;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Http\Request;
+use App\Tahfiz;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
@@ -68,6 +69,24 @@ class UserController extends Controller
                 return redirect()->back()->with('success', 'Berhasil menambahkan user Guru baru!');
             } else {
                 return redirect()->back()->with('error', 'Maaf User ini tidak terdaftar sebagai guru!');
+            }
+        } elseif ($request->role == 'Tahfiz') {
+            $countTahfiz = Tahfiz::where('id_card', $request->nomer)->count();
+            $tahfizId = Tahfiz::where('id_card', $request->nomer)->get();
+            foreach ($tahfizId as $val) {
+                $tahfiz = Tahfiz::findorfail($val->id);
+            }
+            if ($countTahfiz >= 1) {
+                User::create([
+                    'name' => $tahfiz->nama_tahfiz,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                    'role' => $request->role,
+                    'id_card' => $request->nomer,
+                ]);
+                return redirect()->back()->with('success', 'Berhasil menambahkan user Tahfiz baru!');
+            } else {
+                return redirect()->back()->with('error', 'Maaf User ini tidak terdaftar sebagai tahfiz!');
             }
         } elseif ($request->role == 'Siswa') {
             $countSiswa = Siswa::where('no_induk', $request->nomer)->count();

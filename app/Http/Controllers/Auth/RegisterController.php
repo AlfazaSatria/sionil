@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use App\User;
 use App\Guru;
 use App\Siswa;
+use App\Tahfiz;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -62,6 +63,35 @@ class RegisterController extends Controller
                         'role' => ['required'],
                         'nomer' => ['required'],
                         'guru' => ['required'],
+                    ]);
+                } else {
+                    return Validator::make($data, [
+                        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                        'password' => ['required', 'string', 'min:8', 'confirmed'],
+                        'role' => ['required'],
+                        'nomer' => ['required'],
+                    ]);
+                }
+            } else {
+                return Validator::make($data, [
+                    'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                    'password' => ['required', 'string', 'min:8', 'confirmed'],
+                    'role' => ['required'],
+                    'nomer' => ['required'],
+                    'id_card' => ['required'],
+                ]);
+            }
+        } elseif ($data['role'] == 'Tahfiz') {
+            $tahfiz = Tahfiz::where('id_card', $data['nomer'])->count();
+            if ($tahfiz >= 1) {
+                $user = User::where('id_card', $data['nomer'])->count();
+                if ($user >= 1) {
+                    return Validator::make($data, [
+                        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                        'password' => ['required', 'string', 'min:8', 'confirmed'],
+                        'role' => ['required'],
+                        'nomer' => ['required'],
+                        'tahfiz' => ['required'],
                     ]);
                 } else {
                     return Validator::make($data, [
@@ -139,7 +169,19 @@ class RegisterController extends Controller
                 'role' => $data['role'],
                 'id_card' => $data['nomer'],
             ]);
-        } else {
+        }elseif ($data['role'] == 'Tahfiz') {
+            $tahfizId = Tahfiz::where('id_card', $data['nomer'])->get();
+            foreach ($tahfizId as $val) {
+                $tahfiz = Tahfiz::findorfail($val->id);
+            }
+            return User::create([
+                'name' => $tahfiz->nama_tahfiz,
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'role' => $data['role'],
+                'id_card' => $data['nomer'],
+            ]);
+        }  else {
             $siswaId = Siswa::where('no_induk', $data['nomer'])->get();
             foreach ($siswaId as $val) {
                 $siswa = Siswa::findorfail($val->id);

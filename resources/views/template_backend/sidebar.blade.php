@@ -57,6 +57,12 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a href="{{ route('tahfiz.index') }}" class="nav-link" id="DataTahfiz">
+                                    <i class="fas fa-users nav-icon"></i>
+                                    <p>Data Tahfiz</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ route('kelas.index') }}" class="nav-link" id="DataKelas">
                                     <i class="fas fa-home nav-icon"></i>
                                     <p>Data Kelas</p>
