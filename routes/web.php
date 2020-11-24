@@ -51,8 +51,8 @@ Route::middleware(['auth'])->group(function () {
   });
 
   Route::middleware(['guru'])->group(function () {
-    Route::get('/absen/harian', 'GuruController@absen')->name('absen.harian');
-    Route::post('/absen/simpan', 'GuruController@simpan')->name('absen.simpan');
+    // Route::get('/absen/harian', 'GuruController@absen')->name('absen.harian');
+    // Route::post('/absen/simpan', 'GuruController@simpan')->name('absen.simpan');
     Route::get('/jadwal/guru', 'JadwalController@guru')->name('jadwal.guru');
     Route::resource('/nilai', 'NilaiController');
     Route::resource('/ulangan', 'UlanganController');
@@ -62,8 +62,8 @@ Route::middleware(['auth'])->group(function () {
   });
 
   Route::middleware(['tahfiz'])->group(function () {
-    Route::get('/absen/harian', 'TahfizController@absen')->name('absen.harian');
-    Route::post('/absen/simpan', 'TahfizController@simpan')->name('absen.simpan');
+    // Route::get('/absen/harian', 'TahfizController@absen')->name('absen.harian');
+    // Route::post('/absen/simpan', 'TahfizController@simpan')->name('absen.simpan');
     Route::get('/jadwal/guru', 'JadwalController@tahfiz')->name('jadwal.tahfiz');
     Route::resource('/nilai', 'NilaiController');
     Route::resource('/ulangan', 'UlanganController');
@@ -96,9 +96,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/home', 'HomeController@admin')->name('admin.home');
     Route::get('/admin/pengumuman', 'PengumumanController@index')->name('admin.pengumuman');
     Route::post('/admin/pengumuman/simpan', 'PengumumanController@simpan')->name('admin.pengumuman.simpan');
-    Route::get('/guru/absensi', 'GuruController@absensi')->name('guru.absensi');
-    Route::get('/guru/kehadiran/{id}', 'GuruController@kehadiran')->name('guru.kehadiran');
-    Route::get('/absen/json', 'GuruController@json');
+    // Route::get('/guru/absensi', 'GuruController@absensi')->name('guru.absensi');
+    // Route::get('/guru/kehadiran/{id}', 'GuruController@kehadiran')->name('guru.kehadiran');
+    // Route::get('/absen/json', 'GuruController@json');
     Route::get('/guru/mapel/{id}', 'GuruController@mapel')->name('guru.mapel');
     Route::get('/guru/ubah-foto/{id}', 'GuruController@ubah_foto')->name('guru.ubah-foto');
     Route::post('/guru/update-foto/{id}', 'GuruController@update_foto')->name('guru.update-foto');
@@ -131,6 +131,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/jadwal/import_excel', 'JadwalController@import_excel')->name('jadwal.import_excel');
     Route::delete('/jadwal/deleteAll', 'JadwalController@deleteAll')->name('jadwal.deleteAll');
     Route::resource('/jadwal', 'JadwalController');
+    Route::get('/jadwal/guru', 'JadwalController@guru')->name('jadwal.guru');
     Route::get('/ulangan-kelas', 'UlanganController@create')->name('ulangan-kelas');
     Route::get('/ulangan-siswa/{id}', 'UlanganController@edit')->name('ulangan-siswa');
     Route::get('/ulangan-show/{id}', 'UlanganController@ulangan')->name('ulangan-show');
