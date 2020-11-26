@@ -12,7 +12,7 @@
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-            <form action="{{ route('nilai.store') }}" method="post">
+            <form action="{{ route('guru.store-nilai') }}" method="post">
                 @csrf
                 <div class="card-body">
                     <div class="row">

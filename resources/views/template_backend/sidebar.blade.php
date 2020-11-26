@@ -257,60 +257,57 @@
                 </li>
                 {{-- <li class="nav-item">
                         <a href="{{ route('absen.harian') }}" class="nav-link" id="AbsenGuru">
-                <i class="fas fa-calendar-check nav-icon"></i>
-                <p>Absen</p>
-                </a>
-                </li> --}}
-                {{-- <li class="nav-item">
-                    <a href="{{ route('jadwal.tahfiz') }}" class="nav-link" id="JadwalTahfiz">
-                        <i class="fas fa-calendar-alt nav-icon"></i>
-                        <p>Jadwal</p>
-                    </a>
-                </li> --}}
-                <li class="nav-item has-treeview" id="liNilaiTahfiz">
-                    <a href="#" class="nav-link" id="NilaiTahfiz">
-                        <i class="nav-icon fas fa-file-signature"></i>
-                        <p>
-                            Nilai
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview ml-4">
-                        <li class="nav-item">
-                            <a href="{{ route('ulangan.index') }}" class="nav-link" id="UlanganTahfiz">
-                                <i class="fas fa-file-alt nav-icon"></i>
-                                <p>Entry Nilai Ulangan</p>
-                            </a>
-                        </li>
-                        {{-- @if (
-                        Auth::user()->guru(Auth::user()->id_card)->mapel->nama_mapel == "Pendidikan Agama dan Budi
-                        Pekerti" ||
-                        Auth::user()->guru(Auth::user()->id_card)->mapel->nama_mapel == "Pendidikan Pancasila dan
-                        Kewarganegaraan"
-                        )
-                        <li class="nav-item">
-                            <a href="{{ route('sikap.index') }}" class="nav-link" id="SikapGuru">
-                                <i class="fas fa-file-alt nav-icon"></i>
-                                <p>Entry Nilai Sikap</p>
-                            </a>
-                        </li>
-                        @else
-                        @endif --}}
-                        <li class="nav-item">
-                            <a href="{{ route('rapot.index') }}" class="nav-link" id="RapotGuru">
-                                <i class="fas fa-file-alt nav-icon"></i>
-                                <p>Entry Nilai Rapot</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('nilai.index') }}" class="nav-link" id="DesGuru">
-                                <i class="fas fa-file-alt nav-icon"></i>
-                                <p>Deskripsi Predikat</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
+                            <i class="fas fa-calendar-check nav-icon"></i>
+                            <p>Absen</p>
+                        </a>
+                    </li> --}}
+                    <li class="nav-item">
+                        <a href="{{ route('jadwal.guru') }}" class="nav-link" id="JadwalGuru">
+                            <i class="fas fa-calendar-alt nav-icon"></i>
+                            <p>Jadwal</p>
+                        </a>
+                    </li>
+                    <li class="nav-item has-treeview" id="liNilaiGuru">
+                        <a href="#" class="nav-link" id="NilaiGuru">
+                            <i class="nav-icon fas fa-file-signature"></i>
+                            <p>
+                                Nilai
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview ml-4">
+                            <li class="nav-item">
+                                <a href="{{ route('guru.index-ulangan') }}" class="nav-link" id="UlanganGuru">
+                                    <i class="fas fa-file-alt nav-icon"></i>
+                                    <p>Entry Nilai Ulangan</p>
+                                </a>
+                            </li>
+                            @if (
+                                Auth::user()->guru(Auth::user()->id_card)->mapel->nama_mapel == "Pendidikan Agama dan Budi Pekerti" ||
+                                Auth::user()->guru(Auth::user()->id_card)->mapel->nama_mapel == "Pendidikan Pancasila dan Kewarganegaraan"
+                            )
+                                <li class="nav-item">
+                                    <a href="{{ route('sikap.index') }}" class="nav-link" id="SikapGuru">
+                                        <i class="fas fa-file-alt nav-icon"></i>
+                                        <p>Entry Nilai Sikap</p>
+                                    </a>
+                                </li>
+                            @else
+                            @endif
+                            <li class="nav-item">
+                                <a href="{{ route('guru.index-rapot') }}" class="nav-link" id="RapotGuru">
+                                    <i class="fas fa-file-alt nav-icon"></i>
+                                    <p>Entry Nilai Rapot</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('guru.index-nilai') }}" class="nav-link" id="DesGuru">
+                                    <i class="fas fa-file-alt nav-icon"></i>
+                                    <p>Deskripsi Predikat</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 @elseif (Auth::user()->role == 'Siswa' && Auth::user()->siswa(Auth::user()->no_induk) == true)
                 <li class="nav-item has-treeview">
                     <a href="{{ url('/') }}" class="nav-link" id="Home">
