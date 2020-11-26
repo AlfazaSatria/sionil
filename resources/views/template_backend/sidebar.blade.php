@@ -204,6 +204,12 @@
                             <p>Jadwal</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('guru.index-indikator') }}" class="nav-link" id="IndikatorGuru">
+                            <i class="fas fa-info-circle nav-icon"></i>
+                            <p>Indikator</p>
+                        </a>
+                    </li>
                     <li class="nav-item has-treeview" id="liNilaiGuru">
                         <a href="#" class="nav-link" id="NilaiGuru">
                             <i class="nav-icon fas fa-file-signature"></i>
