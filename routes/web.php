@@ -51,8 +51,6 @@ Route::middleware(['auth'])->group(function () {
   });
 
   Route::middleware(['guru'])->group(function () {
-    // Route::get('/absen/harian', 'GuruController@absen')->name('absen.harian');
-    // Route::post('/absen/simpan', 'GuruController@simpan')->name('absen.simpan');
     Route::get('/jadwal/guru', 'JadwalController@guru')->name('jadwal.guru');
     Route::resource('/nilai', 'NilaiController');
     Route::resource('/ulangan', 'UlanganController');
@@ -62,8 +60,6 @@ Route::middleware(['auth'])->group(function () {
   });
 
   Route::middleware(['tahfiz'])->group(function () {
-    // Route::get('/absen/harian', 'TahfizController@absen')->name('absen.harian');
-    // Route::post('/absen/simpan', 'TahfizController@simpan')->name('absen.simpan');
     Route::get('/jadwal/tahfiz', 'JadwalController@tahfiz')->name('jadwal.tahfiz');
     Route::resource('/nilai', 'NilaiController');
     Route::resource('/ulangan', 'UlanganController');
