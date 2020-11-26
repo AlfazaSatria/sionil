@@ -50,15 +50,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/rapot/siswa', 'RapotController@siswa')->name('rapot.siswa');
   });
 
-  Route::middleware(['guru'])->group(function () {
-    // Route::get('/absen/harian', 'GuruController@absen')->name('absen.harian');
-    // Route::post('/absen/simpan', 'GuruController@simpan')->name('absen.simpan');
-    Route::get('/jadwal/guru', 'JadwalController@guru')->name('jadwal.guru');
-    Route::resource('/nilai', 'NilaiController');
-    Route::resource('/ulangan', 'UlanganController');
-    Route::resource('/sikap', 'SikapController');
-    Route::get('/rapot/predikat', 'RapotController@predikat');
-    Route::resource('/rapot', 'RapotController');
+  Route::middleware(['guru'])
+      ->prefix('/guru')
+      ->group(function () {
+          // Route::get('/absen/harian', 'GuruController@absen')->name('absen.harian');
+          // Route::post('/absen/simpan', 'GuruController@simpan')->name('absen.simpan');
+          Route::get('/jadwal', 'JadwalController@guru')->name('jadwal.guru');
+          Route::resource('/nilai', 'NilaiController');
+          Route::resource('/ulangan', 'UlanganController');
+          Route::resource('/sikap', 'SikapController');
+          Route::get('/rapot/predikat', 'RapotController@predikat');
+          Route::resource('/rapot', 'RapotController');
   });
 
   Route::middleware(['tahfiz'])->group(function () {
@@ -131,7 +133,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/jadwal/import_excel', 'JadwalController@import_excel')->name('jadwal.import_excel');
     Route::delete('/jadwal/deleteAll', 'JadwalController@deleteAll')->name('jadwal.deleteAll');
     Route::resource('/jadwal', 'JadwalController');
-    Route::get('/jadwal/guru', 'JadwalController@guru')->name('jadwal.guru');
+    Route::get('/jadwal/guru', 'JadwalController@guru')->name('admin.jadwal.guru');
     Route::get('/ulangan-kelas', 'UlanganController@create')->name('ulangan-kelas');
     Route::get('/ulangan-siswa/{id}', 'UlanganController@edit')->name('ulangan-siswa');
     Route::get('/ulangan-show/{id}', 'UlanganController@ulangan')->name('ulangan-show');
