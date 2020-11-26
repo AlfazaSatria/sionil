@@ -198,12 +198,12 @@
                 <p>Absen</p>
                 </a>
                 </li> --}}
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="{{ route('jadwal.guru') }}" class="nav-link" id="JadwalGuru">
                         <i class="fas fa-calendar-alt nav-icon"></i>
                         <p>Jadwal</p>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item has-treeview" id="liNilaiGuru">
                     <a href="#" class="nav-link" id="NilaiGuru">
                         <i class="nav-icon fas fa-file-signature"></i>
@@ -261,12 +261,12 @@
                 <p>Absen</p>
                 </a>
                 </li> --}}
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="{{ route('jadwal.tahfiz') }}" class="nav-link" id="JadwalTahfiz">
                         <i class="fas fa-calendar-alt nav-icon"></i>
                         <p>Jadwal</p>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item has-treeview" id="liNilaiTahfiz">
                     <a href="#" class="nav-link" id="NilaiTahfiz">
                         <i class="nav-icon fas fa-file-signature"></i>
@@ -318,12 +318,12 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="{{ route('jadwal.siswa') }}" class="nav-link" id="JadwalSiswa">
                         <i class="fas fa-calendar-alt nav-icon"></i>
                         <p>Jadwal</p>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a href="{{ route('ulangan.siswa') }}" class="nav-link" id="UlanganSiswa">
                         <i class="fas fa-file-alt nav-icon"></i>
