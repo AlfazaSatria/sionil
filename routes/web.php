@@ -64,7 +64,7 @@ Route::middleware(['auth'])->group(function () {
   Route::middleware(['tahfiz'])->group(function () {
     // Route::get('/absen/harian', 'TahfizController@absen')->name('absen.harian');
     // Route::post('/absen/simpan', 'TahfizController@simpan')->name('absen.simpan');
-    Route::get('/jadwal/guru', 'JadwalController@tahfiz')->name('jadwal.tahfiz');
+    Route::get('/jadwal/tahfiz', 'JadwalController@tahfiz')->name('jadwal.tahfiz');
     Route::resource('/nilai', 'NilaiController');
     Route::resource('/ulangan', 'UlanganController');
     Route::resource('/sikap', 'SikapController');
