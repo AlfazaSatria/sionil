@@ -28,4 +28,8 @@ class Mapel extends Model
     }
 
     protected $table = 'mapel';
+
+    public function nilaitahfiz(){
+        return $this->hasOne('App\NilaiTahfiz');
+    }
 }

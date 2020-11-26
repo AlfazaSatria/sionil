@@ -39,4 +39,8 @@ class Siswa extends Model
     }
 
     protected $table = 'siswa';
+
+    public function nilaitahfiz(){
+        return $this->belongsTo('App/NilaiTahfiz');
+    }
 }
