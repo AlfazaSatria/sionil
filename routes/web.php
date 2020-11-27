@@ -179,5 +179,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/rapot-show/{id}', 'RapotController@rapot')->name('rapot-show');
     Route::get('/predikat', 'NilaiController@create')->name('predikat');
     Route::resource('/user', 'UserController');
+    Route::resource('/bk', 'BimbinganKonselingController');
   });
 });
