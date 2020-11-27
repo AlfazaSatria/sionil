@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUlanganTable extends Migration
+class CreateIndikatorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateUlanganTable extends Migration
      */
     public function up()
     {
-        Schema::create('ulangan', function (Blueprint $table) {
+        Schema::create('indikators', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('siswa_id');
-            $table->integer('kelas_id');
             $table->integer('guru_id');
-            $table->integer('mapel_id');
-            $table->double('uts')->nullable();
-            $table->double('uas')->nullable();
+            $table->boolean('tipe');
+            $table->text('indikator');
             $table->timestamps();
         });
     }
@@ -32,6 +29,6 @@ class CreateUlanganTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ulangan');
+        Schema::dropIfExists('indikators');
     }
 }

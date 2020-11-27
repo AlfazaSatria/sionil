@@ -26,7 +26,7 @@ class UlanganController extends Controller
         $guru = Guru::where('id_card', Auth::user()->id_card)->first();
         $jadwal = Jadwal::where('guru_id', $guru->id)->orderBy('kelas_id')->get();
         $kelas = $jadwal->groupBy('kelas_id');
-        return view('guru.ulangan.kelas', compact('kelas', 'guru'));
+        return view('guru.nilai.kelas', compact('kelas', 'guru'));
     }
 
     /**
