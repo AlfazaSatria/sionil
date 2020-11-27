@@ -159,6 +159,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/siswa/import_excel', 'SiswaController@import_excel')->name('siswa.import_excel');
     Route::delete('/siswa/deleteAll', 'SiswaController@deleteAll')->name('siswa.deleteAll');
     Route::resource('/siswa', 'SiswaController');
+    Route::resource('/bk', 'BimbinganKonselingController');
     Route::get('/mapel/getMapelJson', 'MapelController@getMapelJson');
     Route::resource('/mapel', 'MapelController');
     Route::get('/jadwal/view/json', 'JadwalController@view');
