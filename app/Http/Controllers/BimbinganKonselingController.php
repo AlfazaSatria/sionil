@@ -9,14 +9,14 @@ class BimbinganKonselingController extends Controller
     public function index()
     {
         $bk = BimbinganKonseling::orderBy('name')->get();
-        $max = BimbinganKonseling::max('id_card');
+        $max = BimbinganKonseling::max('id_cardBK');
         return view('admin.bk.index', compact( 'max','bk'));
     }
 
     public function store(Request $request)
     {
         $this->validate($request, [
-            'id_card' => 'required',
+            'id_cardBK' => 'required',
             'name' => 'required',
             'jk' => 'required',
         ]);
@@ -25,7 +25,7 @@ class BimbinganKonselingController extends Controller
             $foto = $request->foto;
             $new_foto = date('s' . 'i' . 'H' . 'd' . 'm' . 'Y') . "_" . $foto->getClientOriginalName();
             BimbinganKonseling::create([
-                'id_card' => $request->id_card,
+                'id_cardBK' => $request->id_cardBK,
                 'name' => $request->name,
                 'jk' => $request->jk,
                 'foto' => 'uploads/guru/' . $new_foto
@@ -38,7 +38,7 @@ class BimbinganKonselingController extends Controller
                 $foto = 'uploads/guru/23171022042020_female.jpg';
             }
             BimbinganKonseling::create([
-                'id_card' => $request->id_card,
+                'id_cardBK' => $request->id_cardBK,
                 'name' => $request->name,
                 'jk' => $request->jk,
                 'foto' => $foto,

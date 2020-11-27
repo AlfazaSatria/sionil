@@ -11,50 +11,11 @@
                 <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target=".bd-example-modal-lg">
                     <i class="nav-icon fas fa-folder-plus"></i> &nbsp; Tambah Data Tahfiz
                 </button>
-                {{-- <a href="{{ route('tahfiz.export_excel') }}" class="btn btn-success btn-sm my-3" target="_blank"><i class="nav-icon fas fa-file-export"></i> &nbsp; EXPORT EXCEL</a>
-                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#importExcel">
-                    <i class="nav-icon fas fa-file-import"></i> &nbsp; IMPORT EXCEL
-                </button> --}}
                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#dropTable">
                     <i class="nav-icon fas fa-minus-circle"></i> &nbsp; Drop
                 </button>
             </h3>
         </div>
-        {{-- <div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<form method="post" action="{{ route('tahfiz.import_excel') }}" enctype="multipart/form-data">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
-						</div>
-						<div class="modal-body">
-							@csrf
-                            <div class="card card-outline card-primary">
-                                <div class="card-header">
-                                    <h5 class="modal-title">Petunjuk :</h5>
-                                </div>
-                                <div class="card-body">
-                                    <ul>
-                                        <li>rows 1 = nama tahfiz</li>
-                                        <li>rows 2 = nip tahfiz</li>
-                                        <li>rows 3 = jenis kelamin</li>
-                                        <li>rows 4 = mata pelajaran</li>
-                                    </ul>
-                                </div>
-                            </div>
-							<label>Pilih file excel</label>
-							<div class="form-group">
-								<input type="file" name="file" required="required">
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							<button type="submit" class="btn btn-primary">Import</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div> --}}
         <div class="modal fade" id="dropTable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<form method="post" action="{{ route('tahfiz.deleteAll') }}">
@@ -155,20 +116,20 @@
                     @php
                         $kode = $max+1;
                         if (strlen($kode) == 1) {
-                            $id_card = "0000".$kode;
+                            $id_cardTahfiz = "0000".$kode;
                         } else if(strlen($kode) == 2) {
-                            $id_card = "000".$kode;
+                            $id_cardTahfiz = "000".$kode;
                         } else if(strlen($kode) == 3) {
-                            $id_card = "00".$kode;
+                            $id_cardTahfiz = "00".$kode;
                         } else if(strlen($kode) == 4) {
-                            $id_card = "0".$kode;
+                            $id_cardTahfiz = "0".$kode;
                         } else {
-                            $id_card = $kode;
+                            $id_cardTahfiz = $kode;
                         }
                     @endphp
                     <div class="form-group">
-                        <label for="id_card">Nomor ID Card</label>
-                        <input type="text" id="id_card" name="id_card" maxlength="5" onkeypress="return inputAngka(event)" value="{{ $id_card }}" class="form-control @error('id_card') is-invalid @enderror" readonly>
+                        <label for="id_cardTahfiz">Nomor ID Card</label>
+                        <input type="text" id="id_cardTahfiz" name="id_cardTahfiz" maxlength="5" onkeypress="return inputAngka(event)" value="{{ $id_cardTahfiz }}" class="form-control @error('id_cardTahfiz') is-invalid @enderror" readonly>
                     </div>
                     <div class="form-group">
                         <label for="kode">Kode Jadwal</label>
