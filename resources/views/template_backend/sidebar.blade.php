@@ -1,7 +1,7 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="" class="brand-link" style="">
+    <a href="" class="brand-link">
         <img src="{{ asset('img/logosionil.png') }}" alt="AdminLTE Logo" class="brand-image ">
         <span class="brand-text font-weight-light">SIONIL</span>
     </a>
@@ -204,6 +204,12 @@
                             <p>Jadwal</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('guru.index-indikator') }}" class="nav-link" id="IndikatorGuru">
+                            <i class="fas fa-info-circle nav-icon"></i>
+                            <p>Indikator</p>
+                        </a>
+                    </li>
                     <li class="nav-item has-treeview" id="liNilaiGuru">
                         <a href="#" class="nav-link" id="NilaiGuru">
                             <i class="nav-icon fas fa-file-signature"></i>
@@ -216,7 +222,7 @@
                             <li class="nav-item">
                                 <a href="{{ route('guru.index-ulangan') }}" class="nav-link" id="UlanganGuru">
                                     <i class="fas fa-file-alt nav-icon"></i>
-                                    <p>Entry Nilai Ulangan</p>
+                                    <p>Entry Nilai Siswa</p>
                                 </a>
                             </li>
                             @if (
