@@ -211,6 +211,18 @@ class RegisterController extends Controller
                 'role' => $data['role'],
                 'id_card' => $data['nomer'],
             ]);
+        }elseif ($data['role'] == 'BimbinganKonseling') {
+            $bkId = BimbinganKonseling::where('id_card', $data['nomer'])->get();
+            foreach ($bkId as $val) {
+                $bk = BimbinganKonseling::findorfail($val->id);
+            }
+            return User::create([
+                'name' => $bk->name,
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'role' => $data['role'],
+                'id_card' => $data['nomer'],
+            ]);
         }  else {
             $siswaId = Siswa::where('no_induk', $data['nomer'])->get();
             foreach ($siswaId as $val) {
