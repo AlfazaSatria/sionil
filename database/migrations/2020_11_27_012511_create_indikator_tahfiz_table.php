@@ -15,9 +15,6 @@ class CreateIndikatorTahfizTable extends Migration
     {
         Schema::create('indikator_tahfiz', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('kelas_id');
-            $table->integer('mapel_id');
-            $table->text('indikator');
             $table->timestamps();
         });
     }

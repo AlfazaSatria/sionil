@@ -90,14 +90,8 @@ Route::middleware(['auth'])->group(function () {
           Route::get('/jadwal', 'JadwalController@guru')->name('jadwal.guru');
   });
 
-  Route::middleware(['tahfiz'])->group(function () {
-    Route::get('/jadwal/guru', 'JadwalController@tahfiz')->name('jadwal.tahfiz');
-    Route::resource('/nilai', 'NilaiController');
-    Route::resource('/ulangan', 'UlanganController');
-    Route::resource('/sikap', 'SikapController');
-    Route::get('/rapot/predikat', 'RapotController@predikat');
-    Route::resource('/rapot', 'RapotController');
-  });
+  
+
 
   Route::middleware(['admin'])->group(function () {
     Route::middleware(['trash'])->group(function () {
@@ -137,10 +131,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/tahfiz/ubah-foto/{id}', 'TahfizController@ubah_foto')->name('tahfiz.ubah-foto');
     Route::post('/tahfiz/update-foto/{id}', 'TahfizController@update_foto')->name('tahfiz.update-foto');
     Route::delete('/tahfiz/deleteAll', 'TahfizController@deleteAll')->name('tahfiz.deleteAll');
-//    Route::resource('/guru', 'GuruController');
-//    Route::resource('/tahfiz', 'TahfizController');
+   Route::resource('/guru', 'GuruController');
+   Route::resource('/tahfiz', 'TahfizController');
     Route::get('/kelas/edit/json', 'KelasController@getEdit');
-//    Route::resource('/kelas', 'KelasController');
+   Route::resource('/kelas', 'KelasController');
     Route::get('/siswa/kelas/{id}', 'SiswaController@kelas')->name('siswa.kelas');
     Route::get('/siswa/view/json', 'SiswaController@view');
     Route::get('/listsiswapdf/{id}', 'SiswaController@cetak_pdf');
@@ -149,15 +143,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/siswa/export_excel', 'SiswaController@export_excel')->name('siswa.export_excel');
     Route::post('/siswa/import_excel', 'SiswaController@import_excel')->name('siswa.import_excel');
     Route::delete('/siswa/deleteAll', 'SiswaController@deleteAll')->name('siswa.deleteAll');
-//    Route::resource('/siswa', 'SiswaController');
+   Route::resource('/siswa', 'SiswaController');
     Route::get('/mapel/getMapelJson', 'MapelController@getMapelJson');
-//    Route::resource('/mapel', 'MapelController');
+   Route::resource('/mapel', 'MapelController');
     Route::get('/jadwal/view/json', 'JadwalController@view');
     Route::get('/jadwalkelaspdf/{id}', 'JadwalController@cetak_pdf');
     Route::get('/jadwal/export_excel', 'JadwalController@export_excel')->name('jadwal.export_excel');
     Route::post('/jadwal/import_excel', 'JadwalController@import_excel')->name('jadwal.import_excel');
     Route::delete('/jadwal/deleteAll', 'JadwalController@deleteAll')->name('jadwal.deleteAll');
-//    Route::resource('/jadwal', 'JadwalController');
+   Route::resource('/jadwal', 'JadwalController');
     Route::get('/jadwal/guru', 'JadwalController@guru')->name('jadwal.guru');
     Route::get('/ulangan-kelas', 'UlanganController@create')->name('ulangan-kelas');
     Route::get('/ulangan-siswa/{id}', 'UlanganController@edit')->name('ulangan-siswa');
@@ -169,6 +163,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/rapot-siswa/{id}', 'RapotController@edit')->name('rapot-siswa');
     Route::get('/rapot-show/{id}', 'RapotController@rapot')->name('rapot-show');
     Route::get('/predikat', 'NilaiController@create')->name('predikat');
-//    Route::resource('/user', 'UserController');
+   Route::resource('/user', 'UserController');
   });
 });

@@ -262,13 +262,13 @@
                         </a>
                     </li> --}}
                     <li class="nav-item">
-                        <a href="{{ route('jadwal.guru') }}" class="nav-link" id="JadwalGuru">
+                        <a href="{{ route('jadwal.tahfiz') }}" class="nav-link" id="JadwalGuru">
                             <i class="fas fa-calendar-alt nav-icon"></i>
                             <p>Jadwal</p>
                         </a>
                     </li>
-                    <li class="nav-item has-treeview" id="liNilaiGuru">
-                        <a href="#" class="nav-link" id="NilaiGuru">
+                    <li class="nav-item has-treeview" id="liNilaiTahfiz">
+                        <a href="#" class="nav-link" id="NilaiTahfiz">
                             <i class="nav-icon fas fa-file-signature"></i>
                             <p>
                                 Nilai
@@ -277,12 +277,12 @@
                         </a>
                         <ul class="nav nav-treeview ml-4">
                             <li class="nav-item">
-                                <a href="{{ route('guru.index-ulangan') }}" class="nav-link" id="UlanganGuru">
+                                <a href="{{ route('tahfiz.index-ulangan') }}" class="nav-link" id="UlanganTahfiz">
                                     <i class="fas fa-file-alt nav-icon"></i>
                                     <p>Entry Nilai Ulangan</p>
                                 </a>
                             </li>
-                            @if (
+                            {{-- @if (
                                 Auth::user()->guru(Auth::user()->id_card)->mapel->nama_mapel == "Pendidikan Agama dan Budi Pekerti" ||
                                 Auth::user()->guru(Auth::user()->id_card)->mapel->nama_mapel == "Pendidikan Pancasila dan Kewarganegaraan"
                             )
@@ -293,15 +293,15 @@
                                     </a>
                                 </li>
                             @else
-                            @endif
+                            @endif --}}
                             <li class="nav-item">
-                                <a href="{{ route('guru.index-rapot') }}" class="nav-link" id="RapotGuru">
+                                <a href="{{ route('tahfiz.index-rapot') }}" class="nav-link" id="RapotTahfiz">
                                     <i class="fas fa-file-alt nav-icon"></i>
                                     <p>Entry Nilai Rapot</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('guru.index-nilai') }}" class="nav-link" id="DesGuru">
+                                <a href="{{ route('tahfiz.index-nilai') }}" class="nav-link" id="DesTahfiz">
                                     <i class="fas fa-file-alt nav-icon"></i>
                                     <p>Deskripsi Predikat</p>
                                 </a>

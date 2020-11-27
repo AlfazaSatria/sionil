@@ -1,7 +1,7 @@
 @extends('template_backend.home')
-@section('heading', 'Entry Nilai Rapot')
+@section('heading', 'Entry Nilai Ulangan')
 @section('page')
-  <li class="breadcrumb-item active">Entry Nilai Rapot</li>
+  <li class="breadcrumb-item active">Entry Nilai Ulangan</li>
 @endsection
 @section('content')
 <div class="col-md-12">
@@ -36,7 +36,7 @@
                     <tr>
                       <td>{{ $loop->iteration }}</td>
                       <td>{{ $data[0]->rapot($val)->nama_kelas }}</td>
-                      <td><a href="{{ route('tahfiz.show-rapot', Crypt::encrypt($val)) }}" class="btn btn-primary btn-sm"><i class="nav-icon fas fa-pen"></i> &nbsp; Entry Nilai</a></td>
+                      <td><a href="{{ route('tahfiz.show-ulangan', Crypt::encrypt($val)) }}" class="btn btn-primary btn-sm"><i class="nav-icon fas fa-pen"></i> &nbsp; Entry Nilai</a></td>
                     </tr>
                   @endforeach
                 </tbody>
@@ -51,6 +51,6 @@
   <script>
     $("#NilaiTahfiz").addClass("active");
     $("#liNilaiTahfiz").addClass("menu-open");
-    $("#RapotTahfiz").addClass("active");
+    $("#UlanganTahfiz").addClass("active");
   </script>
 @endsection
