@@ -174,7 +174,7 @@
             var kelas_id = $("input[name=kelas_id]").val();
             
             $.ajax({
-                url: "{{ route('ulangan.store') }}",
+                url: "{{ route('guru.store-ulangan') }}",
                 type: "POST",
                 dataType: 'json',
                 data 	: {
