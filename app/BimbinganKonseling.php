@@ -10,7 +10,7 @@ class BimbinganKonseling extends Model
 
     protected $fillable=[
         'name',
-        'id_card',
+        'id_cardBK',
         'jk',
         'foto',
     ];

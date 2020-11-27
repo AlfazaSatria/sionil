@@ -8,7 +8,7 @@ class Tahfiz extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['id_card', 'nip', 'nama_tahfiz', 'mapel_id', 'kode', 'jk', 'telp', 'tmp_lahir', 'tgl_lahir', 'foto'];
+    protected $fillable = ['id_cardTahfiz', 'nip', 'nama_tahfiz', 'mapel_id', 'kode', 'jk', 'telp', 'tmp_lahir', 'tgl_lahir', 'foto'];
 
     public function mapel()
     {

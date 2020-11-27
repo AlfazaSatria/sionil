@@ -16,7 +16,7 @@ class CreateBkTable extends Migration
         Schema::create('bk', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('id_card', 10);
+            $table->string('id_cardBK', 10);
             $table->string('foto');
             $table->enum('jk', ['L', 'P']);
             $table->timestamps();

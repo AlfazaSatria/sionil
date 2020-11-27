@@ -15,7 +15,7 @@ class CreateTahfizTable extends Migration
     {
         Schema::create('tahfiz', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('id_card', 10);
+            $table->string('id_cardTahfiz', 10);
             $table->string('nip', 30)->nullable();
             $table->string('nama_tahfiz', 50);
             $table->integer('mapel_id');
