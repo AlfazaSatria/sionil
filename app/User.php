@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role', 'no_induk', 'id_card'
+        'name', 'email', 'password', 'role', 'no_induk', 'id_card','id_cardTahfiz','id_cardBK'
     ];
 
     public function guru($id)

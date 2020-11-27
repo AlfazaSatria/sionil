@@ -72,8 +72,8 @@ class UserController extends Controller
                 return redirect()->back()->with('error', 'Maaf User ini tidak terdaftar sebagai guru!');
             }
         } elseif ($request->role == 'Tahfiz') {
-            $countTahfiz = Tahfiz::where('id_card', $request->nomer)->count();
-            $tahfizId = Tahfiz::where('id_card', $request->nomer)->get();
+            $countTahfiz = Tahfiz::where('id_cardTahfiz', $request->nomer)->count();
+            $tahfizId = Tahfiz::where('id_cardTahfiz', $request->nomer)->get();
             foreach ($tahfizId as $val) {
                 $tahfiz = Tahfiz::findorfail($val->id);
             }
@@ -83,15 +83,15 @@ class UserController extends Controller
                     'email' => $request->email,
                     'password' => Hash::make($request->password),
                     'role' => $request->role,
-                    'id_card' => $request->nomer,
+                    'id_cardTahfiz' => $request->nomer,
                 ]);
                 return redirect()->back()->with('success', 'Berhasil menambahkan user Tahfiz baru!');
             } else {
                 return redirect()->back()->with('error', 'Maaf User ini tidak terdaftar sebagai tahfiz!');
             }
         }elseif ($request->role == 'BimbinganKonseling') {
-            $countbk = BimbinganKonseling::where('id_card', $request->nomer)->count();
-            $bkId = BimbinganKonseling::where('id_card', $request->nomer)->get();
+            $countbk = BimbinganKonseling::where('id_cardBK', $request->nomer)->count();
+            $bkId = BimbinganKonseling::where('id_cardBK', $request->nomer)->get();
             foreach ($bkId as $val) {
                 $bk = BimbinganKonseling::findorfail($val->id);
             }
@@ -101,7 +101,7 @@ class UserController extends Controller
                     'email' => $request->email,
                     'password' => Hash::make($request->password),
                     'role' => $request->role,
-                    'id_card' => $request->nomer,
+                    'id_cardBK' => $request->nomer,
                 ]);
                 return redirect()->back()->with('success', 'Berhasil menambahkan user BK baru!');
             } else {
