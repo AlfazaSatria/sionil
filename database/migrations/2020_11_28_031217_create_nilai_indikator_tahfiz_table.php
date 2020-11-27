@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateIndikatorTahfizTable extends Migration
+class CreateNilaiIndikatorTahfizTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateIndikatorTahfizTable extends Migration
      */
     public function up()
     {
-        Schema::create('indikator_tahfiz', function (Blueprint $table) {
+        Schema::create('nilai_indikator_tahfiz', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('guru_id');
-            $table->text('indikator');
+            $table->integer('siswa_id');
+            $table->integer('indikator_id');
+            $table->double('nilai_indikator');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateIndikatorTahfizTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('indikator_tahfiz');
+        Schema::dropIfExists('nilai_indikator_tahfiz');
     }
 }
