@@ -37,11 +37,29 @@
                       <td>{{ $loop->iteration }}</td>
                       <td>{{ $data[0]->rapot($val)->nama_kelas }}</td>
                       <td>
-                        <a href="{{ route('guru.show-ulangan', Crypt::encrypt($val)) }}" 
-                            class="btn btn-info btn-sm">
+                        <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#chooseIndikator">
                             <i class="fas fa-info-circle"></i> &nbsp; 
                             Entry Nilai Indikator
-                        </a>
+                        </button>
+                        <div id="chooseIndikator" class="modal fade">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <i class="fas fa-info-circle fa-lg text-gray"></i> &nbsp;&nbsp;
+                                        Pilih Tipe Indikator
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <a href="{{ route('guru.show-indikator', Crypt::encrypt(['id'=>$val, 'tipe'=>0])) }}" class="btn btn-info btn-lg">
+                                          Pengetahuan
+                                        </a>
+                                        <a href="{{ route('guru.show-indikator', Crypt::encrypt(['id'=>$val, 'tipe'=>1])) }}" class="btn btn-warning btn-lg">
+                                          Keterampilan
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <a href="{{ route('guru.show-ulangan', Crypt::encrypt($val)) }}" 
                             class="btn btn-primary btn-sm">
                             <i class="fas fa fa-graduation-cap"></i> &nbsp; 

@@ -11,6 +11,8 @@
 |
 */
 
+use App\Indikator;
+
 Route::get('/welcome', function () {
   return view('welcome');
 });
@@ -92,8 +94,14 @@ Route::middleware(['auth'])->group(function () {
                   'index' => 'guru.index-indikator',
                   'store' => 'guru.store-indikator',
               ],
+              'except' => [
+                'create', 'edit', 'update',
+              ],
           ]);
+          Route::get('/indikator/{encryption}', 'IndikatorController@show')->name('guru.show-indikator');
+          Route::post('/indikator/inputnilai', 'IndikatorController@input_nilai')->name('guru.input-nilai-indikator');
           Route::delete('/indikator/{id}', 'IndikatorController@destroy')->name('guru.destroy-indikator');
+
           Route::get('/jadwal', 'JadwalController@guru')->name('jadwal.guru');
   });
 

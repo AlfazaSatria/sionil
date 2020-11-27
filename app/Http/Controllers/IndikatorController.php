@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Guru;
 use App\Indikator;
+use App\Kelas;
 use App\Nilai;
+use App\NilaiIndikator;
+use App\Siswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -25,16 +28,6 @@ class IndikatorController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -48,9 +41,7 @@ class IndikatorController extends Controller
             'indikator' => 'required',
         ]);
         Indikator::updateOrCreate(
-            [
-                'id' => $request->id,
-            ],
+            [ 'id' => $request->id ],
             [
                 'guru_id' => $request->guru_id,
                 'tipe' => ($request->tipe),
@@ -66,32 +57,19 @@ class IndikatorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($encryption)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        $decrypt = Crypt::decrypt($encryption);
+        $id = $decrypt['id'];
+        $tipe = $decrypt['tipe'];
+        $guru = Guru::where('id_card', Auth::user()->id_card)->first();
+        $indikators = Indikator::where([
+            [ 'guru_id', '=', $guru->id ],
+            [ 'tipe', '=', $tipe ]
+        ])->get();
+        $kelas = Kelas::findorfail($id);
+        $siswa = Siswa::where('kelas_id', $id)->get();
+        return view('guru.indikator.nilai', compact('guru', 'indikators', 'kelas', 'siswa'));
     }
 
     /**
@@ -105,5 +83,30 @@ class IndikatorController extends Controller
         $indikator = Indikator::findorfail($id);
         $indikator->delete();
         return redirect()->back()->with('success', 'Indikator di hapus!');
+    }
+
+    public function input_nilai(Request $request)
+    {
+        $id = null;
+        $existing = NilaiIndikator::where([
+            ['indikator_id', '=', $request->indikator_id],
+            ['siswa_id', '=', $request->siswa_id],
+        ])
+        ->get()
+        ->first();
+
+        if ($existing) {
+            $id = $existing->id;
+        }
+
+        NilaiIndikator::updateOrCreate(
+            [ 'id' => $id ],
+            [
+                'siswa_id' => $request->siswa_id,
+                'indikator_id' => $request->indikator_id,
+                'nilai_indikator' => $request->nilai_indikator,
+            ]
+        );
+        return redirect()->back()->with('success', 'Success!');
     }
 }
