@@ -63,6 +63,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{ route('bk.index') }}" class="nav-link" id="DataBimbinganKonseling">
+                                <i class="fas fa-users nav-icon"></i>
+                                <p>Data Bimbingan Konseling</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('kelas.index') }}" class="nav-link" id="DataKelas">
                                 <i class="fas fa-home nav-icon"></i>
                                 <p>Data Kelas</p>

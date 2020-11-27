@@ -6,6 +6,13 @@ use Illuminate\Http\Request;
 use App\BimbinganKonseling;
 class BimbinganKonselingController extends Controller
 {
+    public function index()
+    {
+        $bk = BimbinganKonseling::orderBy('name')->get();
+        $max = BimbinganKonseling::max('id_card');
+        return view('admin.bk.index', compact( 'max','bk'));
+    }
+
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -39,5 +46,17 @@ class BimbinganKonselingController extends Controller
         }
 
         return redirect()->back()->with('success', 'Berhasil menambahkan data Bimbingan Konseling baru!');
+    }
+
+    public function deleteAll()
+    {
+        $bk = BimbinganKonseling::all();
+        if ($bk->count() >= 1) {
+            BimbinganKonseling::whereNotNull('id')->delete();
+            BimbinganKonseling::withTrashed()->whereNotNull('id')->forceDelete();
+            return redirect()->back()->with('success', 'Data table bimbingan konseling berhasil dihapus!');
+        } else {
+            return redirect()->back()->with('warning', 'Data bimbingan konseling kosong!');
+        }
     }
 }

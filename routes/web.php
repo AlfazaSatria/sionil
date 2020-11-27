@@ -131,6 +131,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/tahfiz/ubah-foto/{id}', 'TahfizController@ubah_foto')->name('tahfiz.ubah-foto');
     Route::post('/tahfiz/update-foto/{id}', 'TahfizController@update_foto')->name('tahfiz.update-foto');
     Route::delete('/tahfiz/deleteAll', 'TahfizController@deleteAll')->name('tahfiz.deleteAll');
+    Route::delete('/bk/deleteAll', 'BimbinganKonselingController@deleteAll')->name('bk.deleteAll');
+    Route::resource('/bk', 'BimbinganKonselingController');
    Route::resource('/guru', 'GuruController');
    Route::resource('/tahfiz', 'TahfizController');
     Route::get('/kelas/edit/json', 'KelasController@getEdit');
