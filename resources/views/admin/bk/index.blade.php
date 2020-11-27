@@ -94,20 +94,20 @@
                     @php
                         $kode = $max+1;
                         if (strlen($kode) == 1) {
-                            $id_card = "0000".$kode;
+                            $id_cardBK = "0000".$kode;
                         } else if(strlen($kode) == 2) {
-                            $id_card = "000".$kode;
+                            $id_cardBK = "000".$kode;
                         } else if(strlen($kode) == 3) {
-                            $id_card = "00".$kode;
+                            $id_cardBK = "00".$kode;
                         } else if(strlen($kode) == 4) {
-                            $id_card = "0".$kode;
+                            $id_cardBK = "0".$kode;
                         } else {
-                            $id_card = $kode;
+                            $id_cardBK = $kode;
                         }
                     @endphp
                     <div class="form-group">
-                        <label for="id_card">Nomor ID Card</label>
-                        <input type="text" id="id_card" name="id_card" maxlength="5" onkeypress="return inputAngka(event)" value="{{ $id_card }}" class="form-control @error('id_card') is-invalid @enderror" readonly>
+                        <label for="id_cardBK">Nomor ID Card</label>
+                        <input type="text" id="id_cardBK" name="id_cardBK" maxlength="5" onkeypress="return inputAngka(event)" value="{{ $id_cardBK }}" class="form-control @error('id_cardBK') is-invalid @enderror" readonly>
                     </div>
                    
                     <div class="form-group">
