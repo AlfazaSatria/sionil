@@ -74,6 +74,23 @@
                 </span>
               @enderror
             `);
+          }else if (kel == "BimbinganKonseling") {
+            $("#noId").addClass("mb-3");
+            $("#noId").html(`
+              <input id="nomer" type="text" maxlength="5" onkeypress="return inputAngka(event)" placeholder="No Id Card" class="form-control @error('nomer') is-invalid @enderror" name="nomer" autocomplete="nomer">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-id-card"></span>
+                </div>
+              </div>
+              `);
+            $("#pesan").html(`
+              @error('nomer')
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+              @enderror
+            `);
           } else if(kel == "Siswa") {
             $("#noId").addClass("mb-3");
             $("#noId").html(`
@@ -120,6 +137,11 @@
 @error('tahfiz')
   <script>
     toastr.error("Maaf Tahfiz ini sudah terdaftar sebagai User!");
+  </script>
+@enderror
+@error('bimbingankonseling')
+  <script>
+    toastr.error("Maaf BK ini sudah terdaftar sebagai User!");
   </script>
 @enderror
 @error('no_induk')

@@ -11,7 +11,7 @@ class TahfizController extends Controller
     public function index()
     {
         $mapel = Mapel::orderBy('nama_mapel')->get();
-        $max = Tahfiz::max('id_card');
+        $max = Tahfiz::max('id_cardTahfiz');
         return view('admin.tahfiz.index', compact('mapel', 'max'));
     }
 
@@ -19,7 +19,7 @@ class TahfizController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'id_card' => 'required',
+            'id_cardTahfiz' => 'required',
             'nama_tahfiz' => 'required',
             'mapel_id' => 'required',
             'kode' => 'required|string|unique:tahfiz|min:2|max:3',
@@ -30,7 +30,7 @@ class TahfizController extends Controller
             $foto = $request->foto;
             $new_foto = date('s' . 'i' . 'H' . 'd' . 'm' . 'Y') . "_" . $foto->getClientOriginalName();
             Tahfiz::create([
-                'id_card' => $request->id_card,
+                'id_cardTahfiz' => $request->id_cardTahfiz,
                 'nip' => $request->nip,
                 'nama_tahfiz' => $request->nama_tahfiz,
                 'mapel_id' => $request->mapel_id,
@@ -49,7 +49,7 @@ class TahfizController extends Controller
                 $foto = 'uploads/tahfiz/23171022042020_female.jpg';
             }
             Tahfiz::create([
-                'id_card' => $request->id_card,
+                'id_cardTahfiz' => $request->id_cardTahfiz,
                 'nip' => $request->nip,
                 'nama_tahfiz' => $request->nama_tahfiz,
                 'mapel_id' => $request->mapel_id,

@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use App\User;
 use App\Guru;
 use App\Siswa;
+use App\BimbinganKonseling;
 use App\Tahfiz;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
@@ -82,9 +83,9 @@ class RegisterController extends Controller
                 ]);
             }
         } elseif ($data['role'] == 'Tahfiz') {
-            $tahfiz = Tahfiz::where('id_card', $data['nomer'])->count();
+            $tahfiz = Tahfiz::where('id_cardTahfiz', $data['nomer'])->count();
             if ($tahfiz >= 1) {
-                $user = User::where('id_card', $data['nomer'])->count();
+                $user = User::where('id_cardTahfiz', $data['nomer'])->count();
                 if ($user >= 1) {
                     return Validator::make($data, [
                         'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -107,7 +108,36 @@ class RegisterController extends Controller
                     'password' => ['required', 'string', 'min:8', 'confirmed'],
                     'role' => ['required'],
                     'nomer' => ['required'],
-                    'id_card' => ['required'],
+                    'id_cardTahfiz' => ['required'],
+                ]);
+            }
+        }elseif ($data['role'] == 'BimbinganKonseling') {
+            $bk = BimbinganKonseling::where('id_cardBK', $data['nomer'])->count();
+            if ($bk >= 1) {
+                $user = User::where('id_cardBK', $data['nomer'])->count();
+                if ($user >= 1) {
+                    return Validator::make($data, [
+                        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                        'password' => ['required', 'string', 'min:8', 'confirmed'],
+                        'role' => ['required'],
+                        'nomer' => ['required'],
+                        'bimbingankonseling' => ['required'],
+                    ]);
+                } else {
+                    return Validator::make($data, [
+                        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                        'password' => ['required', 'string', 'min:8', 'confirmed'],
+                        'role' => ['required'],
+                        'nomer' => ['required'],
+                    ]);
+                }
+            } else {
+                return Validator::make($data, [
+                    'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                    'password' => ['required', 'string', 'min:8', 'confirmed'],
+                    'role' => ['required'],
+                    'nomer' => ['required'],
+                    'id_cardBK' => ['required'],
                 ]);
             }
         } elseif ($data['role'] == 'Siswa') {
@@ -170,7 +200,7 @@ class RegisterController extends Controller
                 'id_card' => $data['nomer'],
             ]);
         }elseif ($data['role'] == 'Tahfiz') {
-            $tahfizId = Tahfiz::where('id_card', $data['nomer'])->get();
+            $tahfizId = Tahfiz::where('id_cardTahfiz', $data['nomer'])->get();
             foreach ($tahfizId as $val) {
                 $tahfiz = Tahfiz::findorfail($val->id);
             }
@@ -179,7 +209,19 @@ class RegisterController extends Controller
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
                 'role' => $data['role'],
-                'id_card' => $data['nomer'],
+                'id_cardTahfiz' => $data['nomer'],
+            ]);
+        }elseif ($data['role'] == 'BimbinganKonseling') {
+            $bkId = BimbinganKonseling::where('id_cardBK', $data['nomer'])->get();
+            foreach ($bkId as $val) {
+                $bk = BimbinganKonseling::findorfail($val->id);
+            }
+            return User::create([
+                'name' => $bk->name,
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'role' => $data['role'],
+                'id_cardBK' => $data['nomer'],
             ]);
         }  else {
             $siswaId = Siswa::where('no_induk', $data['nomer'])->get();

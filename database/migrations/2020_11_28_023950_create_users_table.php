@@ -19,9 +19,11 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['Admin', 'Guru', 'Siswa', 'Operator', 'Tahfiz']);
+            $table->enum('role', ['Admin', 'Guru', 'Siswa', 'Operator', 'Tahfiz','BimbinganKonseling']);
             $table->string('no_induk')->nullable();
             $table->string('id_card')->nullable();
+            $table->string('id_cardTahfiz')->nullable();
+            $table->string('id_cardBK')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

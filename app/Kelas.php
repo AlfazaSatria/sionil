@@ -19,4 +19,8 @@ class Kelas extends Model
     
 
     protected $table = 'kelas';
+
+    public function nilaitahfiz(){
+        return $this->hasMany('App\NilaiTahfiz');
+    }
 }

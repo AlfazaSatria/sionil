@@ -7,6 +7,7 @@ use App\Jadwal;
 use App\Hari;
 use App\Kelas;
 use App\Guru;
+use App\Tahfiz;
 use App\Siswa;
 use App\Ruang;
 use Illuminate\Http\Request;
@@ -206,6 +207,13 @@ class JadwalController extends Controller
         $guru = Guru::where('id_card', Auth::user()->id_card)->first();
         $jadwal = Jadwal::orderBy('hari_id')->OrderBy('jam_mulai')->where('guru_id', $guru->id)->get();
         return view('guru.jadwal', compact('jadwal', 'guru'));
+    }
+
+    public function tahfiz()
+    {
+        $tahfiz = Tahfiz::where('id_card', Auth::user()->id_card)->first();
+        $jadwal = Jadwal::orderBy('hari_id')->OrderBy('jam_mulai')->where('tahfiz_id', $tahfiz->id)->get();
+        return view('tahfiz.jadwal', compact('jadwal', 'tahfiz'));
     }
 
     public function siswa()

@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role', 'no_induk', 'id_card'
+        'name', 'email', 'password', 'role', 'no_induk', 'id_card','id_cardTahfiz','id_cardBK'
     ];
 
     public function guru($id)
@@ -29,8 +29,14 @@ class User extends Authenticatable
 
     public function tahfiz($id)
     {
-        $tahfiz = Tahfiz::where('id_card', $id)->first();
+        $tahfiz = Tahfiz::where('id_cardTahfiz', $id)->first();
         return $tahfiz;
+    }
+
+    public function bimbingankonseling($id)
+    {
+        $bk = BimbinganKonseling::where('id_cardBK', $id)->first();
+        return $bk;
     }
 
     public function siswa($id)

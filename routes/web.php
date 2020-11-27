@@ -105,14 +105,8 @@ Route::middleware(['auth'])->group(function () {
           Route::get('/jadwal', 'JadwalController@guru')->name('jadwal.guru');
   });
 
-  Route::middleware(['tahfiz'])->group(function () {
-    Route::get('/jadwal/guru', 'JadwalController@tahfiz')->name('jadwal.tahfiz');
-    Route::resource('/nilai', 'NilaiController');
-    Route::resource('/ulangan', 'UlanganController');
-    Route::resource('/sikap', 'SikapController');
-    Route::get('/rapot/predikat', 'RapotController@predikat');
-    Route::resource('/rapot', 'RapotController');
-  });
+  
+
 
   Route::middleware(['admin'])->group(function () {
     Route::middleware(['trash'])->group(function () {

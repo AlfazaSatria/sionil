@@ -1,7 +1,7 @@
 @extends('template_backend.home')
-@section('heading', 'Data Tahfiz')
+@section('heading', 'Data bimbingankonseling')
 @section('page')
-  <li class="breadcrumb-item active">Data Tahfiz</li>
+  <li class="breadcrumb-item active">Data bimbingankonseling</li>
 @endsection
 @section('content')
 <div class="col-md-12">
@@ -9,16 +9,18 @@
         <div class="card-header">
             <h3 class="card-title">
                 <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target=".bd-example-modal-lg">
-                    <i class="nav-icon fas fa-folder-plus"></i> &nbsp; Tambah Data Tahfiz
+                    <i class="nav-icon fas fa-folder-plus"></i> &nbsp; Tambah Data bimbingankonseling
                 </button>
+                
                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#dropTable">
                     <i class="nav-icon fas fa-minus-circle"></i> &nbsp; Drop
                 </button>
             </h3>
         </div>
+       
         <div class="modal fade" id="dropTable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
-				<form method="post" action="{{ route('tahfiz.deleteAll') }}">
+				<form method="post" action="{{ route('bk.deleteAll') }}">
                     @csrf
                     @method('delete')
 					<div class="modal-content">
@@ -26,7 +28,7 @@
 							<h5 class="modal-title" id="exampleModalLabel">Sure you drop all data?</h5>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Cencel</button>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
 							<button type="submit" class="btn btn-danger">Drop</button>
 						</div>
 					</div>
@@ -39,18 +41,16 @@
             <thead>
                 <tr>
                     <th>No.</th>
-                    <th>Nama Mapel</th>
-                    <th>Lihat Tahfiz</th>
+                    <th>Nama Bimbingan Kosenling</th>
+                   
                 </tr>
             </thead>
             <tbody>
-                @foreach ($mapel as $data)
+                @foreach ($bk as $data)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $data->nama_mapel }}</td>
-                        <td>
-                            <a href="{{ route('tahfiz.mapel', Crypt::encrypt($data->id)) }}" class="btn btn-info btn-sm"><i class="nav-icon fas fa-search-plus"></i> &nbsp; Details</a>
-                        </td>
+                        <td>{{ $data->name }}</td>
+                        
                     </tr>
                 @endforeach
             </tbody>
@@ -64,28 +64,21 @@
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
       <div class="modal-header">
-          <h4 class="modal-title">Tambah Data Tahfiz</h4>
+          <h4 class="modal-title">Tambah Data bimbingankonseling</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
           </button>
       </div>
       <div class="modal-body">
-          <form action="{{ route('tahfiz.store') }}" method="post" enctype="multipart/form-data">
+          <form action="{{ route('bk.store') }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="nama_tahfiz">Nama Tahfiz</label>
-                        <input type="text" id="nama_tahfiz" name="nama_tahfiz" class="form-control @error('nama_tahfiz') is-invalid @enderror">
+                        <label for="name">Nama bimbingankonseling</label>
+                        <input type="text" id="name" name="name" class="form-control @error('name') is-invalid @enderror">
                     </div>
-                    <div class="form-group">
-                        <label for="tmp_lahir">Tempat Lahir</label>
-                        <input type="text" id="tmp_lahir" name="tmp_lahir" class="form-control @error('tmp_lahir') is-invalid @enderror">
-                    </div>
-                    <div class="form-group">
-                        <label for="tgl_lahir">Tanggal Lahir</label>
-                        <input type="date" id="tgl_lahir" name="tgl_lahir" class="form-control @error('tgl_lahir') is-invalid @enderror">
-                    </div>
+                    
                     <div class="form-group">
                         <label for="jk">Jenis Kelamin</label>
                         <select id="jk" name="jk" class="select2bs4 form-control @error('jk') is-invalid @enderror">
@@ -94,47 +87,29 @@
                             <option value="P">Perempuan</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="telp">Nomor Telpon/HP</label>
-                        <input type="text" id="telp" name="telp" onkeypress="return inputAngka(event)" class="form-control @error('telp') is-invalid @enderror">
-                    </div>
+                    
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="nip">NIP</label>
-                        <input type="text" id="nip" name="nip" onkeypress="return inputAngka(event)" class="form-control @error('nip') is-invalid @enderror">
-                    </div>
-                    <div class="form-group">
-                        <label for="mapel_id">Mapel</label>
-                        <select id="mapel_id" name="mapel_id" class="select2bs4 form-control @error('mapel_id') is-invalid @enderror">
-                            <option value="">-- Pilih Mapel --</option>
-                            @foreach ($mapel as $data)
-                                <option value="{{ $data->id }}">{{ $data->nama_mapel }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                    
                     @php
                         $kode = $max+1;
                         if (strlen($kode) == 1) {
-                            $id_cardTahfiz = "0000".$kode;
+                            $id_cardBK = "0000".$kode;
                         } else if(strlen($kode) == 2) {
-                            $id_cardTahfiz = "000".$kode;
+                            $id_cardBK = "000".$kode;
                         } else if(strlen($kode) == 3) {
-                            $id_cardTahfiz = "00".$kode;
+                            $id_cardBK = "00".$kode;
                         } else if(strlen($kode) == 4) {
-                            $id_cardTahfiz = "0".$kode;
+                            $id_cardBK = "0".$kode;
                         } else {
-                            $id_cardTahfiz = $kode;
+                            $id_cardBK = $kode;
                         }
                     @endphp
                     <div class="form-group">
-                        <label for="id_cardTahfiz">Nomor ID Card</label>
-                        <input type="text" id="id_cardTahfiz" name="id_cardTahfiz" maxlength="5" onkeypress="return inputAngka(event)" value="{{ $id_cardTahfiz }}" class="form-control @error('id_cardTahfiz') is-invalid @enderror" readonly>
+                        <label for="id_cardBK">Nomor ID Card</label>
+                        <input type="text" id="id_cardBK" name="id_cardBK" maxlength="5" onkeypress="return inputAngka(event)" value="{{ $id_cardBK }}" class="form-control @error('id_cardBK') is-invalid @enderror" readonly>
                     </div>
-                    <div class="form-group">
-                        <label for="kode">Kode Jadwal</label>
-                        <input type="text" id="kode" name="kode" maxlength="3" onkeyup="this.value = this.value.toUpperCase()" class="form-control @error('kode') is-invalid @enderror">
-                    </div>
+                   
                     <div class="form-group">
                         <label for="foto">File input</label>
                         <div class="input-group">
@@ -160,6 +135,6 @@
     <script>
         $("#MasterData").addClass("active");
         $("#liMasterData").addClass("menu-open");
-        $("#DataTahfiz").addClass("active");
+        $("#DataBimbinganKonseling").addClass("active");
     </script>
 @endsection
