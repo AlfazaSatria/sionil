@@ -1,7 +1,7 @@
 @extends('template_backend.home')
-@section('heading', 'Entry Nilai Ulangan')
+@section('heading', 'Entry Nilai')
 @section('page')
-  <li class="breadcrumb-item active">Entry Nilai Ulangan</li>
+  <li class="breadcrumb-item active">Entry Nilai</li>
 @endsection
 @section('content')
 <div class="col-md-12">
@@ -36,7 +36,12 @@
                     <tr>
                       <td>{{ $loop->iteration }}</td>
                       <td>{{ $data[0]->rapot($val)->nama_kelas }}</td>
-                      <td><a href="{{ route('guru.show-ulangan', Crypt::encrypt($val)) }}" class="btn btn-primary btn-sm"><i class="nav-icon fas fa-pen"></i> &nbsp; Entry Nilai</a></td>
+                      <td>
+                        <a href="{{ route('guru.show-ulangan', Crypt::encrypt($val)) }}" class="btn btn-primary btn-sm">
+                          <i class="nav-icon fas fa-pen"></i> &nbsp; 
+                          Entry Nilai Ulangan
+                        </a>
+                      </td>
                     </tr>
                   @endforeach
                 </tbody>

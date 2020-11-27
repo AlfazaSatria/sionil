@@ -1,7 +1,8 @@
 @extends('template_backend.home')
 @section('heading', 'Entry Nilai Ulangan')
 @section('page')
-  <li class="breadcrumb-item active">Entry Nilai Ulangan</li>
+  <li class="breadcrumb-item active">Entry Nilai</li>
+  <li class="breadcrumb-item active">Ulangan</li>
 @endsection
 @section('content')
 <div class="col-md-12">
