@@ -76,10 +76,7 @@
                         <tr>
                             <th class="ctr">No.</th>
                             <th>Nama Siswa</th>
-                            <th class="ctr">ULHA 1</th>
-                            <th class="ctr">ULHA 2</th>
                             <th class="ctr">UTS</th>
-                            <th class="ctr">ULHA 3</th>
                             <th class="ctr">UAS</th>
                             <th class="ctr">Aksi</th>
                         </tr>
@@ -102,35 +99,11 @@
                                         @endif
                                     </td>
                                     <td class="ctr">
-                                        @if ($data->ulangan($data->id)['ulha_1'] == true)
-                                            <div class="text-center">{{ $data->ulangan($data->id)['ulha_1'] }}</div>
-                                            <input type="hidden" name="ulha_1" class="ulha_1_{{$data->id}}" value="{{ $data->ulangan($data->id)['ulha_1'] }}">
-                                        @else
-                                            <input type="text" name="ulha_1" maxlength="2" onkeypress="return inputAngka(event)" style="margin: auto;" class="form-control text-center ulha_1_{{$data->id}}" autocomplete="off">
-                                        @endif
-                                    </td>
-                                    <td class="ctr">
-                                        @if ($data->ulangan($data->id)['ulha_2'] == true)
-                                            <div class="text-center">{{ $data->ulangan($data->id)['ulha_2'] }}</div>
-                                            <input type="hidden" name="ulha_2" class="ulha_2_{{$data->id}}" value="{{ $data->ulangan($data->id)['ulha_2'] }}">
-                                        @else
-                                            <input type="text" name="ulha_2" maxlength="2" onkeypress="return inputAngka(event)" style="margin: auto;" class="form-control text-center ulha_2_{{$data->id}}" autocomplete="off">
-                                        @endif
-                                    </td>
-                                    <td class="ctr">
                                         @if ($data->ulangan($data->id)['uts'] == true)
                                             <div class="text-center">{{ $data->ulangan($data->id)['uts'] }}</div>
                                             <input type="hidden" name="uts" class="uts_{{$data->id}}" value="{{ $data->ulangan($data->id)['uts'] }}">
                                         @else
                                             <input type="text" name="uts" maxlength="2" onkeypress="return inputAngka(event)" style="margin: auto;" class="form-control text-center uts_{{$data->id}}" autocomplete="off">
-                                        @endif
-                                    </td>
-                                    <td class="ctr">
-                                        @if ($data->ulangan($data->id)['ulha_3'] == true)
-                                            <div class="text-center">{{ $data->ulangan($data->id)['ulha_3'] }}</div>
-                                            <input type="hidden" name="ulha_3" class="ulha_3_{{$data->id}}" value="{{ $data->ulangan($data->id)['ulha_3'] }}">
-                                        @else
-                                            <input type="text" name="ulha_3" maxlength="2" onkeypress="return inputAngka(event)" style="margin: auto;" class="form-control text-center ulha_3_{{$data->id}}" autocomplete="off">
                                         @endif
                                     </td>
                                     <td class="ctr">
@@ -165,10 +138,7 @@
     <script>
         $(".btn_click").click(function(){
             var id = $(this).attr('data-id');
-            var ulha_1 = $(".ulha_1_"+id).val();
-            var ulha_2 = $(".ulha_2_"+id).val();
             var uts = $(".uts_"+id).val();
-            var ulha_3 = $(".ulha_3_"+id).val();
             var uas = $(".uas_"+id).val();
             var ulangan_id = $(".ulangan_id_"+id).val();
             var guru_id = $("input[name=guru_id]").val();
@@ -184,10 +154,7 @@
                     siswa_id : id,
                     kelas_id : kelas_id,
                     guru_id : guru_id,
-                    ulha_1 : ulha_1,
-                    ulha_2 : ulha_2,
                     uts : uts,
-                    ulha_3 : ulha_3,
                     uas : uas,
                 },
                 success: function(data){
