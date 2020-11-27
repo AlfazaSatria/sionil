@@ -19,11 +19,8 @@ class CreateUlanganTable extends Migration
             $table->integer('kelas_id');
             $table->integer('guru_id');
             $table->integer('mapel_id');
-            $table->string('ulha_1', 5)->nullable();
-            $table->string('ulha_2', 5)->nullable();
-            $table->string('uts', 5)->nullable();
-            $table->string('ulha_3', 5)->nullable();
-            $table->string('uas', 5)->nullable();
+            $table->double('uts')->nullable();
+            $table->double('uas')->nullable();
             $table->timestamps();
         });
     }
