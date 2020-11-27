@@ -33,6 +33,12 @@ class User extends Authenticatable
         return $tahfiz;
     }
 
+    public function bimbingankonseling($id)
+    {
+        $bk = BimbinganKonseling::where('id_card', $id)->first();
+        return $bk;
+    }
+
     public function siswa($id)
     {
         $siswa = Siswa::where('no_induk', $id)->first();

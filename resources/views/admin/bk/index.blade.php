@@ -11,50 +11,13 @@
                 <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target=".bd-example-modal-lg">
                     <i class="nav-icon fas fa-folder-plus"></i> &nbsp; Tambah Data bimbingankonseling
                 </button>
-                {{-- <a href="{{ route('bimbingankonseling.export_excel') }}" class="btn btn-success btn-sm my-3" target="_blank"><i class="nav-icon fas fa-file-export"></i> &nbsp; EXPORT EXCEL</a>
-                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#importExcel">
-                    <i class="nav-icon fas fa-file-import"></i> &nbsp; IMPORT EXCEL
-                </button> --}}
+                
                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#dropTable">
                     <i class="nav-icon fas fa-minus-circle"></i> &nbsp; Drop
                 </button>
             </h3>
         </div>
-        {{-- <div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<form method="post" action="{{ route('bimbingankonseling.import_excel') }}" enctype="multipart/form-data">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
-						</div>
-						<div class="modal-body">
-							@csrf
-                            <div class="card card-outline card-primary">
-                                <div class="card-header">
-                                    <h5 class="modal-title">Petunjuk :</h5>
-                                </div>
-                                <div class="card-body">
-                                    <ul>
-                                        <li>rows 1 = nama bimbingankonseling</li>
-                                        <li>rows 2 = nip bimbingankonseling</li>
-                                        <li>rows 3 = jenis kelamin</li>
-                                        <li>rows 4 = mata pelajaran</li>
-                                    </ul>
-                                </div>
-                            </div>
-							<label>Pilih file excel</label>
-							<div class="form-group">
-								<input type="file" name="file" required="required">
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							<button type="submit" class="btn btn-primary">Import</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div> --}}
+       
         <div class="modal fade" id="dropTable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<form method="post" action="{{ route('bk.deleteAll') }}">
@@ -79,7 +42,7 @@
                 <tr>
                     <th>No.</th>
                     <th>Nama Bimbingan Kosenling</th>
-                    {{-- <th>Lihat Detail</th> --}}
+                   
                 </tr>
             </thead>
             <tbody>
@@ -87,9 +50,7 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $data->name }}</td>
-                        {{-- <td>
-                            <a href="{{ route('bimbingankonseling.mapel', Crypt::encrypt($data->id)) }}" class="btn btn-info btn-sm"><i class="nav-icon fas fa-search-plus"></i> &nbsp; Ditails</a>
-                        </td> --}}
+                        
                     </tr>
                 @endforeach
             </tbody>
@@ -117,14 +78,7 @@
                         <label for="name">Nama bimbingankonseling</label>
                         <input type="text" id="name" name="name" class="form-control @error('name') is-invalid @enderror">
                     </div>
-                    {{-- <div class="form-group">
-                        <label for="tmp_lahir">Tempat Lahir</label>
-                        <input type="text" id="tmp_lahir" name="tmp_lahir" class="form-control @error('tmp_lahir') is-invalid @enderror">
-                    </div>
-                    <div class="form-group">
-                        <label for="tgl_lahir">Tanggal Lahir</label>
-                        <input type="date" id="tgl_lahir" name="tgl_lahir" class="form-control @error('tgl_lahir') is-invalid @enderror">
-                    </div> --}}
+                    
                     <div class="form-group">
                         <label for="jk">Jenis Kelamin</label>
                         <select id="jk" name="jk" class="select2bs4 form-control @error('jk') is-invalid @enderror">
@@ -133,25 +87,10 @@
                             <option value="P">Perempuan</option>
                         </select>
                     </div>
-                    {{-- <div class="form-group">
-                        <label for="telp">Nomor Telpon/HP</label>
-                        <input type="text" id="telp" name="telp" onkeypress="return inputAngka(event)" class="form-control @error('telp') is-invalid @enderror">
-                    </div> --}}
+                    
                 </div>
                 <div class="col-md-6">
-                    {{-- <div class="form-group">
-                        <label for="nip">NIP</label>
-                        <input type="text" id="nip" name="nip" onkeypress="return inputAngka(event)" class="form-control @error('nip') is-invalid @enderror">
-                    </div>
-                    <div class="form-group">
-                        <label for="mapel_id">Mapel</label>
-                        <select id="mapel_id" name="mapel_id" class="select2bs4 form-control @error('mapel_id') is-invalid @enderror">
-                            <option value="">-- Pilih Mapel --</option>
-                            @foreach ($mapel as $data)
-                                <option value="{{ $data->id }}">{{ $data->nama_mapel }}</option>
-                            @endforeach
-                        </select>
-                    </div> --}}
+                    
                     @php
                         $kode = $max+1;
                         if (strlen($kode) == 1) {
@@ -170,10 +109,7 @@
                         <label for="id_card">Nomor ID Card</label>
                         <input type="text" id="id_card" name="id_card" maxlength="5" onkeypress="return inputAngka(event)" value="{{ $id_card }}" class="form-control @error('id_card') is-invalid @enderror" readonly>
                     </div>
-                    {{-- <div class="form-group">
-                        <label for="kode">Kode Jadwal</label>
-                        <input type="text" id="kode" name="kode" maxlength="3" onkeyup="this.value = this.value.toUpperCase()" class="form-control @error('kode') is-invalid @enderror">
-                    </div> --}}
+                   
                     <div class="form-group">
                         <label for="foto">File input</label>
                         <div class="input-group">

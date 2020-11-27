@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use App\User;
 use App\Guru;
 use App\Siswa;
+use App\BimbinganKonseling;
 use App\Tahfiz;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
@@ -92,6 +93,35 @@ class RegisterController extends Controller
                         'role' => ['required'],
                         'nomer' => ['required'],
                         'tahfiz' => ['required'],
+                    ]);
+                } else {
+                    return Validator::make($data, [
+                        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                        'password' => ['required', 'string', 'min:8', 'confirmed'],
+                        'role' => ['required'],
+                        'nomer' => ['required'],
+                    ]);
+                }
+            } else {
+                return Validator::make($data, [
+                    'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                    'password' => ['required', 'string', 'min:8', 'confirmed'],
+                    'role' => ['required'],
+                    'nomer' => ['required'],
+                    'id_card' => ['required'],
+                ]);
+            }
+        }elseif ($data['role'] == 'BimbinganKonseling') {
+            $bk = BimbinganKonseling::where('id_card', $data['nomer'])->count();
+            if ($bk >= 1) {
+                $user = User::where('id_card', $data['nomer'])->count();
+                if ($user >= 1) {
+                    return Validator::make($data, [
+                        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                        'password' => ['required', 'string', 'min:8', 'confirmed'],
+                        'role' => ['required'],
+                        'nomer' => ['required'],
+                        'bimbingankonseling' => ['required'],
                     ]);
                 } else {
                     return Validator::make($data, [
