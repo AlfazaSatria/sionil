@@ -37,18 +37,16 @@
                       <td>{{ $loop->iteration }}</td>
                       <td>{{ $data[0]->rapot($val)->nama_kelas }}</td>
                       <td>
-                        <div class="btn-group">
-                          <a href="{{ route('guru.show-ulangan', Crypt::encrypt($val)) }}" 
-                             class="btn btn-info btn-sm">
-                              <i class="fas fa-info-circle"></i> &nbsp; 
-                              Entry Nilai Indikator
-                          </a>
-                          <a href="{{ route('guru.show-ulangan', Crypt::encrypt($val)) }}" 
-                             class="btn btn-primary btn-sm">
-                              <i class="fas fa fa-graduation-cap"></i> &nbsp; 
-                              Entry Nilai Ulangan
-                          </a>
-                        </div>
+                        <a href="{{ route('guru.show-ulangan', Crypt::encrypt($val)) }}" 
+                            class="btn btn-info btn-sm">
+                            <i class="fas fa-info-circle"></i> &nbsp; 
+                            Entry Nilai Indikator
+                        </a>
+                        <a href="{{ route('guru.show-ulangan', Crypt::encrypt($val)) }}" 
+                            class="btn btn-primary btn-sm">
+                            <i class="fas fa fa-graduation-cap"></i> &nbsp; 
+                            Entry Nilai Ulangan
+                        </a>
                       </td>
                     </tr>
                   @endforeach
