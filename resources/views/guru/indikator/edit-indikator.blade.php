@@ -19,6 +19,7 @@
                             <div class="form-group">
                                 <label for="tipe-indikator">Tipe Indikator</label>
                                 <select class="form-control" id="tipe-indikator" name="tipe">
+                                    <option value="" disabled selected>Pilih Tipe Indikator</option>
                                     <option value="0" {{ (!$data->tipe) ? "selected" : "" }}>Pengetahuan</option>
                                     <option value="1" {{ ($data->tipe) ? "selected" : "" }}>Keterampilan</option>
                                 </select>
