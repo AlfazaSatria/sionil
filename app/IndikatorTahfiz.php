@@ -10,7 +10,7 @@ class IndikatorTahfiz extends Model
 
     protected $fillable=[
         'id',
-        'guru_id',
+        'tahfiz_id',
         'indikator'
     ];
 

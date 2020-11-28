@@ -105,6 +105,50 @@ Route::middleware(['auth'])->group(function () {
           Route::get('/jadwal', 'JadwalController@guru')->name('jadwal.guru');
   });
 
+  Route::middleware(['tahfiz'])
+      ->prefix('/tahfiz')
+      ->group(function () {
+          Route::resource('/nilai', 'NilaiController', [
+              'names' => [
+                  'index' => 'tahfiz.index-nilai',
+                  'store' => 'tahfiz.store-nilai',
+              ],
+          ]);
+          Route::resource('/ulangan', 'UlanganController', [
+              'names' => [
+                  'index' => 'tahfiz.index-ulangan',
+                  'show' => 'tahfiz.show-ulangan',
+                  'create' => 'tahfiz.create-ulangan',
+                  'store' => 'tahfiz.store-ulangan',
+                  'destroy' => 'tahfiz.destroy-ulangan',
+              ]
+          ]);
+          Route::resource('/rapot', 'RapotController', [
+              'names' => [
+                  'index' => 'tahfiz.index-rapot',
+                  'show' => 'tahfiz.show-rapot',
+                  'create' => 'tahfiz.create-rapot',
+                  'store' => 'tahfiz.store-rapot',
+                  'destroy' => 'tahfiz.destroy-rapot',
+                  'predikat' => 'tahfiz.predikat-rapot'
+              ]
+          ]);
+          Route::resource('/indikator', 'IndikatorTahfizController', [
+              'names' => [
+                  'index' => 'tahfiz.index-indikator',
+                  'store' => 'tahfiz.store-indikator',
+              ],
+              'except' => [
+                'create', 'edit', 'update',
+              ],
+          ]);
+          Route::get('/indikator/{encryption}', 'IndikatorTahfizController@show')->name('tahfiz.show-indikator');
+          Route::post('/indikator/inputnilai', 'IndikatorTahfizController@input_nilai')->name('tahfiz.input-nilai-indikator');
+          Route::delete('/indikator/{id}', 'IndikatorTahfizController@destroy')->name('tahfiz.destroy-indikator');
+
+          Route::get('/jadwal', 'JadwalTahfizController@tahfiz')->name('jadwal.tahfiz');
+  });
+
   
 
 
@@ -132,9 +176,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/home', 'HomeController@admin')->name('admin.home');
     Route::get('/admin/pengumuman', 'PengumumanController@index')->name('admin.pengumuman');
     Route::post('/admin/pengumuman/simpan', 'PengumumanController@simpan')->name('admin.pengumuman.simpan');
-    // Route::get('/guru/absensi', 'GuruController@absensi')->name('guru.absensi');
-    // Route::get('/guru/kehadiran/{id}', 'GuruController@kehadiran')->name('guru.kehadiran');
-    // Route::get('/absen/json', 'GuruController@json');
     Route::get('/guru/mapel/{id}', 'GuruController@mapel')->name('guru.mapel');
     Route::get('/guru/ubah-foto/{id}', 'GuruController@ubah_foto')->name('guru.ubah-foto');
     Route::post('/guru/update-foto/{id}', 'GuruController@update_foto')->name('guru.update-foto');
@@ -169,6 +210,14 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/jadwal/deleteAll', 'JadwalController@deleteAll')->name('jadwal.deleteAll');
     Route::resource('/jadwal', 'JadwalController');
     Route::get('/jadwal/guru', 'JadwalController@guru')->name('jadwal.guru');
+
+    Route::get('/jadwalTahfiz/view/json', 'JadwalTahfizController@view');
+    Route::get('/jadwalkelaspdfTahfiz/{id}', 'JadwalTahfizController@cetak_pdf');
+    Route::get('/jadwalTahfiz/export_excel', 'JadwalTahfizController@export_excel')->name('jadwalTahfiz.export_excel');
+    Route::delete('/jadwalTahfiz/deleteAll', 'JadwalTahfizController@deleteAll')->name('jadwalTahfiz.deleteAll');
+    Route::resource('/jadwalTahfiz', 'JadwalTahfizController');
+    Route::get('/jadwalTahfiz/guru', 'JadwalTahfizController@guru')->name('jadwalTahfiz.tahfiz');
+
     Route::get('/ulangan-kelas', 'UlanganController@create')->name('ulangan-kelas');
     Route::get('/ulangan-siswa/{id}', 'UlanganController@edit')->name('ulangan-siswa');
     Route::get('/ulangan-show/{id}', 'UlanganController@ulangan')->name('ulangan-show');
