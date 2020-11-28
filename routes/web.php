@@ -108,32 +108,7 @@ Route::middleware(['auth'])->group(function () {
   Route::middleware(['tahfiz'])
       ->prefix('/tahfiz')
       ->group(function () {
-          Route::resource('/nilai', 'NilaiController', [
-              'names' => [
-                  'index' => 'tahfiz.index-nilai',
-                  'store' => 'tahfiz.store-nilai',
-              ],
-          ]);
-          Route::resource('/ulangan', 'UlanganController', [
-              'names' => [
-                  'index' => 'tahfiz.index-ulangan',
-                  'show' => 'tahfiz.show-ulangan',
-                  'create' => 'tahfiz.create-ulangan',
-                  'store' => 'tahfiz.store-ulangan',
-                  'destroy' => 'tahfiz.destroy-ulangan',
-              ]
-          ]);
-          Route::resource('/rapot', 'RapotController', [
-              'names' => [
-                  'index' => 'tahfiz.index-rapot',
-                  'show' => 'tahfiz.show-rapot',
-                  'create' => 'tahfiz.create-rapot',
-                  'store' => 'tahfiz.store-rapot',
-                  'destroy' => 'tahfiz.destroy-rapot',
-                  'predikat' => 'tahfiz.predikat-rapot'
-              ]
-          ]);
-          Route::resource('/indikator', 'IndikatorTahfizController', [
+          Route::resource('/indikatorTahfiz', 'IndikatorTahfizController', [
               'names' => [
                   'index' => 'tahfiz.index-indikator',
                   'store' => 'tahfiz.store-indikator',
@@ -142,11 +117,18 @@ Route::middleware(['auth'])->group(function () {
                 'create', 'edit', 'update',
               ],
           ]);
-          Route::get('/indikator/{encryption}', 'IndikatorTahfizController@show')->name('tahfiz.show-indikator');
-          Route::post('/indikator/inputnilai', 'IndikatorTahfizController@input_nilai')->name('tahfiz.input-nilai-indikator');
-          Route::delete('/indikator/{id}', 'IndikatorTahfizController@destroy')->name('tahfiz.destroy-indikator');
 
-          Route::get('/jadwal', 'JadwalTahfizController@tahfiz')->name('jadwal.tahfiz');
+          Route::resource('/data', 'DataTahfizController', [
+            'names' => [
+                'index' => 'tahfiz.index-data',
+                'show' => 'tahfiz.show-data',
+            ]
+        ]);
+          Route::get('/indikatorTahfiz/{encryption}', 'IndikatorTahfizController@show')->name('tahfiz.show-indikator');
+          Route::post('/indikatorTahfiz/inputnilai', 'IndikatorTahfizController@input_nilai')->name('tahfiz.input-nilai-indikator');
+          Route::delete('/indikatorTahfiz/{id}', 'IndikatorTahfizController@destroy')->name('tahfiz.destroy-indikator');
+
+          Route::get('/jadwalTahfiz', 'JadwalTahfizController@tahfiz')->name('jadwal.tahfiz');
   });
 
   

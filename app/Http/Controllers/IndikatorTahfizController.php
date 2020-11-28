@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Indikator;
+use App\IndikatorTahfiz;
 use App\Kelas;
-use App\Nilai;
-use App\NilaiIndikator;
+use App\NilaiIndikatorTahfiz;
 use App\Tahfiz;
 use App\Siswa;
 use Illuminate\Http\Request;
@@ -13,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 
-class IndikatorController extends Controller
+class IndikatorTahfizController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,8 +22,8 @@ class IndikatorController extends Controller
     public function index()
     {
         $tahfiz = Tahfiz::where('id_cardTahfiz', Auth::user()->id_cardTahfiz)->first();
-        $indikator = Indikator::where('tahfiz_id', $tahfiz->id)->get();
-        return view('tahfiz.indikator.indikator', compact('tahfiz', 'indikator'));
+        $indikatorTahfiz = IndikatorTahfiz::where('tahfiz_id', $tahfiz->id)->get();
+        return view('tahfiz.indikator.indikator', compact('tahfiz', 'indikatorTahfiz'));
     }
 
     /**
@@ -39,7 +38,7 @@ class IndikatorController extends Controller
             'tahfiz_id' => 'required|numeric',
             'indikator' => 'required',
         ]);
-        Indikator::updateOrCreate(
+        IndikatorTahfiz::updateOrCreate(
             [ 'id' => $request->id ],
             [
                 'tahfiz_id' => $request->tahfiz_id,
@@ -60,10 +59,10 @@ class IndikatorController extends Controller
         $decrypt = Crypt::decrypt($encryption);
         $id = $decrypt['id'];
         $tahfiz = Tahfiz::where('id_cardTahfiz', Auth::user()->id_cardTahfiz)->first();
-        $indikator = Indikator::where('tahfiz_id', $tahfiz->id)->get();
+        $indikatorTahfiz = IndikatorTahfiz::where('tahfiz_id', $tahfiz->id)->get();
         $kelas = Kelas::findorfail($id);
         $siswa = Siswa::where('kelas_id', $id)->get();
-        return view('tahfiz.indikator.nilai', compact('tahfiz', 'indikator', 'kelas', 'siswa'));
+        return view('tahfiz.indikator.nilai', compact('tahfiz', 'indikatorTahfiz', 'kelas', 'siswa'));
     }
 
     /**
@@ -74,7 +73,7 @@ class IndikatorController extends Controller
      */
     public function destroy($id)
     {
-        $indikator = Indikator::findorfail($id);
+        $indikator = IndikatorTahfiz::findorfail($id);
         $indikator->delete();
         return redirect()->back()->with('success', 'Indikator di hapus!');
     }
@@ -82,7 +81,7 @@ class IndikatorController extends Controller
     public function input_nilai(Request $request)
     {
         $id = null;
-        $existing = NilaiIndikator::where([
+        $existing = NilaiIndikatorTahfiz::where([
             ['indikator_id', '=', $request->indikator_id],
             ['siswa_id', '=', $request->siswa_id],
         ])
@@ -93,7 +92,7 @@ class IndikatorController extends Controller
             $id = $existing->id;
         }
 
-        NilaiIndikator::updateOrCreate(
+        NilaiIndikatorTahfiz::updateOrCreate(
             [ 'id' => $id ],
             [
                 'siswa_id' => $request->siswa_id,

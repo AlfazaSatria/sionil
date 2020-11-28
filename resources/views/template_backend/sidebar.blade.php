@@ -275,21 +275,9 @@
                     </a>
                     <ul class="nav nav-treeview ml-4">
                         <li class="nav-item">
-                            <a href="{{ route('tahfiz.index-ulangan') }}" class="nav-link" id="UlanganTahfiz">
+                            <a href="{{ route('tahfiz.index-data') }}" class="nav-link" id="UlanganTahfiz">
                                 <i class="fas fa-file-alt nav-icon"></i>
                                 <p>Entry Nilai Siswa</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('tahfiz.index-rapot') }}" class="nav-link" id="RapotTahfiz">
-                                <i class="fas fa-file-alt nav-icon"></i>
-                                <p>Entry Nilai Rapot</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('tahfiz.index-nilai') }}" class="nav-link" id="DesTahfiz">
-                                <i class="fas fa-file-alt nav-icon"></i>
-                                <p>Deskripsi Predikat</p>
                             </a>
                         </li>
                     </ul>
@@ -302,12 +290,12 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                {{-- <li class="nav-item">
+                <li class="nav-item">
                     <a href="{{ route('jadwal.siswa') }}" class="nav-link" id="JadwalSiswa">
                         <i class="fas fa-calendar-alt nav-icon"></i>
                         <p>Jadwal</p>
                     </a>
-                </li> --}}
+                </li>
                 <li class="nav-item">
                     <a href="{{ route('ulangan.siswa') }}" class="nav-link" id="UlanganSiswa">
                         <i class="fas fa-file-alt nav-icon"></i>

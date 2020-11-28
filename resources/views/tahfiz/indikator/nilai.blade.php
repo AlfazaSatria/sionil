@@ -1,6 +1,6 @@
 @extends('template_backend.home')
 <?php
-    $title = "Entry Nilai Indikator ".$tipe;
+    $title = "Entry Nilai Indikator ";
 ?>
 @section('heading', $title)
 @section('page')
@@ -11,13 +11,6 @@
 <div class="col-md-12">
     <!-- general form elements -->
     <div class="card card-primary">
-      <div class="card-header">
-        <a href="{{ route('tahfiz.index-ulangan') }}" class="btn btn-default text-dark">
-            <i class="fas fa-arrow-left text-dark"></i> &nbsp;
-            Kembali
-        </a>
-      </div>
-      <!-- /.card-header -->
         <div class="card-body">
           <div class="row">
             <div class="col-md-12">
@@ -30,7 +23,7 @@
                     <tr>
                         <td>Wali Kelas</td>
                         <td>:</td>
-                        <td>{{ $kelas->tahfiz->nama_tahfiz }}</td>
+                        <td>{{ $kelas->guru->nama_guru }}</td>
                     </tr>
                     <tr>
                         <td>Jumlah Siswa</td>
@@ -82,7 +75,7 @@
                         <tr>
                             <th>No.</th>
                             <th>Nama Siswa</th>
-                            @foreach($indikators as $key => $indikator)
+                            @foreach($indikatorTahfiz as $key => $indikator)
                             <th>
                                 Indikator {{ $key+1 }}
                                 <i class="fas fa-info-circle text-gray" 
@@ -112,7 +105,7 @@
                             <tr>
                                 <td>{{ $key+1 }}</td>
                                 <td>{{ $siswa->nama_siswa }}</td>
-                                @foreach($indikators as $key => $indikator) 
+                                @foreach($indikatorTahfiz as $key => $indikator) 
                                 <?php
                                     $nilai = "";
                                     $data_nilai = $indikator->nilai($siswa->id);
