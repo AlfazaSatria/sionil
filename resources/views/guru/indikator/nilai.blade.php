@@ -94,7 +94,7 @@
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <i class="fas fa-info-circle fa-lg text-gray"></i> &nbsp;&nbsp;
+                                                <i class="fas fa-info-circle fa-2x text-gray"></i> &nbsp;&nbsp;
                                                 Indikator {{ $key+1 }}
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                             </div>
@@ -106,14 +106,17 @@
                                 </div>
                             </th>
                             @endforeach
+                            <th>
+                                Aksi
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($siswa as $key => $siswa) 
+                        @foreach($siswa as $siswaKey => $siswa)
                             <tr>
-                                <td>{{ $key+1 }}</td>
+                                <td>{{ $siswaKey+1 }}</td>
                                 <td>{{ $siswa->nama_siswa }}</td>
-                                @foreach($indikators as $key => $indikator) 
+                                @foreach($indikators as $indikatorKey => $indikator)
                                 <?php
                                     $nilai = "";
                                     $data_nilai = $indikator->nilai($siswa->id);
@@ -122,19 +125,28 @@
                                     }
                                 ?>
                                 <td>
-                                    <form action="{{ route('guru.input-nilai-indikator') }}" method="post" class="input-group">
+                                    <form action="{{ route('guru.input-nilai-indikator') }}" method="post" autocomplete="off">
                                         @csrf
-                                        <input type="hidden" name="siswa_id" value="{{ $siswa->id }}">
-                                        <input type="hidden" name="indikator_id" value="{{ $indikator->id }}">
-                                        <input type="text" class="form-control" name="nilai_indikator" value="{{$nilai}}">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-info btn-sm" type="submit">
-                                                <i class="fas fa fa-save"></i>
-                                            </button>
+                                        <input type="hidden" id="{{"siswa_id_".$siswa->id."_".$indikator->id}}" name="siswa_id" value="{{ $siswa->id }}">
+                                        <input type="hidden" id="{{"indikator_id_".$siswa->id."_".$indikator->id}}" name="indikator_id" value="{{ $indikator->id }}">
+                                        <div class="input-group input-group-sm">
+                                            <input type="text" id="{{"nilai_indikator_".$siswa->id."_".$indikator->id}}" class="form-control" name="nilai_indikator" value="{{$nilai}}">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-info btn-sm" type="submit">
+                                                    <i class="fas fa fa-save"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                     </form>
                                 </td>
                                 @endforeach
+                                <td>
+                                    <button class="btn btn-default btn-sm form-control form-control-sm"
+                                            onclick="bulkSave('{{$siswa->id}}')">
+                                        <i class="fas fa fa-save"></i> &nbsp;
+                                        Simpan Semua
+                                    </button>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -152,5 +164,33 @@
         $("#NilaiGuru").addClass("active");
         $("#liNilaiGuru").addClass("menu-open");
         $("#UlanganGuru").addClass("active");
+
+        function bulkSave(siswaId) {
+            const indikators = {!! json_encode($indikators) !!};
+            var data = [];
+            $.each(indikators, function(key, indikator) {
+                var item = {
+                    'siswa_id': siswaId,
+                    'indikator_id': $("#indikator_id_"+siswaId+"_"+indikator.id).val(),
+                    'nilai_indikator': $("#nilai_indikator_"+siswaId+"_"+indikator.id).val(),
+                }
+                data.push(item);
+            })
+            $.ajax({
+                url: "{{ route('guru.bulk-input-nilai-indikator') }}",
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    items: data,
+                },
+                success: (response) => {
+                    toastr.success(response.message);
+                },
+                error: (err) => {
+                    toastr.success(err.message);
+                }
+            })
+        }
     </script>
 @endsection
