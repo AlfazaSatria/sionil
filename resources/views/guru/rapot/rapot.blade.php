@@ -218,7 +218,7 @@
                 toastr.error("Form tidak boleh ada yang kosong!");
             } else {
                 $.ajax({
-                    url: "{{ route('rapot.store') }}",
+                    url: "{{ route('guru.store-rapot') }}",
                     type: "POST",
                     dataType: 'json',
                     data 	: {

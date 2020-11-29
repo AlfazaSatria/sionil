@@ -100,6 +100,7 @@ Route::middleware(['auth'])->group(function () {
           ]);
           Route::get('/indikator/{encryption}', 'IndikatorController@show')->name('guru.show-indikator');
           Route::post('/indikator/inputnilai', 'IndikatorController@input_nilai')->name('guru.input-nilai-indikator');
+          Route::post('/indikator/bulkinputnilai', 'IndikatorController@bulk_input_nilai')->name('guru.bulk-input-nilai-indikator');
           Route::delete('/indikator/{id}', 'IndikatorController@destroy')->name('guru.destroy-indikator');
 
           Route::get('/jadwal', 'JadwalController@guru')->name('jadwal.guru');

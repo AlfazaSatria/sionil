@@ -48,9 +48,18 @@
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
+                                                <i class="fas fa-exclamation-triangle fa-2x text-danger"></i>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                             </div>
-                                            <div class="modal-body">Apakah anda yakin ingin menghapus Indikator ini?</div>
+                                            <div class="modal-body">
+                                                <p>
+                                                    Apakah anda yakin ingin menghapus Indikator ini? <br/>
+                                                    <span class="text-bold">
+                                                        Data nilai yang berkaitan dengan Indikator ini akan ikut terhapus.
+                                                    </span>
+                                                </p>
+
+                                            </div>
                                             <form class="modal-footer" action="{{ route('guru.destroy-indikator', $indikator->id) }}" method="post">
                                                 @csrf
                                                 @method('DELETE')
@@ -89,6 +98,7 @@
                                 <div class="form-group">
                                     <label for="tipe-indikator">Tipe Indikator</label>
                                     <select class="form-control" id="tipe-indikator" name="tipe">
+                                        <option value="" disabled selected>Pilih Tipe Indikator</option>
                                         <option value="0">Pengetahuan</option>
                                         <option value="1">Keterampilan</option>
                                     </select>
