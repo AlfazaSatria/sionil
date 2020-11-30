@@ -64,15 +64,10 @@ class UlanganController extends Controller
                 $id = $existing->id;
             }
 
-            if ($data['uts'] != null && $data['tipe_uts'] == null) {
+            if ($data['tipe_uas'] == null || $data['tipe_uts'] == null) {
                 return response()->json([
-                    'message' => 'Harap memilih jenis UTS!',
-                ], 401);
-            }
-            if ($data['uas'] != null && $data['tipe_uts'] == null) {
-                return response()->json([
-                    'message' => 'Harap memilih jenis UAS!',
-                ], 401);
+                    'message' => 'Harap memilih jenis ujian untuk UTS maupun UAS!'
+                ], 500);
             }
 
             Ulangan::updateOrCreate(
