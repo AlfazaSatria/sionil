@@ -81,7 +81,7 @@
                                     <div class="input-group-prepend">
                                         <b class="input-group-text text-bold">UTS</b>
                                     </div>
-                                    <select class="custom-select" name="tipe_uts">
+                                    <select id="tipe_uts" class="custom-select" name="tipe_uts">
                                         <option selected disabled>Pilih Jenis UTS</option>
                                         <option value="0">Teori</option>
                                         <option value="1">Praktikum</option>
@@ -93,7 +93,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text text-bold">UAS</span>
                                     </div>
-                                    <select class="custom-select" name="tipe_uts">
+                                    <select id="tipe_uas" class="custom-select" name="tipe_uas">
                                         <option selected disabled>Pilih Jenis UAS</option>
                                         <option value="0">Teori</option>
                                         <option value="1">Praktikum</option>
@@ -104,34 +104,32 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <input type="hidden" id="kelas_id" value="{{ $guru->id }}" />
+                        <input type="hidden" id="guru_id" value="{{ $kelas->id }}" />
+                        <input type="hidden" id="mapel_id" value="{{ $guru->mapel->id }}" />
                         @foreach($siswa as $key => $value)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $value->nama_siswa }}</td>
                                 <td>
                                     <div class="input-group input-group-sm">
-                                        <input type="number" name="nilai_uts" class="form-control form-control-sm" />
-                                        <div class="input-group-append">
-                                            <button class="btn btn-sm btn-info">
-                                                <i class="fas fa-save"></i>
-                                            </button>
-                                        </div>
+                                        <input id="{{"nilai_uts_".$value->id}}" class="form-control form-control-sm"
+                                               type="number"
+                                               name="nilai_uts"/>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="input-group input-group-sm">
-                                        <input type="number" name="nilai_uas" class="form-control form-control-sm" />
-                                        <div class="input-group-append">
-                                            <button class="btn btn-sm btn-info">
-                                                <i class="fas fa-save"></i>
-                                            </button>
-                                        </div>
+                                        <input id="{{"nilai_uas_".$value->id}}" class="form-control form-control-sm"
+                                               type="number"
+                                               name="nilai_uas"/>
                                     </div>
                                 </td>
                                 <td>
-                                    <button class="btn btn-default btn-sm form-control form-control-sm">
+                                    <button class="btn btn-default btn-sm form-control form-control-sm"
+                                            onclick="save('{{$value->id}}')">
                                         <i class="fas fa-save"></i> &nbsp;
-                                        Simpan Semua
+                                        Simpan
                                     </button>
                                 </td>
                             </tr>
@@ -148,9 +146,38 @@
 @endsection
 @section('script')
     <script>
-        
         $("#NilaiGuru").addClass("active");
         $("#liNilaiGuru").addClass("menu-open");
         $("#UlanganGuru").addClass("active");
+
+        function save(siswaId) {
+            var data = {
+                'siswa_id': siswaId,
+                'kelas_id': $("#kelas_id").val(),
+                'guru_id': $("#guru_id").val(),
+                'mapel_id': $("#mapel_id").val(),
+                'tipe_uts': $("#tipe_uts").val(),
+                'uts': $("#nilai_uts_" + siswaId).val(),
+                'tipe_uas': $("#tipe_uas").val(),
+                'uas': $("#nilai_uas_" + siswaId).val(),
+            }
+
+            $.ajax({
+                url: "{{ route('guru.store-ulangan') }}",
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    'item': data,
+                },
+                success: (response) => {
+                    toastr.success(response.message);
+                },
+                error: (err) => {
+                    toastr.warning(err.message);
+                }
+            })
+
+        }
     </script>
 @endsection
