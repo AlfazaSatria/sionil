@@ -1,7 +1,7 @@
 @extends('template_backend.home')
-@section('heading', 'Entry Nilai')
+@section('heading', 'Entry Nilai Rapot')
 @section('page')
-  <li class="breadcrumb-item active">Entry Nilai</li>
+  <li class="breadcrumb-item active">Entry Nilai Rapot</li>
 @endsection
 @section('content')
 <div class="col-md-12">
@@ -37,9 +37,9 @@
                       <td>{{ $loop->iteration }}</td>
                       <td>{{ $data[0]->rapot($val)->nama_kelas }}</td>
                       <td>
-                        <a href="{{ route('tahfiz.show-indikator', Crypt::encrypt(['id'=>$val])) }}" class="btn btn-info btn-md">
+                        <a href="{{ route('tahfiz.show-rapot', Crypt::encrypt(['id'=>$val])) }}" class="btn btn-info btn-md">
                             <i class="fas fa-info-circle"></i>
-                            Entry Nilai Indikator
+                            Entry Nilai Rapot
                             <a/>
                         
                       </td>

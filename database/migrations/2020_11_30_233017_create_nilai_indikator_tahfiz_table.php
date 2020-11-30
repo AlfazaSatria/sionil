@@ -17,6 +17,8 @@ class CreateNilaiIndikatorTahfizTable extends Migration
             $table->bigIncrements('id');
             $table->integer('siswa_id');
             $table->integer('indikator_id');
+            $table->double('baris');
+            $table->double('salah');
             $table->double('nilai_indikator');
             $table->timestamps();
         });

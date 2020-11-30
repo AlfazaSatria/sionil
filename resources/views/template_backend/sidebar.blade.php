@@ -281,6 +281,14 @@
                             </a>
                         </li>
                     </ul>
+                    <ul class="nav nav-treeview ml-4">
+                        <li class="nav-item">
+                            <a href="{{ route('tahfiz.index-rapot') }}" class="nav-link" id="UlanganTahfiz">
+                                <i class="fas fa-file-alt nav-icon"></i>
+                                <p>Entry Nilai Rapot</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
                 @elseif (Auth::user()->role == 'Siswa' && Auth::user()->siswa(Auth::user()->no_induk) == true)

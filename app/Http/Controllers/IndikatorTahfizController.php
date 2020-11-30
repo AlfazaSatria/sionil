@@ -91,14 +91,18 @@ class IndikatorTahfizController extends Controller
         if ($existing) {
             $id = $existing->id;
         }
+
+        $nilai=0;
+        $nilai = 100-(100/$request->baris/3)*$request->salah;
         NilaiIndikatorTahfiz::updateOrCreate(
             [ 'id' => $id ],
             [
                 'siswa_id' => $request->siswa_id,
                 'indikator_id' => $request->indikator_id,
                 'baris' => $request->baris,
-                'salah' => $request->salah,               
-                'nilai_indikator' => $request->nilai_indikator,
+                'salah' => $request->salah,
+
+                'nilai_indikator' => $nilai,
             ]
         );
         return redirect()->back()->with('success', 'Success!');

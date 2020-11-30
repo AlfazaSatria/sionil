@@ -125,10 +125,19 @@ Route::middleware(['auth'])->group(function () {
                 'show' => 'tahfiz.show-data',
             ]
         ]);
+
+        Route::resource('/rapot', 'RapotTahfizController', [
+          'names' => [
+              'index' => 'tahfiz.index-rapot',
+              'show' => 'tahfiz.show-rapot',
+          ]
+      ]);
           Route::get('/indikatorTahfiz/{encryption}', 'IndikatorTahfizController@show')->name('tahfiz.show-indikator');
           Route::post('/indikatorTahfiz/inputnilai', 'IndikatorTahfizController@input_nilai')->name('tahfiz.input-nilai-indikator');
           Route::delete('/indikatorTahfiz/{id}', 'IndikatorTahfizController@destroy')->name('tahfiz.destroy-indikator');
 
+          Route::get('/rapotTahfiz/{encryption}', 'RapotTahfizController@show')->name('tahfiz.show-rapot');
+          Route::post('/rapotTahfiz/inputnilai', 'RapotTahfizController@input_nilai')->name('tahfiz.input-nilai-rapot');
           Route::get('/jadwalTahfiz', 'JadwalTahfizController@tahfiz')->name('jadwal.tahfiz');
   });
 

@@ -1,6 +1,6 @@
 @extends('template_backend.home')
 <?php
-    $title = "Entry Nilai Indikator ";
+    $title = "Entry Nilai Rapot ";
 ?>
 @section('heading', $title)
 @section('page')
@@ -75,7 +75,6 @@
                         <tr>
                             <th>No.</th>
                             <th>Nama Siswa</th>
-                            
                             <th>القدرة على قراءة القرآن ترتيلا (Able to read Al Quran with tartil)</th>
                             <th>القدرة على استماع قراءة المد ّرس / المد ّرسة (Able to listen to the teacher's reading)</th>
                             <th>القدرة على الاتباع بعد قراءة المد ّرس / المد ّرس(Able to repeat the teacher's tahfizh pronunciation)</th>
@@ -88,12 +87,25 @@
                             <tr>
                                 <td>{{ $key+1 }}</td>
                                 <td>{{ $siswa->nama_siswa }}</td>
+                                <?php
+                                    $nilai = "";
+                                    $membaca="";
+                                    $mendengarkan="";
+                                    $mengikuti="";
+                                    $menghafal="";
+                                    // $data_nilai = $rapot->nilai($siswa->id);
+                                    // if (count($data_nilai) > 0) {
+                                    //     $nilai = $data_nilai[0]->nilai_indikator;
+                                    // }
+                                ?>
                                 <td>
-                                    <form action="{{ route('tahfiz.input-nilai-indikator') }}" method="post" class="input-group">
+                                    <form action="{{ route('tahfiz.input-nilai-rapot') }}" method="post" class="input-group">
                                         @csrf
                                         <input type="hidden" name="siswa_id" value="{{ $siswa->id }}">
-                                        <input type="hidden" name="indikator_id" value="{{ $indikator->id }}">
-                                        <input type="text" class="form-control" name="nilai_indikator" value="{{$nilai}}">
+                                        <input type="text" class="form-control" name="membaca" value="{{$membaca}}">
+                                        <input type="text" class="form-control" name="mendengarkan" value="{{$mendengarkan}}">
+                                        <input type="text" class="form-control" name="mengikuti" value="{{$mengikuti}}">
+                                        <input type="text" class="form-control" name="menghafal" value="{{$menghafal}}">
                                         <div class="input-group-append">
                                             <button class="btn btn-info btn-sm" type="submit">
                                                 <i class="fas fa fa-save"></i>
