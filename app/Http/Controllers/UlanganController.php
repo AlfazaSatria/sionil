@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Dotenv\Validator;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Support\Facades\Auth;
 use App\Guru;
 use App\Siswa;
@@ -41,88 +43,55 @@ class UlanganController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store or Update Siswa nilai
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        $guru = Guru::findorfail($request->guru_id);
-        $cekJadwal = Jadwal::where('guru_id', $guru->id)->where('kelas_id', $request->kelas_id)->count();
-
-        if ($cekJadwal >= 1) {
-            if ($request->ulha_1 == true && $request->ulha_2 == true && $request->uts == true && $request->ulha_3 == true && $request->uas == true) {
-                $nilai = ($request->ulha_1 + $request->ulha_2 + $request->uts + $request->ulha_3 + (2 * $request->uas)) / 6;
-                $nilai = (int) $nilai;
-                $deskripsi = Nilai::where('guru_id', $request->guru_id)->first();
-                $isi = Nilai::where('guru_id', $request->guru_id)->count();
-                if ($isi >= 1) {
-                    if ($nilai > 90) {
-                        Rapot::create([
-                            'siswa_id' => $request->siswa_id,
-                            'kelas_id' => $request->kelas_id,
-                            'guru_id' => $request->guru_id,
-                            'mapel_id' => $guru->mapel_id,
-                            'p_nilai' => $nilai,
-                            'p_predikat' => 'A',
-                            'p_deskripsi' => $deskripsi->deskripsi_a,
-                        ]);
-                    } else if ($nilai > 80) {
-                        Rapot::create([
-                            'siswa_id' => $request->siswa_id,
-                            'kelas_id' => $request->kelas_id,
-                            'guru_id' => $request->guru_id,
-                            'mapel_id' => $guru->mapel_id,
-                            'p_nilai' => $nilai,
-                            'p_predikat' => 'B',
-                            'p_deskripsi' => $deskripsi->deskripsi_b,
-                        ]);
-                    } else if ($nilai > 70) {
-                        Rapot::create([
-                            'siswa_id' => $request->siswa_id,
-                            'kelas_id' => $request->kelas_id,
-                            'guru_id' => $request->guru_id,
-                            'mapel_id' => $guru->mapel_id,
-                            'p_nilai' => $nilai,
-                            'p_predikat' => 'C',
-                            'p_deskripsi' => $deskripsi->deskripsi_c,
-                        ]);
-                    } else {
-                        Rapot::create([
-                            'siswa_id' => $request->siswa_id,
-                            'kelas_id' => $request->kelas_id,
-                            'guru_id' => $request->guru_id,
-                            'mapel_id' => $guru->mapel_id,
-                            'p_nilai' => $nilai,
-                            'p_predikat' => 'D',
-                            'p_deskripsi' => $deskripsi->deskripsi_d,
-                        ]);
-                    }
-                } else {
-                    return response()->json(['error' => 'Tolong masukkan deskripsi predikat anda terlebih dahulu!']);
-                }
-            } else {
+        try {
+            $data = $request['item'];
+            $id = null;
+            $existing = Ulangan::where([
+                ['siswa_id', '=', $data['siswa_id']],
+                ['guru_id', '=', $data['guru_id']],
+                ['mapel_id', '=', $data['mapel_id']],
+            ])
+                ->get()
+                ->first();
+            if ($existing) {
+                $id = $existing->id;
             }
+
+            if ($data['tipe_uas'] == null || $data['tipe_uts'] == null) {
+                return response()->json([
+                    'message' => 'Harap memilih jenis ujian untuk UTS maupun UAS!'
+                ], 500);
+            }
+
             Ulangan::updateOrCreate(
+                ['id' => $id],
                 [
-                    'id' => $request->id
-                ],
-                [
-                    'siswa_id' => $request->siswa_id,
-                    'kelas_id' => $request->kelas_id,
-                    'guru_id' => $request->guru_id,
-                    'mapel_id' => $guru->mapel_id,
-                    'ulha_1' => $request->ulha_1,
-                    'ulha_2' => $request->ulha_2,
-                    'uts' => $request->uts,
-                    'ulha_3' => $request->ulha_3,
-                    'uas' => $request->uas,
+                    'siswa_id' => $data['siswa_id'],
+                    'kelas_id' => $data['kelas_id'],
+                    'guru_id' => $data['guru_id'],
+                    'mapel_id' => $data['mapel_id'],
+                    'uts' => $data['uts'],
+                    'tipe_uts' => $data['tipe_uts'],
+                    'uas' => $data['uas'],
+                    'tipe_uas' => $data['tipe_uas'],
                 ]
             );
-            return response()->json(['success' => 'Nilai ulangan siswa berhasil ditambahkan!']);
-        } else {
-            return response()->json(['error' => 'Maaf guru ini tidak mengajar kelas ini!']);
+
+            return response()->json([
+                'message' => 'Data nilai tersimpan!',
+            ], 200);
+
+        } catch (\Exception $err) {
+            return response()->json([
+                'message' => $err->getMessage(),
+            ], 500);
         }
     }
 

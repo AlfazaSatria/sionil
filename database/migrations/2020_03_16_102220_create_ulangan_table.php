@@ -20,7 +20,9 @@ class CreateUlanganTable extends Migration
             $table->integer('guru_id');
             $table->integer('mapel_id');
             $table->double('uts')->nullable();
+            $table->boolean('tipe_uts')->nullable();
             $table->double('uas')->nullable();
+            $table->double('tipe_uas')->nullable();
             $table->timestamps();
         });
     }
