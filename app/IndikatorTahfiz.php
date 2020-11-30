@@ -9,16 +9,17 @@ class IndikatorTahfiz extends Model
     protected $table = 'indikator_tahfiz';
 
     protected $fillable=[
-        'kelas_id',
-        'mapel_id',
+        'id',
+        'tahfiz_id',
         'indikator'
     ];
 
-    public function kelas(){
-        return $this->belongsTo('App\Kelas', 'kelas_id');
+    public function nilai($siswa_id) {
+        $nilai = NilaiIndikatorTahfiz::where([
+            ['indikator_id', '=', $this->id],
+            ['siswa_id', '=', $siswa_id],
+        ])->get();
+        return $nilai;
     }
 
-    public function mapel(){
-        return $this->belongsTo('App\Mapel', 'mapel_id');
-    }
 }

@@ -106,6 +106,41 @@ Route::middleware(['auth'])->group(function () {
           Route::get('/jadwal', 'JadwalController@guru')->name('jadwal.guru');
   });
 
+  Route::middleware(['tahfiz'])
+      ->prefix('/tahfiz')
+      ->group(function () {
+          Route::resource('/indikatorTahfiz', 'IndikatorTahfizController', [
+              'names' => [
+                  'index' => 'tahfiz.index-indikator',
+                  'store' => 'tahfiz.store-indikator',
+              ],
+              'except' => [
+                'create', 'edit', 'update',
+              ],
+          ]);
+
+          Route::resource('/data', 'DataTahfizController', [
+            'names' => [
+                'index' => 'tahfiz.index-data',
+                'show' => 'tahfiz.show-data',
+            ]
+        ]);
+
+        Route::resource('/rapot', 'RapotTahfizController', [
+          'names' => [
+              'index' => 'tahfiz.index-rapot',
+              'show' => 'tahfiz.show-rapot',
+          ]
+      ]);
+          Route::get('/indikatorTahfiz/{encryption}', 'IndikatorTahfizController@show')->name('tahfiz.show-indikator');
+          Route::post('/indikatorTahfiz/inputnilai', 'IndikatorTahfizController@input_nilai')->name('tahfiz.input-nilai-indikator');
+          Route::delete('/indikatorTahfiz/{id}', 'IndikatorTahfizController@destroy')->name('tahfiz.destroy-indikator');
+
+          Route::get('/rapotTahfiz/{encryption}', 'RapotTahfizController@show')->name('tahfiz.show-rapot');
+          Route::post('/rapotTahfiz/inputnilai', 'RapotTahfizController@input_nilai')->name('tahfiz.input-nilai-rapot');
+          Route::get('/jadwalTahfiz', 'JadwalTahfizController@tahfiz')->name('jadwal.tahfiz');
+  });
+
   
 
 
@@ -133,9 +168,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/home', 'HomeController@admin')->name('admin.home');
     Route::get('/admin/pengumuman', 'PengumumanController@index')->name('admin.pengumuman');
     Route::post('/admin/pengumuman/simpan', 'PengumumanController@simpan')->name('admin.pengumuman.simpan');
-    // Route::get('/guru/absensi', 'GuruController@absensi')->name('guru.absensi');
-    // Route::get('/guru/kehadiran/{id}', 'GuruController@kehadiran')->name('guru.kehadiran');
-    // Route::get('/absen/json', 'GuruController@json');
     Route::get('/guru/mapel/{id}', 'GuruController@mapel')->name('guru.mapel');
     Route::get('/guru/ubah-foto/{id}', 'GuruController@ubah_foto')->name('guru.ubah-foto');
     Route::post('/guru/update-foto/{id}', 'GuruController@update_foto')->name('guru.update-foto');
@@ -160,6 +192,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/siswa/import_excel', 'SiswaController@import_excel')->name('siswa.import_excel');
     Route::delete('/siswa/deleteAll', 'SiswaController@deleteAll')->name('siswa.deleteAll');
     Route::resource('/siswa', 'SiswaController');
+    Route::resource('/bk', 'BimbinganKonselingController');
     Route::get('/mapel/getMapelJson', 'MapelController@getMapelJson');
     Route::resource('/mapel', 'MapelController');
     Route::get('/jadwal/view/json', 'JadwalController@view');
@@ -169,6 +202,14 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/jadwal/deleteAll', 'JadwalController@deleteAll')->name('jadwal.deleteAll');
     Route::resource('/jadwal', 'JadwalController');
     Route::get('/jadwal/guru', 'JadwalController@guru')->name('jadwal.guru');
+
+    Route::get('/jadwalTahfiz/view/json', 'JadwalTahfizController@view');
+    Route::get('/jadwalkelaspdfTahfiz/{id}', 'JadwalTahfizController@cetak_pdf');
+    Route::get('/jadwalTahfiz/export_excel', 'JadwalTahfizController@export_excel')->name('jadwalTahfiz.export_excel');
+    Route::delete('/jadwalTahfiz/deleteAll', 'JadwalTahfizController@deleteAll')->name('jadwalTahfiz.deleteAll');
+    Route::resource('/jadwalTahfiz', 'JadwalTahfizController');
+    Route::get('/jadwalTahfiz/guru', 'JadwalTahfizController@guru')->name('jadwalTahfiz.tahfiz');
+
     Route::get('/ulangan-kelas', 'UlanganController@create')->name('ulangan-kelas');
     Route::get('/ulangan-siswa/{id}', 'UlanganController@edit')->name('ulangan-siswa');
     Route::get('/ulangan-show/{id}', 'UlanganController@ulangan')->name('ulangan-show');

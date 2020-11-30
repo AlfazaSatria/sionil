@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRapotTahfiz extends Migration
+class CreateRapotTahfizTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,12 +15,13 @@ class CreateRapotTahfiz extends Migration
     {
         Schema::create('rapot_tahfiz', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('nilai_tahfiz_id');
-            $table->string('name_abilities');
-            $table->enum('type',['hd','d','c','p','ni']);
-            $table->double('nilai_abilities');
-            $table->enum('rapot',['membaca','mendengarkan','mengikuti','menghafal']);
-            $table->double('nilai_rapot');
+            $table->integer('indikator_id');
+            $table->double('nilai_indikator');
+            $table->bigInteger('siswa_id');
+            $table->double('membaca');
+            $table->double('mendengarkan');
+            $table->double('mengikuti');
+            $table->double('menghafal');
             $table->timestamps();
         });
     }
