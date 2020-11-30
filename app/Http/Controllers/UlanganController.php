@@ -40,6 +40,8 @@ class UlanganController extends Controller
         return view('admin.ulangan.home', compact('kelas'));
     }
 
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -48,82 +50,7 @@ class UlanganController extends Controller
      */
     public function store(Request $request)
     {
-        $guru = Guru::findorfail($request->guru_id);
-        $cekJadwal = Jadwal::where('guru_id', $guru->id)->where('kelas_id', $request->kelas_id)->count();
 
-        if ($cekJadwal >= 1) {
-            if ($request->ulha_1 == true && $request->ulha_2 == true && $request->uts == true && $request->ulha_3 == true && $request->uas == true) {
-                $nilai = ($request->ulha_1 + $request->ulha_2 + $request->uts + $request->ulha_3 + (2 * $request->uas)) / 6;
-                $nilai = (int) $nilai;
-                $deskripsi = Nilai::where('guru_id', $request->guru_id)->first();
-                $isi = Nilai::where('guru_id', $request->guru_id)->count();
-                if ($isi >= 1) {
-                    if ($nilai > 90) {
-                        Rapot::create([
-                            'siswa_id' => $request->siswa_id,
-                            'kelas_id' => $request->kelas_id,
-                            'guru_id' => $request->guru_id,
-                            'mapel_id' => $guru->mapel_id,
-                            'p_nilai' => $nilai,
-                            'p_predikat' => 'A',
-                            'p_deskripsi' => $deskripsi->deskripsi_a,
-                        ]);
-                    } else if ($nilai > 80) {
-                        Rapot::create([
-                            'siswa_id' => $request->siswa_id,
-                            'kelas_id' => $request->kelas_id,
-                            'guru_id' => $request->guru_id,
-                            'mapel_id' => $guru->mapel_id,
-                            'p_nilai' => $nilai,
-                            'p_predikat' => 'B',
-                            'p_deskripsi' => $deskripsi->deskripsi_b,
-                        ]);
-                    } else if ($nilai > 70) {
-                        Rapot::create([
-                            'siswa_id' => $request->siswa_id,
-                            'kelas_id' => $request->kelas_id,
-                            'guru_id' => $request->guru_id,
-                            'mapel_id' => $guru->mapel_id,
-                            'p_nilai' => $nilai,
-                            'p_predikat' => 'C',
-                            'p_deskripsi' => $deskripsi->deskripsi_c,
-                        ]);
-                    } else {
-                        Rapot::create([
-                            'siswa_id' => $request->siswa_id,
-                            'kelas_id' => $request->kelas_id,
-                            'guru_id' => $request->guru_id,
-                            'mapel_id' => $guru->mapel_id,
-                            'p_nilai' => $nilai,
-                            'p_predikat' => 'D',
-                            'p_deskripsi' => $deskripsi->deskripsi_d,
-                        ]);
-                    }
-                } else {
-                    return response()->json(['error' => 'Tolong masukkan deskripsi predikat anda terlebih dahulu!']);
-                }
-            } else {
-            }
-            Ulangan::updateOrCreate(
-                [
-                    'id' => $request->id
-                ],
-                [
-                    'siswa_id' => $request->siswa_id,
-                    'kelas_id' => $request->kelas_id,
-                    'guru_id' => $request->guru_id,
-                    'mapel_id' => $guru->mapel_id,
-                    'ulha_1' => $request->ulha_1,
-                    'ulha_2' => $request->ulha_2,
-                    'uts' => $request->uts,
-                    'ulha_3' => $request->ulha_3,
-                    'uas' => $request->uas,
-                ]
-            );
-            return response()->json(['success' => 'Nilai ulangan siswa berhasil ditambahkan!']);
-        } else {
-            return response()->json(['error' => 'Maaf guru ini tidak mengajar kelas ini!']);
-        }
     }
 
     /**
