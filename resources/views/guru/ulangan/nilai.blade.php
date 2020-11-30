@@ -73,6 +73,11 @@
             <div class="col-md-12">
                 <table class="table table-bordered table-striped table-hover">
                     <thead>
+                        <?php
+                            $nilai = $siswa[0]->nilai_ulangan($guru->mapel->id);
+                            $tipe_uts = ($nilai) ? $nilai->tipe_uts : null;
+                            $tipe_uas = ($nilai) ? $nilai->tipe_uas : null;
+                        ?>
                         <tr>
                             <th class="ctr">No.</th>
                             <th>Nama Siswa</th>
@@ -81,10 +86,11 @@
                                     <div class="input-group-prepend">
                                         <b class="input-group-text text-bold">UTS</b>
                                     </div>
-                                    <select id="tipe_uts" class="custom-select" name="tipe_uts">
+                                    <select id="tipe_uts" class="custom-select" name="tipe_uts"
+                                            {{ ($nilai) ? "disabled" : "" }}>
                                         <option selected disabled>Pilih Jenis UTS</option>
-                                        <option value="0">Teori</option>
-                                        <option value="1">Praktikum</option>
+                                        <option value="0" {{ ($nilai && !$tipe_uts) ? "selected" : "" }}>Teori</option>
+                                        <option value="1" {{ ($nilai && $tipe_uts) ? "selected" : "" }}>Praktikum</option>
                                     </select>
                                 </div>
                             </th>
@@ -93,10 +99,11 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text text-bold">UAS</span>
                                     </div>
-                                    <select id="tipe_uas" class="custom-select" name="tipe_uas">
+                                    <select id="tipe_uas" class="custom-select" name="tipe_uas"
+                                            {{ ($nilai) ? "disabled" : "" }}>
                                         <option selected disabled>Pilih Jenis UAS</option>
-                                        <option value="0">Teori</option>
-                                        <option value="1">Praktikum</option>
+                                        <option value="0" {{ ($nilai && !$tipe_uas) ? "selected" : "" }}>Teori</option>
+                                        <option value="1" {{ ($nilai && $tipe_uas) ? "selected" : "" }}>Praktikum</option>
                                     </select>
                                 </div>
                             </th>
@@ -108,6 +115,11 @@
                         <input type="hidden" id="guru_id" value="{{ $kelas->id }}" />
                         <input type="hidden" id="mapel_id" value="{{ $guru->mapel->id }}" />
                         @foreach($siswa as $key => $value)
+                            <?php
+                                $nilai = $value->nilai_ulangan($guru->mapel->id);
+                                $nilai_uas = ($nilai) ? $nilai->uas : "";
+                                $nilai_uts = ($nilai) ? $nilai->uts : "";
+                            ?>
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $value->nama_siswa }}</td>
@@ -115,14 +127,16 @@
                                     <div class="input-group input-group-sm">
                                         <input id="{{"nilai_uts_".$value->id}}" class="form-control form-control-sm"
                                                type="number"
-                                               name="nilai_uts"/>
+                                               name="nilai_uts"
+                                               value="{{ $nilai_uts }}"/>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="input-group input-group-sm">
                                         <input id="{{"nilai_uas_".$value->id}}" class="form-control form-control-sm"
                                                type="number"
-                                               name="nilai_uas"/>
+                                               name="nilai_uas"
+                                               value="{{ $nilai_uas }}"/>
                                     </div>
                                 </td>
                                 <td>
@@ -172,9 +186,11 @@
                 },
                 success: (response) => {
                     toastr.success(response.message);
+                    $("#tipe_uts").prop('disabled', true);
+                    $("#tipe_uas").prop('disabled', true);
                 },
                 error: (err) => {
-                    toastr.warning(err.message);
+                    toastr.warning(err.responseJSON.message);
                 }
             })
 
