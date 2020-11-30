@@ -51,7 +51,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('jadwalTahfiz.index') }}" class="nav-link" id="DataJadwal">
+                            <a href="{{ route('jadwalTahfiz.index') }}" class="nav-link" id="DataJadwalTahfiz">
                                 <i class="fas fa-calendar-alt nav-icon"></i>
                                 <p>Data Jadwal Tahfiz</p>
                             </a>
@@ -275,7 +275,7 @@
                     </a>
                     <ul class="nav nav-treeview ml-4">
                         <li class="nav-item">
-                            <a href="{{ route('tahfiz.index-data') }}" class="nav-link" id="UlanganTahfiz">
+                            <a href="{{ route('tahfiz.index-data') }}" class="nav-link" id="NilaiTahfiz">
                                 <i class="fas fa-file-alt nav-icon"></i>
                                 <p>Entry Nilai Siswa</p>
                             </a>
@@ -283,7 +283,7 @@
                     </ul>
                     <ul class="nav nav-treeview ml-4">
                         <li class="nav-item">
-                            <a href="{{ route('tahfiz.index-rapot') }}" class="nav-link" id="UlanganTahfiz">
+                            <a href="{{ route('tahfiz.index-rapot') }}" class="nav-link" id="RapotTahfiz">
                                 <i class="fas fa-file-alt nav-icon"></i>
                                 <p>Entry Nilai Rapot</p>
                             </a>

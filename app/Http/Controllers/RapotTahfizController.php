@@ -132,15 +132,8 @@ class RapotTahfizController extends Controller
     public function input_nilai(Request $request)
     {
         
-        NilaiIndikatorTahfiz::where([
-            ['indikator_id', '=', $request->indikator_id],
-            ['siswa_id', '=', $request->siswa_id],
-        ])
-        ->get()
-        ->first();
-
-        
-        RapotTahfiz::create([
+        RapotTahfiz::updateOrCreate(
+            [
             'siswa_id' => $request->siswa_id,
             'membaca' => $request->membaca,
             'mendengarkan' => $request->mendengarkan,

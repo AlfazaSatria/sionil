@@ -57,6 +57,6 @@
   <script>
     $("#NilaiTahfiz").addClass("active");
     $("#liNilaiTahfiz").addClass("menu-open");
-    $("#UlanganTahfiz").addClass("active");
+    $("#NilaiTahfiz").addClass("active");
   </script>
 @endsection

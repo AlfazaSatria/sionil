@@ -108,8 +108,8 @@
                                 @foreach($indikatorTahfiz as $key => $indikator) 
                                 <?php
                                     $nilai = "";
-                                    $baris=0;
-                                    $salah=0;
+                                    $baris="";
+                                    $salah="";
                                     $data_nilai = $indikator->nilai($siswa->id);
                                     if (count($data_nilai) > 0) {
                                         $baris = $data_nilai[0]->baris;
@@ -122,8 +122,8 @@
                                         @csrf
                                         <input type="hidden" name="siswa_id" value="{{ $siswa->id }}">
                                         <input type="hidden" name="indikator_id" value="{{ $indikator->id }}">
-                                        <input type="number" class="form-control" name="baris" value="{{$baris}}">
-                                        <input type="number" class="form-control" name="salah" value="{{$salah}}">
+                                        <input type="number" class="form-control" name="baris" value="{{$baris}}" placeholder="Baris Ayat">
+                                        <input type="number" class="form-control" name="salah" value="{{$salah}}" placeholder="Baris Salah">
                                         <input type="text" class="form-control" disabled value="{{$nilai}}">
                                         <div class="input-group-append">
                                             <button class="btn btn-info btn-sm" type="submit">
@@ -149,6 +149,6 @@
     <script>
         $("#NilaiTahfiz").addClass("active");
         $("#liNilaiTahfiz").addClass("menu-open");
-        $("#UlanganTahfiz").addClass("active");
+        $("#NilaiTahfiz").addClass("active");
     </script>
 @endsection
