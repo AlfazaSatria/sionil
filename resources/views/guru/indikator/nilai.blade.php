@@ -188,7 +188,7 @@
                     toastr.success(response.message);
                 },
                 error: (err) => {
-                    toastr.success(err.message);
+                    toastr.warning(err.message);
                 }
             })
         }

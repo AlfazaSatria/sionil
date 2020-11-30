@@ -24,6 +24,16 @@ class Siswa extends Model
         return $nilai;
     }
 
+    public function nilai_ulangan($mapel_id)
+    {
+        return Ulangan::where([
+            ['siswa_id', '=', $this->id],
+            ['mapel_id', '=', $mapel_id],
+        ])
+        ->get()
+        ->first();
+    }
+
     public function sikap($id)
     {
         $guru = Guru::where('id_card', Auth::user()->id_card)->first();

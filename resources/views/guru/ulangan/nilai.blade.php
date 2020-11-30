@@ -73,57 +73,81 @@
             <div class="col-md-12">
                 <table class="table table-bordered table-striped table-hover">
                     <thead>
+                        <?php
+                            $nilai = $siswa[0]->nilai_ulangan($guru->mapel->id);
+                            $tipe_uts = ($nilai) ? $nilai->tipe_uts : null;
+                            $tipe_uas = ($nilai) ? $nilai->tipe_uas : null;
+                        ?>
                         <tr>
                             <th class="ctr">No.</th>
                             <th>Nama Siswa</th>
-                            <th class="ctr">UTS</th>
-                            <th class="ctr">UAS</th>
+                            <th class="ctr">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <b class="input-group-text text-bold">UTS</b>
+                                    </div>
+                                    <select id="tipe_uts" class="custom-select" name="tipe_uts"
+                                            {{ ($nilai) ? "disabled" : "" }}>
+                                        <option selected disabled>Pilih Jenis UTS</option>
+                                        <option value="0" {{ ($nilai && !$tipe_uts) ? "selected" : "" }}>Teori</option>
+                                        <option value="1" {{ ($nilai && $tipe_uts) ? "selected" : "" }}>Praktikum</option>
+                                    </select>
+                                </div>
+                            </th>
+                            <th class="ctr">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text text-bold">UAS</span>
+                                    </div>
+                                    <select id="tipe_uas" class="custom-select" name="tipe_uas"
+                                            {{ ($nilai) ? "disabled" : "" }}>
+                                        <option selected disabled>Pilih Jenis UAS</option>
+                                        <option value="0" {{ ($nilai && !$tipe_uas) ? "selected" : "" }}>Teori</option>
+                                        <option value="1" {{ ($nilai && $tipe_uas) ? "selected" : "" }}>Praktikum</option>
+                                    </select>
+                                </div>
+                            </th>
                             <th class="ctr">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <form action="" method="post">
-                            @csrf
-                            <input type="hidden" name="guru_id" value="{{$guru->id}}">
-                            <input type="hidden" name="kelas_id" value="{{$kelas->id}}">
-                            @foreach ($siswa as $data)
-                                <input type="hidden" name="siswa_id" value="{{$data->id}}">
-                                <tr>
-                                    <td class="ctr">{{ $loop->iteration }}</td>
-                                    <td>
-                                        {{ $data->nama_siswa }}
-                                        @if ($data->ulangan($data->id)['id'] == true)
-                                            <input type="hidden" name="ulangan_id" class="ulangan_id_{{$data->id}}" value="{{ $data->ulangan($data->id)->id }}">
-                                        @else
-                                            <input type="hidden" name="ulangan_id" class="ulangan_id_{{$data->id}}" value="">
-                                        @endif
-                                    </td>
-                                    <td class="ctr">
-                                        @if ($data->ulangan($data->id)['uts'] == true)
-                                            <div class="text-center">{{ $data->ulangan($data->id)['uts'] }}</div>
-                                            <input type="hidden" name="uts" class="uts_{{$data->id}}" value="{{ $data->ulangan($data->id)['uts'] }}">
-                                        @else
-                                            <input type="text" name="uts" maxlength="2" onkeypress="return inputAngka(event)" style="margin: auto;" class="form-control text-center uts_{{$data->id}}" autocomplete="off">
-                                        @endif
-                                    </td>
-                                    <td class="ctr">
-                                        @if ($data->ulangan($data->id)['uas'] == true)
-                                            <div class="text-center">{{ $data->ulangan($data->id)['uas'] }}</div>
-                                            <input type="hidden" name="uas" class="uas_{{$data->id}}" value="{{ $data->ulangan($data->id)['uas'] }}">
-                                        @else
-                                            <input type="text" name="uas" maxlength="2" onkeypress="return inputAngka(event)" style="margin: auto;" class="form-control text-center uas_{{$data->id}}" autocomplete="off">
-                                        @endif
-                                    </td>
-                                    <td class="ctr sub_{{$data->id}}">
-                                        @if ($data->nilai($data->id) == true)
-                                            <i class="fas fa-check" style="font-weight:bold;"></i>
-                                        @else
-                                            <button type="button" id="submit-{{$data->id}}" class="btn btn-default btn_click" data-id="{{$data->id}}"><i class="nav-icon fas fa-save"></i></button>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </form>
+                        <input type="hidden" id="kelas_id" value="{{ $guru->id }}" />
+                        <input type="hidden" id="guru_id" value="{{ $kelas->id }}" />
+                        <input type="hidden" id="mapel_id" value="{{ $guru->mapel->id }}" />
+                        @foreach($siswa as $key => $value)
+                            <?php
+                                $nilai = $value->nilai_ulangan($guru->mapel->id);
+                                $nilai_uas = ($nilai) ? $nilai->uas : "";
+                                $nilai_uts = ($nilai) ? $nilai->uts : "";
+                            ?>
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $value->nama_siswa }}</td>
+                                <td>
+                                    <div class="input-group input-group-sm">
+                                        <input id="{{"nilai_uts_".$value->id}}" class="form-control form-control-sm"
+                                               type="number"
+                                               name="nilai_uts"
+                                               value="{{ $nilai_uts }}"/>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group input-group-sm">
+                                        <input id="{{"nilai_uas_".$value->id}}" class="form-control form-control-sm"
+                                               type="number"
+                                               name="nilai_uas"
+                                               value="{{ $nilai_uas }}"/>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-default btn-sm form-control form-control-sm"
+                                            onclick="save('{{$value->id}}')">
+                                        <i class="fas fa-save"></i> &nbsp;
+                                        Simpan
+                                    </button>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -136,39 +160,40 @@
 @endsection
 @section('script')
     <script>
-        $(".btn_click").click(function(){
-            var id = $(this).attr('data-id');
-            var uts = $(".uts_"+id).val();
-            var uas = $(".uas_"+id).val();
-            var ulangan_id = $(".ulangan_id_"+id).val();
-            var guru_id = $("input[name=guru_id]").val();
-            var kelas_id = $("input[name=kelas_id]").val();
-            
-            $.ajax({
-                url: "{{ route('guru.store-ulangan') }}",
-                type: "POST",
-                dataType: 'json',
-                data 	: {
-                    _token: '{{ csrf_token() }}',
-                    id : ulangan_id,
-                    siswa_id : id,
-                    kelas_id : kelas_id,
-                    guru_id : guru_id,
-                    uts : uts,
-                    uas : uas,
-                },
-                success: function(data){
-                    toastr.success("Nilai ulangan siswa berhasil ditambahkan!");
-                    location.reload();
-                },
-                error: function (data) {
-                    toastr.warning("Errors 404!");
-                }
-            });
-        });
-        
         $("#NilaiGuru").addClass("active");
         $("#liNilaiGuru").addClass("menu-open");
         $("#UlanganGuru").addClass("active");
+
+        function save(siswaId) {
+            var data = {
+                'siswa_id': siswaId,
+                'kelas_id': $("#kelas_id").val(),
+                'guru_id': $("#guru_id").val(),
+                'mapel_id': $("#mapel_id").val(),
+                'tipe_uts': $("#tipe_uts").val(),
+                'uts': $("#nilai_uts_" + siswaId).val(),
+                'tipe_uas': $("#tipe_uas").val(),
+                'uas': $("#nilai_uas_" + siswaId).val(),
+            }
+
+            $.ajax({
+                url: "{{ route('guru.store-ulangan') }}",
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    'item': data,
+                },
+                success: (response) => {
+                    toastr.success(response.message);
+                    $("#tipe_uts").prop('disabled', true);
+                    $("#tipe_uas").prop('disabled', true);
+                },
+                error: (err) => {
+                    toastr.warning(err.responseJSON.message);
+                }
+            })
+
+        }
     </script>
 @endsection
