@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Dotenv\Validator;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Support\Facades\Auth;
 use App\Guru;
 use App\Siswa;
@@ -40,17 +42,62 @@ class UlanganController extends Controller
         return view('admin.ulangan.home', compact('kelas'));
     }
 
-
-
     /**
-     * Store a newly created resource in storage.
+     * Store or Update Siswa nilai
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
+        try {
+            $data = $request['item'];
+            $id = null;
+            $existing = Ulangan::where([
+                ['siswa_id', '=', $data['siswa_id']],
+                ['guru_id', '=', $data['guru_id']],
+                ['mapel_id', '=', $data['mapel_id']],
+            ])
+                ->get()
+                ->first();
+            if ($existing) {
+                $id = $existing->id;
+            }
 
+            if ($data['uts'] != null && $data['tipe_uts'] == null) {
+                return response()->json([
+                    'message' => 'Harap memilih jenis UTS!',
+                ], 401);
+            }
+            if ($data['uas'] != null && $data['tipe_uts'] == null) {
+                return response()->json([
+                    'message' => 'Harap memilih jenis UAS!',
+                ], 401);
+            }
+
+            Ulangan::updateOrCreate(
+                ['id' => $id],
+                [
+                    'siswa_id' => $data['siswa_id'],
+                    'kelas_id' => $data['kelas_id'],
+                    'guru_id' => $data['guru_id'],
+                    'mapel_id' => $data['mapel_id'],
+                    'uts' => $data['uts'],
+                    'tipe_uts' => $data['tipe_uts'],
+                    'uas' => $data['uas'],
+                    'tipe_uas' => $data['tipe_uas'],
+                ]
+            );
+
+            return response()->json([
+                'message' => 'Data nilai tersimpan!',
+            ], 200);
+
+        } catch (\Exception $err) {
+            return response()->json([
+                'message' => $err->getMessage(),
+            ], 500);
+        }
     }
 
     /**
