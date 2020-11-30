@@ -91,12 +91,13 @@ class IndikatorTahfizController extends Controller
         if ($existing) {
             $id = $existing->id;
         }
-
         NilaiIndikatorTahfiz::updateOrCreate(
             [ 'id' => $id ],
             [
                 'siswa_id' => $request->siswa_id,
                 'indikator_id' => $request->indikator_id,
+                'baris' => $request->baris,
+                'salah' => $request->salah,               
                 'nilai_indikator' => $request->nilai_indikator,
             ]
         );
