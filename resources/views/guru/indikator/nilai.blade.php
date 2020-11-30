@@ -5,7 +5,7 @@
 ?>
 @section('heading', $title)
 @section('page')
-  <li class="breadcrumb-item ">Entry Nilai</li>
+  <a href="{{route('guru.index-ulangan')}}" class="breadcrumb-item">Entry Nilai Siswa</a>
   <li class="breadcrumb-item active">Indikator {{$tipe}}</li>
 @endsection
 @section('content')
@@ -13,10 +13,18 @@
     <!-- general form elements -->
     <div class="card card-primary">
       <div class="card-header">
-        <a href="{{ route('guru.index-ulangan') }}" class="btn btn-default text-dark">
-            <i class="fas fa-arrow-left text-dark"></i> &nbsp;
-            Kembali
-        </a>
+          @if($tipe != "Keterampilan")
+              <a href="{{ route('guru.show-indikator', Crypt::encrypt(['id'=>$kelas->id, 'tipe'=>1])) }}" class="btn btn-default text-dark">
+                  <i class="fas fa-exchange-alt text-dark"></i> &nbsp;
+                  Entry Indikator Keterampilan
+              </a>
+          @else
+              <a href="{{ route('guru.show-indikator', Crypt::encrypt(['id'=>$kelas->id, 'tipe'=>0])) }}" class="btn btn-default text-dark">
+                  <i class="fas fa-exchange-alt text-dark"></i> &nbsp;
+                  Entry Indikator Pengetahuan
+              </a>
+          @endif
+
       </div>
       <!-- /.card-header -->
         <div class="card-body">
