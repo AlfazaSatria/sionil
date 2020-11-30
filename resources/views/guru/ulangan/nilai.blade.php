@@ -76,54 +76,66 @@
                         <tr>
                             <th class="ctr">No.</th>
                             <th>Nama Siswa</th>
-                            <th class="ctr">UTS</th>
-                            <th class="ctr">UAS</th>
+                            <th class="ctr">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <b class="input-group-text text-bold">UTS</b>
+                                    </div>
+                                    <select class="custom-select" name="tipe_uts">
+                                        <option selected disabled>Pilih Jenis UTS</option>
+                                        <option value="0">Teori</option>
+                                        <option value="1">Praktikum</option>
+                                    </select>
+                                </div>
+                            </th>
+                            <th class="ctr">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text text-bold">UAS</span>
+                                    </div>
+                                    <select class="custom-select" name="tipe_uts">
+                                        <option selected disabled>Pilih Jenis UAS</option>
+                                        <option value="0">Teori</option>
+                                        <option value="1">Praktikum</option>
+                                    </select>
+                                </div>
+                            </th>
                             <th class="ctr">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <form action="" method="post">
-                            @csrf
-                            <input type="hidden" name="guru_id" value="{{$guru->id}}">
-                            <input type="hidden" name="kelas_id" value="{{$kelas->id}}">
-                            @foreach ($siswa as $data)
-                                <input type="hidden" name="siswa_id" value="{{$data->id}}">
-                                <tr>
-                                    <td class="ctr">{{ $loop->iteration }}</td>
-                                    <td>
-                                        {{ $data->nama_siswa }}
-                                        @if ($data->ulangan($data->id)['id'] == true)
-                                            <input type="hidden" name="ulangan_id" class="ulangan_id_{{$data->id}}" value="{{ $data->ulangan($data->id)->id }}">
-                                        @else
-                                            <input type="hidden" name="ulangan_id" class="ulangan_id_{{$data->id}}" value="">
-                                        @endif
-                                    </td>
-                                    <td class="ctr">
-                                        @if ($data->ulangan($data->id)['uts'] == true)
-                                            <div class="text-center">{{ $data->ulangan($data->id)['uts'] }}</div>
-                                            <input type="hidden" name="uts" class="uts_{{$data->id}}" value="{{ $data->ulangan($data->id)['uts'] }}">
-                                        @else
-                                            <input type="text" name="uts" maxlength="2" onkeypress="return inputAngka(event)" style="margin: auto;" class="form-control text-center uts_{{$data->id}}" autocomplete="off">
-                                        @endif
-                                    </td>
-                                    <td class="ctr">
-                                        @if ($data->ulangan($data->id)['uas'] == true)
-                                            <div class="text-center">{{ $data->ulangan($data->id)['uas'] }}</div>
-                                            <input type="hidden" name="uas" class="uas_{{$data->id}}" value="{{ $data->ulangan($data->id)['uas'] }}">
-                                        @else
-                                            <input type="text" name="uas" maxlength="2" onkeypress="return inputAngka(event)" style="margin: auto;" class="form-control text-center uas_{{$data->id}}" autocomplete="off">
-                                        @endif
-                                    </td>
-                                    <td class="ctr sub_{{$data->id}}">
-                                        @if ($data->nilai($data->id) == true)
-                                            <i class="fas fa-check" style="font-weight:bold;"></i>
-                                        @else
-                                            <button type="button" id="submit-{{$data->id}}" class="btn btn-default btn_click" data-id="{{$data->id}}"><i class="nav-icon fas fa-save"></i></button>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </form>
+                        @foreach($siswa as $key => $value)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $value->nama_siswa }}</td>
+                                <td>
+                                    <div class="input-group input-group-sm">
+                                        <input type="number" name="nilai_uts" class="form-control form-control-sm" />
+                                        <div class="input-group-append">
+                                            <button class="btn btn-sm btn-info">
+                                                <i class="fas fa-save"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group input-group-sm">
+                                        <input type="number" name="nilai_uas" class="form-control form-control-sm" />
+                                        <div class="input-group-append">
+                                            <button class="btn btn-sm btn-info">
+                                                <i class="fas fa-save"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-default btn-sm form-control form-control-sm">
+                                        <i class="fas fa-save"></i> &nbsp;
+                                        Simpan Semua
+                                    </button>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -136,7 +148,7 @@
 @endsection
 @section('script')
     <script>
-        $(".btn_click").click(function(){
+        $(".btn_click").click(function() {
             var id = $(this).attr('data-id');
             var uts = $(".uts_"+id).val();
             var uas = $(".uas_"+id).val();
