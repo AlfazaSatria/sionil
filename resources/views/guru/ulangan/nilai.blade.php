@@ -148,36 +148,6 @@
 @endsection
 @section('script')
     <script>
-        $(".btn_click").click(function() {
-            var id = $(this).attr('data-id');
-            var uts = $(".uts_"+id).val();
-            var uas = $(".uas_"+id).val();
-            var ulangan_id = $(".ulangan_id_"+id).val();
-            var guru_id = $("input[name=guru_id]").val();
-            var kelas_id = $("input[name=kelas_id]").val();
-            
-            $.ajax({
-                url: "{{ route('guru.store-ulangan') }}",
-                type: "POST",
-                dataType: 'json',
-                data 	: {
-                    _token: '{{ csrf_token() }}',
-                    id : ulangan_id,
-                    siswa_id : id,
-                    kelas_id : kelas_id,
-                    guru_id : guru_id,
-                    uts : uts,
-                    uas : uas,
-                },
-                success: function(data){
-                    toastr.success("Nilai ulangan siswa berhasil ditambahkan!");
-                    location.reload();
-                },
-                error: function (data) {
-                    toastr.warning("Errors 404!");
-                }
-            });
-        });
         
         $("#NilaiGuru").addClass("active");
         $("#liNilaiGuru").addClass("menu-open");
