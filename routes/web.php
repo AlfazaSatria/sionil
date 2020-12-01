@@ -139,10 +139,14 @@ Route::middleware(['auth'])->group(function () {
           Route::get('/rapotTahfiz/{encryption}', 'RapotTahfizController@show')->name('tahfiz.show-rapot');
           Route::post('/rapotTahfiz/inputnilai', 'RapotTahfizController@input_nilai')->name('tahfiz.input-nilai-rapot');
           Route::get('/jadwalTahfiz', 'JadwalTahfizController@tahfiz')->name('jadwal.tahfiz');
+          Route::get('/rapotpdf', 'PdfController@PDFTahfiz')->name('cetak.rapot');
   });
 
   
-
+  Route::middleware(['kepsek'])->group(function () {
+    Route::get('/kepsek/home', 'HomeController@admin')->name('kepsek.home');
+    Route::get('/kepsek/pengumuman', 'PengumumanController@index')->name('kepsek.pengumuman');
+  });
 
   Route::middleware(['admin'])->group(function () {
     Route::middleware(['trash'])->group(function () {
