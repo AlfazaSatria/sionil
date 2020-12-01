@@ -1,7 +1,7 @@
 @extends('template_backend.home')
 @section('heading', 'Entry Nilai Ulangan')
 @section('page')
-  <li class="breadcrumb-item active">Entry Nilai</li>
+  <a href="{{route('guru.index-ulangan')}}" class="breadcrumb-item">Entry Nilai Siswa</a>
   <li class="breadcrumb-item active">Ulangan</li>
 @endsection
 @section('content')
