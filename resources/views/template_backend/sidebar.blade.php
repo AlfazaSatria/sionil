@@ -69,12 +69,6 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('bk.index') }}" class="nav-link" id="DataBimbinganKonseling">
-                                <i class="fas fa-users nav-icon"></i>
-                                <p>Data Bimbingan Konseling</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a href="{{ route('kelas.index') }}" class="nav-link" id="DataKelas">
                                 <i class="fas fa-home nav-icon"></i>
                                 <p>Data Kelas</p>
@@ -150,13 +144,7 @@
                 </li>
                 @else
                 @endif
-                {{-- <li class="nav-item">
-                        <a href="{{ route('guru.absensi') }}" class="nav-link" id="AbsensiGuru">
-                <i class="fas fa-calendar-check nav-icon"></i>
-                <p>Absensi Guru</p>
-                </a>
-                </li> --}}
-                <li class="nav-item has-treeview" id="liNilai">
+                {{-- <li class="nav-item has-treeview" id="liNilai">
                     <a href="#" class="nav-link" id="Nilai">
                         <i class="nav-icon fas fa-file-signature"></i>
                         <p>
@@ -190,7 +178,7 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a href="{{ route('admin.pengumuman') }}" class="nav-link" id="Pengumuman">
                         <i class="nav-icon fas fa-clipboard"></i>
@@ -289,6 +277,14 @@
                             </a>
                         </li>
                     </ul>
+                    <ul class="nav nav-treeview ml-4">
+                        <li class="nav-item">
+                            <a href="{{ route('cetak.rapot') }}">
+                                <i class="fas fa-file-alt nav-icon"></i>
+                                <p>Cetak</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
                 @elseif (Auth::user()->role == 'Siswa' && Auth::user()->siswa(Auth::user()->no_induk) == true)
@@ -322,11 +318,17 @@
                         <p>Rapot</p>
                     </a>
                 </li>
-                @else
-                <li class="nav-item has-treeview">
-                    <a href="{{ url('/') }}" class="nav-link" id="Home">
-                        <i class="nav-icon fas fa-home"></i>
+                @elseif (Auth::user()->role == 'Kepsek')
+                <li class="nav-item">
+                    <a href="{{ route('kepsek.home') }}" class="nav-link" id="KepsekHome">
+                        <i class="fas fa-home nav-icon"></i>
                         <p>Dashboard</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('kepsek.pengumuman') }}" class="nav-link" id="KepsekPengumuman">
+                        <i class="fas fa-home nav-icon"></i>
+                        <p>Pengumuman</p>
                     </a>
                 </li>
                 @endif

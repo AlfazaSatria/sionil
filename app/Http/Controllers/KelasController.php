@@ -58,7 +58,7 @@ class KelasController extends Controller
             ]);
         }
 
-        Kelas::updateOrCreate(
+        $kelas = Kelas::updateOrCreate(
             [
                 'id' => $request->id
             ],
@@ -69,6 +69,10 @@ class KelasController extends Controller
             ]
         );
 
+        $guru = Guru::where('id',$request->guru_id)->get()->first();
+        $guru->walikelas=$kelas->nama_kelas;
+        $guru->save();
+        
         return redirect()->back()->with('success', 'Data kelas berhasil diperbarui!');
     }
 
