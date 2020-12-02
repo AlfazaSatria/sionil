@@ -21,6 +21,7 @@ class CreateGuruTable extends Migration
             $table->integer('mapel_id');
             $table->string('kode', 5)->nullable();
             $table->enum('jk', ['L', 'P']);
+            $table->string('walikelas')->nullable();
             $table->string('telp', 15)->nullable();
             $table->string('tmp_lahir', 50)->nullable();
             $table->date('tgl_lahir')->nullable();

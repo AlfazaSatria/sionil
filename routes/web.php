@@ -31,6 +31,7 @@ Route::post('/cek-email', 'UserController@email')->name('cek-email')->middleware
 Route::get('/reset/password/{id}', 'UserController@password')->name('reset.password')->middleware('guest');
 Route::patch('/reset/password/update/{id}', 'UserController@update_password')->name('reset.password.update')->middleware('guest');
 
+
 Route::middleware(['auth'])->group(function () {
   Route::get('/', 'HomeController@index')->name('home');
   Route::get('/home', 'HomeController@index')->name('home');
@@ -189,7 +190,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/kelas', 'KelasController');
     Route::get('/siswa/kelas/{id}', 'SiswaController@kelas')->name('siswa.kelas');
     Route::get('/siswa/view/json', 'SiswaController@view');
-    Route::get('/listsiswapdf/{id}', 'SiswaController@cetak_pdf');
     Route::get('/siswa/ubah-foto/{id}', 'SiswaController@ubah_foto')->name('siswa.ubah-foto');
     Route::post('/siswa/update-foto/{id}', 'SiswaController@update_foto')->name('siswa.update-foto');
     Route::get('/siswa/export_excel', 'SiswaController@export_excel')->name('siswa.export_excel');
@@ -200,7 +200,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/mapel/getMapelJson', 'MapelController@getMapelJson');
     Route::resource('/mapel', 'MapelController');
     Route::get('/jadwal/view/json', 'JadwalController@view');
-    Route::get('/jadwalkelaspdf/{id}', 'JadwalController@cetak_pdf');
     Route::get('/jadwal/export_excel', 'JadwalController@export_excel')->name('jadwal.export_excel');
     Route::post('/jadwal/import_excel', 'JadwalController@import_excel')->name('jadwal.import_excel');
     Route::delete('/jadwal/deleteAll', 'JadwalController@deleteAll')->name('jadwal.deleteAll');
@@ -208,7 +207,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/jadwal/guru', 'JadwalController@guru')->name('jadwal.guru');
 
     Route::get('/jadwalTahfiz/view/json', 'JadwalTahfizController@view');
-    Route::get('/jadwalkelaspdfTahfiz/{id}', 'JadwalTahfizController@cetak_pdf');
     Route::get('/jadwalTahfiz/export_excel', 'JadwalTahfizController@export_excel')->name('jadwalTahfiz.export_excel');
     Route::delete('/jadwalTahfiz/deleteAll', 'JadwalTahfizController@deleteAll')->name('jadwalTahfiz.deleteAll');
     Route::resource('/jadwalTahfiz', 'JadwalTahfizController');

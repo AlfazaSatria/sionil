@@ -17,8 +17,9 @@ class User extends Authenticatable
      *
      * @var array
      */
+    protected $table='users';
     protected $fillable = [
-        'name', 'email', 'password', 'role', 'no_induk', 'id_card','id_cardTahfiz','id_cardBK'
+        'name', 'email', 'password', 'role', 'no_induk', 'id_card','id_cardTahfiz','walikelas'
     ];
 
     public function guru($id)
@@ -33,17 +34,14 @@ class User extends Authenticatable
         return $tahfiz;
     }
 
-    public function bimbingankonseling($id)
-    {
-        $bk = BimbinganKonseling::where('id_cardBK', $id)->first();
-        return $bk;
-    }
 
     public function siswa($id)
     {
         $siswa = Siswa::where('no_induk', $id)->first();
         return $siswa;
     }
+
+    
 
     /**
      * The attributes that should be hidden for arrays.

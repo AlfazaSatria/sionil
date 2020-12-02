@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->enum('role', ['Admin', 'Guru', 'Siswa', 'Operator', 'Tahfiz','BimbinganKonseling','Kepsek']);
             $table->string('no_induk')->nullable();
+            $table->string('walikelas')->nullable();
             $table->string('id_card')->nullable();
             $table->string('id_cardTahfiz')->nullable();
             $table->rememberToken();
