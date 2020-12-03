@@ -9,7 +9,6 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
-use PDF;
 use App\Exports\SiswaExport;
 use App\Imports\SiswaImport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -255,15 +254,6 @@ class SiswaController extends Controller
         return response()->json($newForm);
     }
 
-    public function cetak_pdf(Request $request)
-    {
-        $siswa = siswa::OrderBy('nama_siswa', 'asc')->where('kelas_id', $request->id)->get();
-        $kelas = Kelas::findorfail($request->id);
-
-        $pdf = PDF::loadView('siswa-pdf', ['siswa' => $siswa, 'kelas' => $kelas]);
-        return $pdf->stream();
-        // return $pdf->stream('jadwal-pdf.pdf');
-    }
 
     public function kelas($id)
     {

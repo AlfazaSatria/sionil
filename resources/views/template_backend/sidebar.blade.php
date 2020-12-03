@@ -47,7 +47,13 @@
                         <li class="nav-item">
                             <a href="{{ route('jadwal.index') }}" class="nav-link" id="DataJadwal">
                                 <i class="fas fa-calendar-alt nav-icon"></i>
-                                <p>Data Jadwal</p>
+                                <p>Data Jadwal Guru</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('jadwalTahfiz.index') }}" class="nav-link" id="DataJadwalTahfiz">
+                                <i class="fas fa-calendar-alt nav-icon"></i>
+                                <p>Data Jadwal Tahfiz</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -60,12 +66,6 @@
                             <a href="{{ route('tahfiz.index') }}" class="nav-link" id="DataTahfiz">
                                 <i class="fas fa-users nav-icon"></i>
                                 <p>Data Tahfiz</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('bk.index') }}" class="nav-link" id="DataBimbinganKonseling">
-                                <i class="fas fa-users nav-icon"></i>
-                                <p>Data Bimbingan Konseling</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -144,13 +144,7 @@
                 </li>
                 @else
                 @endif
-                {{-- <li class="nav-item">
-                        <a href="{{ route('guru.absensi') }}" class="nav-link" id="AbsensiGuru">
-                <i class="fas fa-calendar-check nav-icon"></i>
-                <p>Absensi Guru</p>
-                </a>
-                </li> --}}
-                <li class="nav-item has-treeview" id="liNilai">
+                {{-- <li class="nav-item has-treeview" id="liNilai">
                     <a href="#" class="nav-link" id="Nilai">
                         <i class="nav-icon fas fa-file-signature"></i>
                         <p>
@@ -184,7 +178,7 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a href="{{ route('admin.pengumuman') }}" class="nav-link" id="Pengumuman">
                         <i class="nav-icon fas fa-clipboard"></i>
@@ -240,60 +234,59 @@
                     </ul>
                 </li>
 
-                @elseif (Auth::user()->role == 'Tahfiz' && Auth::user()->tahfiz(Auth::user()->id_card) == true)
-                    <li class="nav-item has-treeview">
-                        <a href="{{ url('/') }}" class="nav-link" id="Home">
-                            <i class="nav-icon fas fa-home"></i>
-                            <p>Dashboard</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('jadwal.tahfiz') }}" class="nav-link" id="JadwalGuru">
+                @elseif (Auth::user()->role == 'Tahfiz' && Auth::user()->tahfiz(Auth::user()->id_cardTahfiz) == true)
+                <li class="nav-item has-treeview">
+                    <a href="{{ url('/') }}" class="nav-link" id="Home">
+                        <i class="nav-icon fas fa-home"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                        <a href="{{ route('jadwalTahfiz.tahfiz') }}" class="nav-link" id="JadwalTahfiz">
                             <i class="fas fa-calendar-alt nav-icon"></i>
                             <p>Jadwal</p>
                         </a>
                     </li>
-                    <li class="nav-item has-treeview" id="liNilaiGuru">
-                        <a href="#" class="nav-link" id="NilaiGuru">
-                            <i class="nav-icon fas fa-file-signature"></i>
-                            <p>
-                                Nilai
-                                <i class="fas fa-angle-left right"></i>
-                            </p>
+                <li class="nav-item">
+                        <a href="{{ route('tahfiz.index-indikator') }}" class="nav-link" id="IndikatorTahfiz">
+                            <i class="fas fa-info-circle nav-icon"></i>
+                            <p>Indikator</p>
                         </a>
-                        <ul class="nav nav-treeview ml-4">
-                            <li class="nav-item">
-                                <a href="{{ route('tahfiz.index-ulangan') }}" class="nav-link" id="UlanganTahfiz">
-                                    <i class="fas fa-file-alt nav-icon"></i>
-                                    <p>Entry Nilai Siswa</p>
-                                </a>
-                            </li>
-                            {{-- @if (
-                                Auth::user()->guru(Auth::user()->id_card)->mapel->nama_mapel == "Pendidikan Agama dan Budi Pekerti" ||
-                                Auth::user()->guru(Auth::user()->id_card)->mapel->nama_mapel == "Pendidikan Pancasila dan Kewarganegaraan"
-                            )
-                                <li class="nav-item">
-                                    <a href="{{ route('sikap.index') }}" class="nav-link" id="SikapGuru">
-                                        <i class="fas fa-file-alt nav-icon"></i>
-                                        <p>Entry Nilai Sikap</p>
-                                    </a>
-                                </li>
-                            @else
-                            @endif --}}
-                            <li class="nav-item">
-                                <a href="{{ route('tahfiz.index-rapot') }}" class="nav-link" id="RapotTahfiz">
-                                    <i class="fas fa-file-alt nav-icon"></i>
-                                    <p>Entry Nilai Rapot</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('tahfiz.index-nilai') }}" class="nav-link" id="DesTahfiz">
-                                    <i class="fas fa-file-alt nav-icon"></i>
-                                    <p>Deskripsi Predikat</p>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
+                <li class="nav-item has-treeview" id="liNilaiTahfiz">
+                    <a href="#" class="nav-link" id="NilaiTahfiz">
+                        <i class="nav-icon fas fa-file-signature"></i>
+                        <p>
+                            Nilai
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview ml-4">
+                        <li class="nav-item">
+                            <a href="{{ route('tahfiz.index-data') }}" class="nav-link" id="NilaiTahfiz">
+                                <i class="fas fa-file-alt nav-icon"></i>
+                                <p>Entry Nilai Siswa</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview ml-4">
+                        <li class="nav-item">
+                            <a href="{{ route('tahfiz.index-rapot') }}" class="nav-link" id="RapotTahfiz">
+                                <i class="fas fa-file-alt nav-icon"></i>
+                                <p>Entry Nilai Rapot</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview ml-4">
+                        <li class="nav-item">
+                            <a href="{{ route('cetak.rapot') }}">
+                                <i class="fas fa-file-alt nav-icon"></i>
+                                <p>Cetak</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                 @elseif (Auth::user()->role == 'Siswa' && Auth::user()->siswa(Auth::user()->no_induk) == true)
                 <li class="nav-item has-treeview">
                     <a href="{{ url('/') }}" class="nav-link" id="Home">
@@ -301,12 +294,12 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                {{-- <li class="nav-item">
+                <li class="nav-item">
                     <a href="{{ route('jadwal.siswa') }}" class="nav-link" id="JadwalSiswa">
                         <i class="fas fa-calendar-alt nav-icon"></i>
                         <p>Jadwal</p>
                     </a>
-                </li> --}}
+                </li>
                 <li class="nav-item">
                     <a href="{{ route('ulangan.siswa') }}" class="nav-link" id="UlanganSiswa">
                         <i class="fas fa-file-alt nav-icon"></i>
@@ -325,11 +318,17 @@
                         <p>Rapot</p>
                     </a>
                 </li>
-                @else
-                <li class="nav-item has-treeview">
-                    <a href="{{ url('/') }}" class="nav-link" id="Home">
-                        <i class="nav-icon fas fa-home"></i>
+                @elseif (Auth::user()->role == 'Kepsek')
+                <li class="nav-item">
+                    <a href="{{ route('kepsek.home') }}" class="nav-link" id="KepsekHome">
+                        <i class="fas fa-home nav-icon"></i>
                         <p>Dashboard</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('kepsek.pengumuman') }}" class="nav-link" id="KepsekPengumuman">
+                        <i class="fas fa-home nav-icon"></i>
+                        <p>Pengumuman</p>
                     </a>
                 </li>
                 @endif

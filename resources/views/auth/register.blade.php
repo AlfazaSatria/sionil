@@ -24,7 +24,6 @@
         <option value="">-- Select {{ __('Level User') }} --</option>
         <option value="Guru">Guru</option>
         <option value="Tahfiz">Tahfiz</option>
-        <option value="BimbinganKonseling">Bimbingan Konseling</option>
         <option value="Siswa">Siswa</option>
       </select>
       <div class="input-group-append">
