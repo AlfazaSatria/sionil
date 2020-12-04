@@ -24,7 +24,7 @@ class User extends Authenticatable
 
     public function guru($id)
     {
-        $guru = Guru::where('id_card', $id)->first();
+        $guru = Guru::where('id_card', $id)->get()->first();
         return $guru;
     }
 

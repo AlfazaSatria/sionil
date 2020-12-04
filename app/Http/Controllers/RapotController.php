@@ -180,4 +180,10 @@ class RapotController extends Controller
         $mapel = $jadwal->groupBy('mapel_id');
         return view('siswa.rapot', compact('siswa', 'kelas', 'mapel', 'Spai', 'Sppkn'));
     }
+
+    public function ekstrakulikuler(){
+        $mapel= Mapel::where('kelompok', 'C')->get();
+        
+        return view('guru.rapot.ekstrakulikuler', compact('mapel'));
+    }
 }
