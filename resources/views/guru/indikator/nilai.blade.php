@@ -139,11 +139,6 @@
                                         <input type="hidden" id="{{"indikator_id_".$siswa->id."_".$indikator->id}}" name="indikator_id" value="{{ $indikator->id }}">
                                         <div class="input-group input-group-sm">
                                             <input type="text" id="{{"nilai_indikator_".$siswa->id."_".$indikator->id}}" class="form-control" name="nilai_indikator" value="{{$nilai}}">
-                                            <div class="input-group-append">
-                                                <button class="btn btn-info btn-sm" type="submit">
-                                                    <i class="fas fa fa-save"></i>
-                                                </button>
-                                            </div>
                                         </div>
                                     </form>
                                 </td>

@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Indikator;
+use App\NilaiIndikator;
+use App\Ulangan;
+use Faker\ORM\Spot\EntityPopulator;
 use Illuminate\Support\Facades\Auth;
 use App\Nilai;
 use App\Guru;
@@ -15,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 use DB;
+use Dompdf\Dompdf;
 
 class RapotController extends Controller
 {
@@ -74,19 +79,112 @@ class RapotController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+
+    private function get_indikator_avg($guru_id, $siswa_id, $tipe_indikator)
     {
-        $id = Crypt::decrypt($id);
-        $guru = Guru::where('id_card', Auth::user()->id_card)->first();
-        $kelas = Kelas::findorfail($id);
-        $siswa = Siswa::where('kelas_id', $id)->get();
-        return view('guru.rapot.rapot', compact('guru', 'kelas', 'siswa'));
+        $indikators = Indikator::where([
+            ['guru_id', '=', $guru_id],
+            ['tipe', '=', $tipe_indikator]
+        ])->get();
+        $scores = [];
+        foreach ($indikators as $indikator) {
+            $nilai = NilaiIndikator::where([
+                ['siswa_id', '=', $siswa_id],
+                ['indikator_id', '=', $indikator->id],
+            ])->get()->first();
+            array_push($scores, $nilai->nilai_indikator);
+        }
+        return array_sum($scores)/count($scores);
+    }
+
+    private function get_predikat($guru_id, $score)
+    {
+        $nilai = Nilai::where([
+            ['guru_id', '=', $guru_id],
+        ])->get()->first();
+        if ($score > 90) {
+            return ['predikat' => 'A', 'deskripsi' => $nilai->deskripsi_a];
+        }
+        if ($score > 80) {
+            return ['predikat' => 'B', 'deskripsi' => $nilai->deskripsi_b];
+        }
+        if ($score > 60) {
+            return ['predikat' => 'C', 'deskripsi' => $nilai->deskripsi_c];
+        }
+        if ($score < 60) {
+            return ['predikat' => 'D', 'deskripsi' => $nilai->deskripsi_d];
+        }
+    }
+
+    public function show($items)
+    {
+        $items = Crypt::decrypt($items);
+        $id = $items['id'];
+        $tipe = $items['tipe'];
+        $guru = Guru::where('id_card', Auth::user()->id_card)->get()->first();
+        $kelas = Kelas::where('id', $id)->get()->first();
+        $data_siswa = Siswa::where('kelas_id', $id)->get();
+        $tipe_ulangan = Ulangan::select('tipe_uts', 'tipe_uas')->where('kelas_id', $kelas->id)->get()->first();
+
+        $siswa = [];
+        $tipe_uts = $tipe_ulangan->tipe_uts;
+        $tipe_uas = $tipe_ulangan->tipe_uas;
+        if ($tipe == 'uts') {
+            foreach ($data_siswa as $item) {
+                $nilai_keterampilan = ($tipe_uts == 1) ?
+                    ( $item->nilai_ulangan('uts', $guru->mapel_id)->uts + $this->get_indikator_avg($guru->id, $item->id, 1)) / 2 :
+                    $this->get_indikator_avg($guru->id, $item->id, 1);
+                $nilai_pengetahuan = ($tipe_uts == 0) ?
+                    ( $item->nilai_ulangan('uts', $guru->mapel_id)->uts + $this->get_indikator_avg($guru->id, $item->id, 0)) / 2 :
+                    $this->get_indikator_avg($guru->id, $item->id, 0);
+                $predikat_keterampilan = $this->get_predikat($guru->id, $nilai_keterampilan);
+                $predikat_pengetahuan = $this->get_predikat($guru->id, $nilai_pengetahuan);
+                $data = [
+                    'id' => $item->id,
+                    'nama' => $item->nama_siswa,
+                    'pengetahuan' => [
+                        'nilai' => (int) $nilai_pengetahuan,
+                        'predikat' => $predikat_pengetahuan['predikat'],
+                        'deskripsi' => $predikat_pengetahuan['deskripsi'],
+                    ],
+                    'keterampilan' => [
+                        'nilai' => (int) $nilai_keterampilan,
+                        'predikat' => $predikat_keterampilan['predikat'],
+                        'deskripsi' => $predikat_keterampilan['deskripsi'],
+                    ],
+                ];
+                array_push($siswa, $data);
+            }
+        } else {
+            foreach ($data_siswa as $item) {
+                $nilai_keterampilan = ($tipe_uas == 1) ?
+                    ( $item->nilai_ulangan('uas', $guru->mapel_id)->uas + $this->get_indikator_avg($guru->id, $item->id, 1)) / 2 :
+                    $this->get_indikator_avg($guru->id, $item->id, 1);
+                $nilai_pengetahuan = ($tipe_uas == 0) ?
+                    ( $item->nilai_ulangan('uas', $guru->mapel_id)->uas + $this->get_indikator_avg($guru->id, $item->id, 0)) / 2 :
+                    $this->get_indikator_avg($guru->id, $item->id, 0);
+                $predikat_keterampilan = $this->get_predikat($guru->id, $nilai_keterampilan);
+                $predikat_pengetahuan = $this->get_predikat($guru->id, $nilai_pengetahuan);
+                $data = [
+                    'id' => $item->id,
+                    'nama' => $item->nama_siswa,
+                    'pengetahuan' => [
+                        'nilai' => (int) $nilai_pengetahuan,
+                        'predikat' => $predikat_pengetahuan['predikat'],
+                        'deskripsi' => $predikat_pengetahuan['deskripsi'],
+                    ],
+                    'keterampilan' => [
+                        'nilai' => (int) $nilai_keterampilan,
+                        'predikat' => $predikat_keterampilan['predikat'],
+                        'deskripsi' => $predikat_keterampilan['deskripsi'],
+                    ],
+                ];
+                array_push($siswa, $data);
+            }
+        }
+
+
+        return view('guru.rapot.rapot', compact('tipe','guru', 'kelas', 'siswa'));
     }
 
     /**
