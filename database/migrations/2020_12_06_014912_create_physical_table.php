@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateHealthConditionTable extends Migration
+class CreatePhysicalTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class CreateHealthConditionTable extends Migration
      */
     public function up()
     {
-        Schema::create('health_condition', function (Blueprint $table) {
+        Schema::create('physical', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('kelas_id');
             $table->bigInteger('siswa_id');
-            $table->string('name');
-            $table->text('description');
+            $table->string('height')->nullable();
+            $table->string('weight')->nullable();
+            $table->string('sem1')->nullable();
+            $table->string('sem2')->nullable();
+            $table->double('score');
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ class CreateHealthConditionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('health_condition');
+        Schema::dropIfExists('physical');
     }
 }

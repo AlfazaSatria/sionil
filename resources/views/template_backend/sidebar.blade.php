@@ -220,9 +220,9 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('guru.index-rapot') }}" class="nav-link" id="RapotGuru">
+                            <a href="{{ route('guru.health-rapot') }}" class="nav-link" id="HealthGuru">
                                 <i class="fas fa-file-alt nav-icon"></i>
-                                <p>Physical Appearance</p>
+                                <p>Health Condition</p>
                             </a>
                         </li>
                         <li class="nav-item">

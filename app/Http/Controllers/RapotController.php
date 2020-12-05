@@ -8,6 +8,7 @@ use App\Ulangan;
 use App\Ekstrakulikuler;
 use Illuminate\Support\Facades\Auth;
 use App\Nilai;
+use App\Health;
 use App\Guru;
 use App\Siswa;
 use App\Kelas;
@@ -311,6 +312,38 @@ class RapotController extends Controller
                 'description' => $request->description,
 
                 
+            ]
+        );
+        return redirect()->back()->with('success', 'Success!');
+    }
+
+    public function indexhealth(Request $request){
+        $user= $request->user();
+        $guru= Guru::firstWhere('walikelas', $user->walikelas);
+        $kelas= Kelas::firstWhere('nama_kelas', $guru->walikelas);
+        $siswa= Siswa::where('kelas_id', $kelas->id)->get();
+        
+        return view('guru.rapot.health', compact('user', 'guru','kelas','siswa'));
+    }
+
+    public function input_health(Request $request){
+        $id = null;
+        $existing = Health::where([
+            ['siswa_id', '=', $request->siswa_id],
+        ])
+        ->get()
+        ->first();
+
+        if ($existing) {
+            $id = $existing->id;
+        }
+
+        Health::updateOrCreate(
+            [ 'id' => $id ],
+            [
+                'siswa_id' => $request->siswa_id,
+                'name' => $request->name,
+                'description' => $request->description,
             ]
         );
         return redirect()->back()->with('success', 'Success!');

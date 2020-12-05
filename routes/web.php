@@ -102,6 +102,8 @@ Route::middleware(['auth'])->group(function () {
           ]);
           Route::get('/ekstrakulikuler', 'RapotController@indexekstrakulikuler')->name('guru.ekstrakulikuler-rapot');
           Route::post('/ekstrakulikuler/inputnilai', 'RapotController@inputekstrakulikuler')->name('guru.input-nilai-ekstrakulikuler');
+          Route::get('/health', 'RapotController@indexhealth')->name('guru.health-rapot');
+          Route::post('/health/inputnilai', 'RapotController@input_health')->name('guru.input-nilai-health');
           Route::get('/indikator/{encryption}', 'IndikatorController@show')->name('guru.show-indikator');
           Route::post('/indikator/inputnilai', 'IndikatorController@input_nilai')->name('guru.input-nilai-indikator');
           Route::post('/indikator/bulkinputnilai', 'IndikatorController@bulk_input_nilai')->name('guru.bulk-input-nilai-indikator');
