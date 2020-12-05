@@ -32,4 +32,11 @@ class Mapel extends Model
     public function nilaitahfiz(){
         return $this->hasOne('App\NilaiTahfiz');
     }
+
+    public function nilai($siswa_id) {
+        $nilai = Ekstrakulikuler::where([
+            ['siswa_id', '=', $siswa_id],
+        ])->get();
+        return $nilai;
+    }
 }

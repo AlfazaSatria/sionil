@@ -214,7 +214,7 @@
                     </a>
                     <ul class="nav nav-treeview ml-4">
                         <li class="nav-item">
-                            <a href="{{ route('guru.index-ulangan') }}" class="nav-link" id="UlanganGuru">
+                            <a href="{{ route('guru.ekstrakulikuler-rapot') }}" class="nav-link" id="EkstrakulikulerGuru">
                                 <i class="fas fa-file-alt nav-icon"></i>
                                 <p>Ekstrakulikuler</p>
                             </a>

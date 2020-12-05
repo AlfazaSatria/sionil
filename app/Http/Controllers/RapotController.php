@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Indikator;
 use App\NilaiIndikator;
 use App\Ulangan;
-use Faker\ORM\Spot\EntityPopulator;
+use App\Ekstrakulikuler;
 use Illuminate\Support\Facades\Auth;
 use App\Nilai;
 use App\Guru;
@@ -279,9 +279,40 @@ class RapotController extends Controller
         return view('siswa.rapot', compact('siswa', 'kelas', 'mapel', 'Spai', 'Sppkn'));
     }
 
-    public function ekstrakulikuler(){
-        $mapel= Mapel::where('kelompok', 'C')->get();
+    public function indexekstrakulikuler(Request $request){
+        $user= $request->user();
+        $mapel = Mapel::where('kelompok', 'C')->get();
+        $guru= Guru::firstWhere('walikelas', $user->walikelas);
+        $kelas= Kelas::firstWhere('nama_kelas', $guru->walikelas);
+        $siswa= Siswa::where('kelas_id', $kelas->id)->get();
         
-        return view('guru.rapot.ekstrakulikuler', compact('mapel'));
+        return view('guru.rapot.ekstrakulikuler', compact('user', 'guru','kelas','siswa','mapel'));
+    }
+
+    public function inputekstrakulikuler(Request $request){
+        $id = null;
+        $existing = Ekstrakulikuler::where([
+            ['siswa_id', '=', $request->siswa_id],
+        ])
+        ->get()
+        ->first();
+
+        if ($existing) {
+            $id = $existing->id;
+        }
+
+        
+        Ekstrakulikuler::updateOrCreate(
+            [ 'id' => $id ],
+            [
+                'siswa_id' => $request->siswa_id,
+                'name' => $request->name,
+                'score' => $request->score,
+                'description' => $request->description,
+
+                
+            ]
+        );
+        return redirect()->back()->with('success', 'Success!');
     }
 }

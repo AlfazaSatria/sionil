@@ -15,7 +15,6 @@ class CreateEkstrakulikulerTable extends Migration
     {
         Schema::create('ekstrakulikuler', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('kelas_id');
             $table->bigInteger('siswa_id');
             $table->string('name');
             $table->double('score');

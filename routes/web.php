@@ -87,7 +87,8 @@ Route::middleware(['auth'])->group(function () {
                   'create' => 'guru.create-rapot',
                   'store' => 'guru.store-rapot',
                   'destroy' => 'guru.destroy-rapot',
-                  'predikat' => 'guru.predikat-rapot'
+                  'predikat' => 'guru.predikat-rapot',
+                  
               ]
           ]);
           Route::resource('/indikator', 'IndikatorController', [
@@ -99,11 +100,13 @@ Route::middleware(['auth'])->group(function () {
                 'create', 'edit', 'update',
               ],
           ]);
+          Route::get('/ekstrakulikuler', 'RapotController@indexekstrakulikuler')->name('guru.ekstrakulikuler-rapot');
+          Route::post('/ekstrakulikuler/inputnilai', 'RapotController@inputekstrakulikuler')->name('guru.input-nilai-ekstrakulikuler');
           Route::get('/indikator/{encryption}', 'IndikatorController@show')->name('guru.show-indikator');
           Route::post('/indikator/inputnilai', 'IndikatorController@input_nilai')->name('guru.input-nilai-indikator');
           Route::post('/indikator/bulkinputnilai', 'IndikatorController@bulk_input_nilai')->name('guru.bulk-input-nilai-indikator');
           Route::delete('/indikator/{id}', 'IndikatorController@destroy')->name('guru.destroy-indikator');
-
+         
           Route::get('/jadwal', 'JadwalController@guru')->name('jadwal.guru');
   });
 
