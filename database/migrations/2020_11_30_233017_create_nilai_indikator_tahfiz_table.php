@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNilaiBkTable extends Migration
+class CreateNilaiIndikatorTahfizTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,13 @@ class CreateNilaiBkTable extends Migration
      */
     public function up()
     {
-        Schema::create('nilai_bk', function (Blueprint $table) {
+        Schema::create('nilai_indikator_tahfiz', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('siswa_id');
+            $table->integer('indikator_id');
+            $table->double('baris');
+            $table->double('salah');
+            $table->double('nilai_indikator');
             $table->timestamps();
         });
     }
@@ -26,6 +31,6 @@ class CreateNilaiBkTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('nilai_bk');
+        Schema::dropIfExists('nilai_indikator_tahfiz');
     }
 }

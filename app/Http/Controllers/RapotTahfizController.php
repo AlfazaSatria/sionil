@@ -7,12 +7,13 @@ use App\Nilai;
 use App\Tahfiz;
 use App\Siswa;
 use App\Kelas;
-use App\Jadwal;
-use App\Rapot;
+use App\JadwalTahfiz;
+use App\RapotTahfiz;
+use App\NilaiIndikatorTahfiz;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 
-class RapotController extends Controller
+class RapotTahfizController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,11 +22,11 @@ class RapotController extends Controller
      */
     public function index()
     {
-        $tahfiz = Tahfiz::where('id_card', Auth::user()->id_card)->first();
-        $jadwal = Jadwal::where('tahfiz_id', $tahfiz->id)->orderBy('kelas_id')->get();
-        $kelas = $jadwal->groupBy('kelas_id');
+        $tahfiz = Tahfiz::where('id_cardTahfiz', Auth::user()->id_cardTahfiz)->first();
+        $jadwalTahfiz = JadwalTahfiz::where('tahfiz_id', $tahfiz->id)->orderBy('kelas_id')->get();
+        $kelas = $jadwalTahfiz->groupBy('kelas_id');
 
-        return view('tahfiz.rapot.kelas', compact('kelas', 'tahfiz'));
+        return view('tahfiz.rapot.index', compact('tahfiz','kelas'));
     }
 
     /**
@@ -40,47 +41,16 @@ class RapotController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $tahfiz = Tahfiz::findorfail($request->tahfiz_id);
-        $cekJadwal = Jadwal::where('guru_id', $tahfiz->id)->where('kelas_id', $request->kelas_id)->count();
-        if ($cekJadwal >= 1) {
-            Rapot::updateOrCreate(
-                [
-                    'id' => $request->id
-                ],
-                [
-                    'siswa_id' => $request->siswa_id,
-                    'kelas_id' => $request->kelas_id,
-                    'tahfiz_id' => $request->guru_id,
-                    'mapel_id' => $tahfiz->mapel_id,
-                    'k_nilai' => $request->nilai,
-                    'k_predikat' => $request->predikat,
-                    'k_deskripsi' => $request->deskripsi,
-                ]
-            );
-            return response()->json(['success' => 'Nilai rapot siswa berhasil ditambahkan!']);
-        } else {
-            return response()->json(['error' => 'Maaf tahfiz ini tidak mengajar kelas ini!']);
-        }
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($encryption)
     {
-        $id = Crypt::decrypt($id);
-        $tahfiz = Tahfiz::where('id_card', Auth::user()->id_card)->first();
-        $kelas = Kelas::findorfail($id);
+        $id = Crypt::decrypt($encryption);
+        $tahfiz = Tahfiz::where('id_cardTahfiz', Auth::user()->id_cardTahfiz)->first();
+        $kelas = Kelas::where('id', $id)->get()->first();
         $siswa = Siswa::where('kelas_id', $id)->get();
         return view('tahfiz.rapot.rapot', compact('tahfiz', 'kelas', 'siswa'));
     }
@@ -159,12 +129,17 @@ class RapotController extends Controller
         return response()->json($newForm);
     }
 
-    public function siswa()
+    public function input_nilai(Request $request)
     {
-        $siswa = Siswa::where('no_induk', Auth::user()->no_induk)->first();
-        $kelas = Kelas::findorfail($siswa->kelas_id);
-        $jadwal = Jadwal::where('kelas_id', $kelas->id)->orderBy('mapel_id')->get();
-        $mapel = $jadwal->groupBy('mapel_id');
-        return view('siswa.rapot', compact('siswa', 'kelas', 'mapel'));
+        
+        RapotTahfiz::updateOrCreate(
+            [
+            'siswa_id' => $request->siswa_id,
+            'membaca' => $request->membaca,
+            'mendengarkan' => $request->mendengarkan,
+            'menghafal' => $request->menghafal,
+            'mengikuti' => $request->mengikuti,
+        ]);
+        return redirect()->back()->with('success', 'Success!');
     }
 }

@@ -6,9 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
 use App\Guru;
+use App\Kelas;
 use App\Siswa;
-use App\BimbinganKonseling;
 use App\Tahfiz;
+use Facade\FlareClient\Http\Exceptions\NotFound;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -111,35 +112,6 @@ class RegisterController extends Controller
                     'id_cardTahfiz' => ['required'],
                 ]);
             }
-        }elseif ($data['role'] == 'BimbinganKonseling') {
-            $bk = BimbinganKonseling::where('id_cardBK', $data['nomer'])->count();
-            if ($bk >= 1) {
-                $user = User::where('id_cardBK', $data['nomer'])->count();
-                if ($user >= 1) {
-                    return Validator::make($data, [
-                        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                        'password' => ['required', 'string', 'min:8', 'confirmed'],
-                        'role' => ['required'],
-                        'nomer' => ['required'],
-                        'bimbingankonseling' => ['required'],
-                    ]);
-                } else {
-                    return Validator::make($data, [
-                        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                        'password' => ['required', 'string', 'min:8', 'confirmed'],
-                        'role' => ['required'],
-                        'nomer' => ['required'],
-                    ]);
-                }
-            } else {
-                return Validator::make($data, [
-                    'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                    'password' => ['required', 'string', 'min:8', 'confirmed'],
-                    'role' => ['required'],
-                    'nomer' => ['required'],
-                    'id_cardBK' => ['required'],
-                ]);
-            }
         } elseif ($data['role'] == 'Siswa') {
             $siswa = Siswa::where('no_induk', $data['nomer'])->count();
             if ($siswa >= 1) {
@@ -189,17 +161,34 @@ class RegisterController extends Controller
     {
         if ($data['role'] == 'Guru') {
             $guruId = Guru::where('id_card', $data['nomer'])->get();
+            $guru = Guru::firstWhere('id_card', $data['nomer']);
+
+
             foreach ($guruId as $val) {
                 $guru = Guru::findorfail($val->id);
             }
-            return User::create([
-                'name' => $guru->nama_guru,
-                'email' => $data['email'],
-                'password' => Hash::make($data['password']),
-                'role' => $data['role'],
-                'id_card' => $data['nomer'],
-            ]);
-        }elseif ($data['role'] == 'Tahfiz') {
+            if($guru->walikelas==NULL){
+                return User::create([
+                    'name' => $guru->nama_guru,
+                    'email' => $data['email'],
+                    'password' => Hash::make($data['password']),
+                    'role' => $data['role'],
+                    'id_card' => $data['nomer'],
+                ]);
+            }else{
+                $kelas=Kelas::firstWhere('guru_id', $guru->id);
+                return User::create([
+                    'name' => $guru->nama_guru,
+                    'email' => $data['email'],
+                    'password' => Hash::make($data['password']),
+                    'role' => $data['role'],
+                    'walikelas' => $kelas['nama_kelas'],
+                    'id_card' => $data['nomer'],
+                ]);
+            }
+            
+        
+        } elseif ($data['role'] == 'Tahfiz') {
             $tahfizId = Tahfiz::where('id_cardTahfiz', $data['nomer'])->get();
             foreach ($tahfizId as $val) {
                 $tahfiz = Tahfiz::findorfail($val->id);
@@ -211,19 +200,7 @@ class RegisterController extends Controller
                 'role' => $data['role'],
                 'id_cardTahfiz' => $data['nomer'],
             ]);
-        }elseif ($data['role'] == 'BimbinganKonseling') {
-            $bkId = BimbinganKonseling::where('id_cardBK', $data['nomer'])->get();
-            foreach ($bkId as $val) {
-                $bk = BimbinganKonseling::findorfail($val->id);
-            }
-            return User::create([
-                'name' => $bk->name,
-                'email' => $data['email'],
-                'password' => Hash::make($data['password']),
-                'role' => $data['role'],
-                'id_cardBK' => $data['nomer'],
-            ]);
-        }  else {
+        } else {
             $siswaId = Siswa::where('no_induk', $data['nomer'])->get();
             foreach ($siswaId as $val) {
                 $siswa = Siswa::findorfail($val->id);

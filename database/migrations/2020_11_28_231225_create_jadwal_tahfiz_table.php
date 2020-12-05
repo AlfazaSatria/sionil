@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateIndikatorTahfizTable extends Migration
+class CreateJadwalTahfizTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,17 @@ class CreateIndikatorTahfizTable extends Migration
      */
     public function up()
     {
-        Schema::create('indikator_tahfiz', function (Blueprint $table) {
+        Schema::create('jadwal_tahfiz', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('hari_id');
+            $table->integer('kelas_id');
+            $table->integer('mapel_id');
             $table->integer('tahfiz_id');
-            $table->text('indikator');
+            $table->time('jam_mulai');
+            $table->time('jam_selesai');
+            $table->integer('ruang_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -28,6 +34,6 @@ class CreateIndikatorTahfizTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('indikator_tahfiz');
+        Schema::dropIfExists('jadwal_tahfiz');
     }
 }
