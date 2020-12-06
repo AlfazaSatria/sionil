@@ -19,20 +19,6 @@
                         <td>:</td>
                         <td>{{ $siswa->nama_siswa }}</td>
             </div>
-
-            {{-- <div>
-                <td>Indikator</td>
-                        <td>:</td>
-                        <td>{{ $indikator->indikator }}</td>
-            </div> --}}
-
-            
-                            {{-- <tr>
-                                <td>{{ $key+1 }}</td>
-                                <td></td>
-                                </tr> --}}
-
-           
           <tr class="bg-success" style="height: 40px; font-size:15px;">
             <th ><p style="text-align:center;">Weak</p></th>
             <th ><p style="text-align:center;">Acceptable</p></th>
@@ -54,6 +40,7 @@
             <th></th>
             <th></th>
           </tr>
+          @foreach($indikatorTahfiz as $key => $indikator)
           <tr style="height: 50px; font-size:15px;" >
             <th></th>
             <th></th>
@@ -61,13 +48,13 @@
             <th></th>
             
             <th></th>
-            @foreach($indikatorTahfiz => $indikators)
-            <th>{{ $indikators->indikator }}</th>
-            @endforeach
+           
+            <th>{{ $indikator->indikator }}</th>
+           
             <th rowspan="7"><p class="text-align:center;">3</p></th>
             <th rowspan="7"><p class="text-align:center;">7</p></th>
           </tr>
-         
+          @endforeach
           <tr style="height: 50px; font-size:15px;">
             <th ></th>
             <th><span class="check">&#10003</span></th>
