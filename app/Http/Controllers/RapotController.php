@@ -14,6 +14,7 @@ use App\Health;
 use App\Guru;
 use App\Siswa;
 use App\Kelas;
+use App\Pyhsic;
 use App\Mapel;
 use App\Jadwal;
 use App\Rapot;
@@ -419,6 +420,40 @@ class RapotController extends Controller
                 'permission' => $request->permission,
                 'absent' => $request->absent,
                 'late' => $request->late,
+            ]
+        );
+        return redirect()->back()->with('success', 'Success!');
+    }
+
+    public function indexpyhsic(Request $request){
+        $user= $request->user();
+        $guru= Guru::firstWhere('walikelas', $user->walikelas);
+        $kelas= Kelas::firstWhere('nama_kelas', $guru->walikelas);
+        $siswa= Siswa::where('kelas_id', $kelas->id)->get();
+        
+        return view('guru.rapot.pyhsic', compact('user', 'guru','kelas','siswa'));
+    }
+
+    public function input_pyhsic(Request $request){
+        $id = null;
+        $existing = Pyhsic::where([
+            ['siswa_id', '=', $request->siswa_id],
+        ])
+        ->get()
+        ->first();
+
+        if ($existing) {
+            $id = $existing->id;
+        }
+
+        Pyhsic::updateOrCreate(
+            [ 'id' => $id ],
+            [
+                'siswa_id' => $request->siswa_id,
+                'weight_sem1' => $request->weight_sem1,
+                'height_sem1' => $request->height_sem1,
+                'weight_sem2' => $request->weight_sem2,
+                'height_sem2' => $request->height_sem2,
             ]
         );
         return redirect()->back()->with('success', 'Success!');

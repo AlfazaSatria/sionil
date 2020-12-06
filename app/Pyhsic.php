@@ -4,16 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Physic extends Model
+class Pyhsic extends Model
 {
     protected $table= 'physical';
 
     protected $fillable=[
         'siswa_id',
-        'height',
-        'weight',
-        'sem1',
-        'sem2',
-        'score'
+        'height_sem1',
+        'weight_sem1',
+        'height_sem1',
+        'weight_sem2'
     ];
 }

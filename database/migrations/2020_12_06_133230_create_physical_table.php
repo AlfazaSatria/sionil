@@ -16,11 +16,10 @@ class CreatePhysicalTable extends Migration
         Schema::create('physical', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('siswa_id');
-            $table->string('height')->nullable();
-            $table->string('weight')->nullable();
-            $table->string('sem1')->nullable();
-            $table->string('sem2')->nullable();
-            $table->double('score');
+            $table->double('height_sem1')->nullable();
+            $table->double('weight_sem1')->nullable();
+            $table->double('height_sem2')->nullable();
+            $table->double('weight_sem2')->nullable();
             $table->timestamps();
         });
     }

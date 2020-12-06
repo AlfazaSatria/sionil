@@ -215,26 +215,32 @@
                     <ul class="nav nav-treeview ml-4">
                         <li class="nav-item">
                             <a href="{{ route('guru.ekstrakulikuler-rapot') }}" class="nav-link" id="EkstrakulikulerGuru">
-                                <i class="fas fa-file-alt nav-icon"></i>
+                                <i class="fas fa-swimmer nav-icon"></i>
                                 <p>Ekstrakulikuler</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('guru.health-rapot') }}" class="nav-link" id="HealthGuru">
-                                <i class="fas fa-file-alt nav-icon"></i>
+                                <i class="fas fa-file-medical nav-icon"></i>
                                 <p>Health Condition</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('guru.achievement-rapot') }}" class="nav-link" id="AchievementGuru">
-                                <i class="fas fa-file-alt nav-icon"></i>
+                                <i class="fas fa-trophy nav-icon"></i>
                                 <p>Achievement</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('guru.attendance-rapot') }}" class="nav-link" id="AttendanceGuru">
-                                <i class="fas fa-file-alt nav-icon"></i>
+                                <i class="fas fa-tasks nav-icon"></i>
                                 <p>Attendance</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('guru.pyhsic-rapot') }}" class="nav-link" id="PyhsicGuru">
+                                <i class="fas fa-tasks nav-icon"></i>
+                                <p>Pyhsical Appearance</p>
                             </a>
                         </li>
                     </ul>
@@ -337,7 +343,23 @@
                         <p>Pengumuman</p>
                     </a>
                 </li>
+
+                {{-- @elseif (Auth::user()->role == 'BimbinganKonseling')
+                <li class="nav-item">
+                    <a href="{{ route('bk.index') }}" class="nav-link" id="BkHome">
+                        <i class="fas fa-home nav-icon"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('bk.index') }}" class="nav-link" id="Bkindex">
+                        <i class="fas fa-home nav-icon"></i>
+                        <p>Input Affective</p>
+                    </a>
+                </li> --}}
                 @endif
+                
+                
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

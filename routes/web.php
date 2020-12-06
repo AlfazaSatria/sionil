@@ -108,6 +108,8 @@ Route::middleware(['auth'])->group(function () {
           Route::post('/achievement/inputnilai', 'RapotController@input_achievement')->name('guru.input-nilai-achievement');
           Route::get('/attendance', 'RapotController@indexattendance')->name('guru.attendance-rapot');
           Route::post('/attendance/inputnilai', 'RapotController@input_attendance')->name('guru.input-nilai-attendance');
+          Route::get('/pyhsic', 'RapotController@indexpyhsic')->name('guru.pyhsic-rapot');
+          Route::post('/pyhsic/inputnilai', 'RapotController@input_pyhsic')->name('guru.input-nilai-pyhsic');
           Route::get('/indikator/{encryption}', 'IndikatorController@show')->name('guru.show-indikator');
           Route::post('/indikator/inputnilai', 'IndikatorController@input_nilai')->name('guru.input-nilai-indikator');
           Route::post('/indikator/bulkinputnilai', 'IndikatorController@bulk_input_nilai')->name('guru.bulk-input-nilai-indikator');
@@ -150,6 +152,21 @@ Route::middleware(['auth'])->group(function () {
           Route::post('/rapotTahfiz/inputnilai', 'RapotTahfizController@input_nilai')->name('tahfiz.input-nilai-rapot');
           Route::get('/jadwalTahfiz', 'JadwalTahfizController@tahfiz')->name('jadwal.tahfiz');
           Route::get('/rapotpdf', 'PdfController@PDFTahfiz')->name('cetak.rapot');
+  });
+
+  Route::middleware(['bimbingankonseling'])
+      ->prefix('/bimbingankonseling')
+      ->group(function () {
+        Route::resource('/index', 'BimbinganKonselingController', [
+          'names' => [
+              'index' => 'bk.index',
+              'store' => 'bk.store',
+          ],
+          'except' => [
+            'create', 'edit', 'update',
+          ],
+      ]);
+          
   });
 
   
@@ -205,7 +222,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/siswa/import_excel', 'SiswaController@import_excel')->name('siswa.import_excel');
     Route::delete('/siswa/deleteAll', 'SiswaController@deleteAll')->name('siswa.deleteAll');
     Route::resource('/siswa', 'SiswaController');
-    Route::resource('/bk', 'BimbinganKonselingController');
+    
     Route::get('/mapel/getMapelJson', 'MapelController@getMapelJson');
     Route::resource('/mapel', 'MapelController');
     Route::get('/jadwal/view/json', 'JadwalController@view');
@@ -232,6 +249,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/rapot-show/{id}', 'RapotController@rapot')->name('rapot-show');
     Route::get('/predikat', 'NilaiController@create')->name('predikat');
     Route::resource('/user', 'UserController');
-    Route::resource('/bk', 'BimbinganKonselingController');
+    
   });
 });
