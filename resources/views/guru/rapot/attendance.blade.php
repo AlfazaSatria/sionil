@@ -80,38 +80,56 @@
                                 <td>{{ $siswa->nama_siswa }}</td>
                                 
                                 <?php
-                                    $name = "";
                                     $sick="";
                                     $permission="";
                                     $absent="";
                                     $late="";
-                                    // $data_nilai = $mapels->nilai($siswa->id);
-                                    // if (count($data_nilai) > 0) {
-                                    //     $score = $data_nilai[0]->score;
-                                    //     $description = $data_nilai[0]->description;
-                                    // }
+                                    $attendance = \App\Attendance::where([
+                                        'siswa_id' => $siswa->id,
+                                    ])->get()->first();
+                                    if ($attendance) {
+                                        $sick = $attendance->sick;
+                                        $permission = $attendance->permission;
+                                        $absent = $attendance->absent;
+                                        $late = $attendance->late;
+                                    }
                                 ?>
                                 
                                     <form action="{{ route('guru.input-nilai-attendance') }}" method="post" class="input-group">
                                         @csrf
                                         <input type="hidden" name="siswa_id" value="{{ $siswa->id }}">
                                         <td>
-                                            <textarea type="number" class="form-control" name="sick" value="{{$sick}}" placeholder="Sick" rows="1"></textarea>
-                                            
+                                            <div class="input-group input-group-sm">
+                                                <input class="form-control form-control-sm"
+                                                       type="number"
+                                                       name="sick"
+                                                       value="{{ $sick }}"/>
+                                            </div>
                                         </td>
                                         <td>
-                                            <textarea type="number" class="form-control" name="permission" value="{{$permission}}" placeholder="Permission" rows="1"></textarea>
-                                            
+                                            <div class="input-group input-group-sm">
+                                                <input class="form-control form-control-sm"
+                                                       type="number"
+                                                       name="permission"
+                                                       value="{{ $permission }}"/>
+                                            </div>
                                         </td>
                                         <td>
-                                            <textarea type="number" class="form-control" name="absent" value="{{$absent}}" placeholder="Absent" rows="1"></textarea>
-                                            
+                                            <div class="input-group input-group-sm">
+                                                <input class="form-control form-control-sm"
+                                                       type="number"
+                                                       name="absent"
+                                                       value="{{ $absent }}"/>
+                                            </div>
                                         </td>
                                         <td>
-                                            <textarea type="number" class="form-control" name="late" value="{{$late}}" placeholder="Late" rows="1"></textarea>
-                                            
+                                            <div class="input-group input-group-sm">
+                                                <input class="form-control form-control-sm"
+                                                       type="number"
+                                                       name="late"
+                                                       value="{{ $late }}"/>
+                                            </div>
                                         </td>
-                                        
                                         <td><div class="input-group-append">
                                             <button class="btn btn-info btn-sm" type="submit">
                                                 <i class="fas fa fa-save"></i>
