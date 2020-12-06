@@ -324,12 +324,12 @@
                         <p>Ulangan</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ route('sikap.siswa') }}" class="nav-link" id="SikapSiswa">
-                        <i class="fas fa-file-alt nav-icon"></i>
-                        <p>Sikap</p>
-                    </a>
-                </li>
+{{--                <li class="nav-item">--}}
+{{--                    <a href="{{ route('sikap.siswa') }}" class="nav-link" id="SikapSiswa">--}}
+{{--                        <i class="fas fa-file-alt nav-icon"></i>--}}
+{{--                        <p>Sikap</p>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
                 <li class="nav-item">
                     <a href="{{ route('rapot.siswa') }}" class="nav-link" id="RapotSiswa">
                         <i class="fas fa-file-alt nav-icon"></i>
