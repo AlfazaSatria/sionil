@@ -87,14 +87,14 @@ tr {
   </thead>
   <tbody>
     <tr class="bg-success" style="height: 40px; font-size:15px;">
-      <th ><p style="text-align:center;">ضعيف</p></th>
-      <th ><p style="text-align:center;"> مقبول</p></th>
-      <th><p style="text-align:center;">ج ّيد</p></th>
-      <th ><p style="text-align:center;">ج ّيد ج ّدا</p></th>
-      <th><p style="text-align:center;">ممتاز</p></th>
-      <th><p style="text-align:center;">قدرات</p></th>
-      <th><p style="text-align:center;">الفصل</p></th>
-      <th><p style="text-align:center;">ال ّسنة</p></th>
+      <th ><p style="text-align:center;">Mumtaz</p></th>
+      <th ><p style="text-align:center;">Mumtaz</p></th>
+      <th ><p style="text-align:center;">Mumtaz</p></th>
+      <th ><p style="text-align:center;">Mumtaz</p></th>
+      <th ><p style="text-align:center;">Mumtaz</p></th>
+      <th ><p style="text-align:center;">Mumtaz</p></th>
+      <th ><p style="text-align:center;">Mumtaz</p></th>
+      <th ><p style="text-align:center;">Mumtaz</p></th>
     </tr>
     <tr class="bg-success" >
       <th style="font-size:10px" width="70px">NI</th>

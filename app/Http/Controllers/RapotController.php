@@ -10,6 +10,7 @@ use App\Ekstrakulikuler;
 use Illuminate\Support\Facades\Auth;
 use App\Nilai;
 use App\Attendance;
+use Illuminate\Support\Facades\DB;
 use App\Health;
 use App\Guru;
 use App\Siswa;
@@ -23,7 +24,7 @@ use App\Sikap;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
-use DB;
+// use DB;
 use Dompdf\Dompdf;
 
 class RapotController extends Controller
@@ -290,7 +291,7 @@ class RapotController extends Controller
 
     public function indexekstrakulikuler(Request $request){
         $user= $request->user();
-        $mapel = Mapel::where('kelompok', 'C')->get();
+        $mapel = Mapel::where('kelompok','C')->get();
         $guru= Guru::firstWhere('walikelas', $user->walikelas);
         $kelas= Kelas::firstWhere('nama_kelas', $guru->walikelas);
         $siswa= Siswa::where('kelas_id', $kelas->id)->get();
