@@ -51,6 +51,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/ulangan/siswa', 'UlanganController@siswa')->name('ulangan.siswa');
     Route::get('/sikap/siswa', 'SikapController@siswa')->name('sikap.siswa');
     Route::get('/rapot/siswa', 'RapotController@siswa')->name('rapot.siswa');
+    Route::get('/generate-pdf','PDFController@PDFTahfiz')->name('cetak.rapot');
   });
 
   Route::middleware(['guru'])
@@ -152,7 +153,7 @@ Route::middleware(['auth'])->group(function () {
           Route::get('/rapotTahfiz/{encryption}', 'RapotTahfizController@show')->name('tahfiz.show-rapot');
           Route::post('/rapotTahfiz/inputnilai', 'RapotTahfizController@input_nilai')->name('tahfiz.input-nilai-rapot');
           Route::get('/jadwalTahfiz', 'JadwalTahfizController@tahfiz')->name('jadwal.tahfiz');
-          Route::get('/rapotpdf', 'PdfController@PDFTahfiz')->name('cetak.rapot');
+          
   });
 
   Route::middleware(['bimbingankonseling'])

@@ -295,14 +295,7 @@
                             </a>
                         </li>
                     </ul>
-                    <ul class="nav nav-treeview ml-4">
-                        <li class="nav-item">
-                            <a href="{{ route('cetak.rapot') }}">
-                                <i class="fas fa-file-alt nav-icon"></i>
-                                <p>Cetak</p>
-                            </a>
-                        </li>
-                    </ul>
+                    
                 </li>
 
                 @elseif (Auth::user()->role == 'Siswa' && Auth::user()->siswa(Auth::user()->no_induk) == true)
@@ -336,6 +329,14 @@
                         <p>Rapot</p>
                     </a>
                 </li>
+                
+                    <li class="nav-item">
+                        <a href="{{ route('cetak.rapot') }}">
+                            <i class="fas fa-file-alt nav-icon"></i>
+                            <p>Cetak</p>
+                        </a>
+                    </li>
+                
                 @elseif (Auth::user()->role == 'Kepsek')
                 <li class="nav-item">
                     <a href="{{ route('kepsek.home') }}" class="nav-link" id="KepsekHome">

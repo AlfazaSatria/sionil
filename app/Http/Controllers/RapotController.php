@@ -20,13 +20,9 @@ use App\Mapel;
 use App\Remark;
 use App\Jadwal;
 use App\Rapot;
-use App\Sikap;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Str;
-// use DB;
-use Dompdf\Dompdf;
-use PHPUnit\Runner\AfterTestFailureHook;
+
 
 class RapotController extends Controller
 {
