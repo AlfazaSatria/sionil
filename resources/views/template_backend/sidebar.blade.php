@@ -144,41 +144,6 @@
                 </li>
                 @else
                 @endif
-                {{-- <li class="nav-item has-treeview" id="liNilai">
-                    <a href="#" class="nav-link" id="Nilai">
-                        <i class="nav-icon fas fa-file-signature"></i>
-                        <p>
-                            Nilai
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview ml-4">
-                        <li class="nav-item">
-                            <a href="{{ route('ulangan-kelas') }}" class="nav-link" id="Ulangan">
-                                <i class="fas fa-file-alt nav-icon"></i>
-                                <p>Nilai Ulangan</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('sikap-kelas') }}" class="nav-link" id="Sikap">
-                                <i class="fas fa-file-alt nav-icon"></i>
-                                <p>Nilai Sikap</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('rapot-kelas') }}" class="nav-link" id="Rapot">
-                                <i class="fas fa-file-alt nav-icon"></i>
-                                <p>Nilai Rapot</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('predikat') }}" class="nav-link" id="Deskripsi">
-                                <i class="fas fa-file-alt nav-icon"></i>
-                                <p>Deskripsi Predikat</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li> --}}
                 <li class="nav-item">
                     <a href="{{ route('admin.pengumuman') }}" class="nav-link" id="Pengumuman">
                         <i class="nav-icon fas fa-clipboard"></i>
@@ -233,8 +198,61 @@
                         </li>
                     </ul>
                 </li>
-
-                @elseif (Auth::user()->role == 'Tahfiz' && Auth::user()->tahfiz(Auth::user()->id_cardTahfiz) == true)
+                @endif
+                
+                <?php
+                    $guru = Auth::user()->guru(Auth::user()->id_card);
+                ?>
+                @if(Auth::user()->role == "Guru" && $guru && $guru->walikelas != null)
+                <li class="nav-item has-treeview" id="liNilaiGuru">
+                    <a href="#" class="nav-link" id="NilaiGuru">
+                        <i class="nav-icon fas fa-file-signature"></i>
+                        <p>
+                            Nilai Rapot
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview ml-4">
+                        <li class="nav-item">
+                            <a href="{{ route('guru.ekstrakulikuler-rapot') }}" class="nav-link" id="EkstrakulikulerGuru">
+                                <i class="fas fa-swimmer nav-icon"></i>
+                                <p>Ekstrakulikuler</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('guru.health-rapot') }}" class="nav-link" id="HealthGuru">
+                                <i class="fas fa-file-medical nav-icon"></i>
+                                <p>Health Condition</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('guru.achievement-rapot') }}" class="nav-link" id="AchievementGuru">
+                                <i class="fas fa-trophy nav-icon"></i>
+                                <p>Achievement</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('guru.attendance-rapot') }}" class="nav-link" id="AttendanceGuru">
+                                <i class="fas fa-tasks nav-icon"></i>
+                                <p>Attendance</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('guru.pyhsic-rapot') }}" class="nav-link" id="PyhsicGuru">
+                                <i class="fas fa-tasks nav-icon"></i>
+                                <p>Pyhsical Appearance</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('guru.remark-rapot') }}" class="nav-link" id="RemarkGuru">
+                                <i class="fas fa-tasks nav-icon"></i>
+                                <p>Teacher's Remark</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @endif
+                @if (Auth::user()->role == 'Tahfiz' && Auth::user()->tahfiz(Auth::user()->id_cardTahfiz) == true)
                 <li class="nav-item has-treeview">
                     <a href="{{ url('/') }}" class="nav-link" id="Home">
                         <i class="nav-icon fas fa-home"></i>
@@ -331,7 +349,23 @@
                         <p>Pengumuman</p>
                     </a>
                 </li>
+
+                {{-- @elseif (Auth::user()->role == 'BimbinganKonseling')
+                <li class="nav-item">
+                    <a href="{{ route('bk.index') }}" class="nav-link" id="BkHome">
+                        <i class="fas fa-home nav-icon"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('bk.index') }}" class="nav-link" id="Bkindex">
+                        <i class="fas fa-home nav-icon"></i>
+                        <p>Input Affective</p>
+                    </a>
+                </li> --}}
                 @endif
+                
+                
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

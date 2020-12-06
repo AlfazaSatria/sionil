@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Achievement;
 use App\Indikator;
 use App\NilaiIndikator;
 use App\Ulangan;
-use Faker\ORM\Spot\EntityPopulator;
+use App\Ekstrakulikuler;
 use Illuminate\Support\Facades\Auth;
 use App\Nilai;
+use App\Attendance;
+use App\Health;
 use App\Guru;
 use App\Siswa;
 use App\Kelas;
+use App\Pyhsic;
 use App\Mapel;
+use App\Remark;
 use App\Jadwal;
 use App\Rapot;
 use App\Sikap;
@@ -281,5 +286,208 @@ class RapotController extends Controller
         $jadwal = Jadwal::where('kelas_id', $kelas->id)->orderBy('mapel_id')->get();
         $mapel = $jadwal->groupBy('mapel_id');
         return view('siswa.rapot', compact('siswa', 'kelas', 'mapel', 'Spai', 'Sppkn'));
+    }
+
+    public function indexekstrakulikuler(Request $request){
+        $user= $request->user();
+        $mapel = Mapel::where('kelompok', 'C')->get();
+        $guru= Guru::firstWhere('walikelas', $user->walikelas);
+        $kelas= Kelas::firstWhere('nama_kelas', $guru->walikelas);
+        $siswa= Siswa::where('kelas_id', $kelas->id)->get();
+        
+        return view('guru.rapot.ekstrakulikuler', compact('user', 'guru','kelas','siswa','mapel'));
+    }
+
+    public function inputekstrakulikuler(Request $request){
+        $id = null;
+        $existing = Ekstrakulikuler::where([
+            ['siswa_id', '=', $request->siswa_id],
+        ])
+        ->get()
+        ->first();
+
+        if ($existing) {
+            $id = $existing->id;
+        }
+
+        
+        Ekstrakulikuler::updateOrCreate(
+            [ 'id' => $id ],
+            [
+                'siswa_id' => $request->siswa_id,
+                'name' => $request->name,
+                'score' => $request->score,
+                'description' => $request->description,
+
+                
+            ]
+        );
+        return redirect()->back()->with('success', 'Success!');
+    }
+
+    public function indexhealth(Request $request){
+        $user= $request->user();
+        $guru= Guru::firstWhere('walikelas', $user->walikelas);
+        $kelas= Kelas::firstWhere('nama_kelas', $guru->walikelas);
+        $siswa= Siswa::where('kelas_id', $kelas->id)->get();
+        
+        return view('guru.rapot.health', compact('user', 'guru','kelas','siswa'));
+    }
+
+    public function input_health(Request $request){
+        $id = null;
+        $existing = Health::where([
+            ['siswa_id', '=', $request->siswa_id],
+        ])
+        ->get()
+        ->first();
+
+        if ($existing) {
+            $id = $existing->id;
+        }
+
+        Health::updateOrCreate(
+            [ 'id' => $id ],
+            [
+                'siswa_id' => $request->siswa_id,
+                'name' => $request->name,
+                'description' => $request->description,
+            ]
+        );
+        return redirect()->back()->with('success', 'Success!');
+    }
+
+    public function indexachievement(Request $request){
+        $user= $request->user();
+        $guru= Guru::firstWhere('walikelas', $user->walikelas);
+        $mapel = Mapel::where('kelompok', 'B')->get();
+        $kelas= Kelas::firstWhere('nama_kelas', $guru->walikelas);
+        $siswa= Siswa::where('kelas_id', $kelas->id)->get();
+        
+        return view('guru.rapot.achievement', compact('user', 'guru','kelas','siswa','mapel'));
+    }
+
+    public function input_achievement(Request $request){
+        $id = null;
+        $existing = Achievement::where([
+            ['mapel_id', '=', $request->mapel_id],
+            ['siswa_id', '=', $request->siswa_id],
+        ])
+        ->get()
+        ->first();
+
+        if ($existing) {
+            $id = $existing->id;
+        }
+
+        Achievement::updateOrCreate(
+            [ 'id' => $id ],
+            [
+                'siswa_id' => $request->siswa_id,
+                'mapel_id' => $request->mapel_id,
+                'name' => $request->name,
+                'description' => $request->description,
+            ]
+        );
+        return redirect()->back()->with('success', 'Success!');
+    }
+
+    public function indexattendance(Request $request){
+        $user= $request->user();
+        $guru= Guru::firstWhere('walikelas', $user->walikelas);
+        $kelas= Kelas::firstWhere('nama_kelas', $guru->walikelas);
+        $siswa= Siswa::where('kelas_id', $kelas->id)->get();
+        
+        return view('guru.rapot.attendance', compact('user', 'guru','kelas','siswa'));
+    }
+
+    public function input_attendance(Request $request){
+        $id = null;
+        $existing = Attendance::where([
+            ['siswa_id', '=', $request->siswa_id],
+        ])
+        ->get()
+        ->first();
+
+        if ($existing) {
+            $id = $existing->id;
+        }
+
+        Attendance::updateOrCreate(
+            [ 'id' => $id ],
+            [
+                'siswa_id' => $request->siswa_id,
+                'sick' => $request->sick,
+                'permission' => $request->permission,
+                'absent' => $request->absent,
+                'late' => $request->late,
+            ]
+        );
+        return redirect()->back()->with('success', 'Success!');
+    }
+
+    public function indexpyhsic(Request $request){
+        $user= $request->user();
+        $guru= Guru::firstWhere('walikelas', $user->walikelas);
+        $kelas= Kelas::firstWhere('nama_kelas', $guru->walikelas);
+        $siswa= Siswa::where('kelas_id', $kelas->id)->get();
+        
+        return view('guru.rapot.pyhsic', compact('user', 'guru','kelas','siswa'));
+    }
+
+    public function input_pyhsic(Request $request){
+        $id = null;
+        $existing = Pyhsic::where([
+            ['siswa_id', '=', $request->siswa_id],
+        ])
+        ->get()
+        ->first();
+
+        if ($existing) {
+            $id = $existing->id;
+        }
+
+        Pyhsic::updateOrCreate(
+            [ 'id' => $id ],
+            [
+                'siswa_id' => $request->siswa_id,
+                'weight_sem1' => $request->weight_sem1,
+                'height_sem1' => $request->height_sem1,
+                'weight_sem2' => $request->weight_sem2,
+                'height_sem2' => $request->height_sem2,
+            ]
+        );
+        return redirect()->back()->with('success', 'Success!');
+    }
+
+    public function indexremark(Request $request){
+        $user= $request->user();
+        $guru= Guru::firstWhere('walikelas', $user->walikelas);
+        $kelas= Kelas::firstWhere('nama_kelas', $guru->walikelas);
+        $siswa= Siswa::where('kelas_id', $kelas->id)->get();
+        
+        return view('guru.rapot.remark', compact('user', 'guru','kelas','siswa'));
+    }
+
+    public function input_remark(Request $request){
+        $id = null;
+        $existing = Remark::where([
+            ['siswa_id', '=', $request->siswa_id],
+        ])
+        ->get()
+        ->first();
+
+        if ($existing) {
+            $id = $existing->id;
+        }
+
+        Remark::updateOrCreate(
+            [ 'id' => $id ],
+            [
+                'siswa_id' => $request->siswa_id,
+                'note' => $request->note
+            ]
+        );
+        return redirect()->back()->with('success', 'Success!');
     }
 }
