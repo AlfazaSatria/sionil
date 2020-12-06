@@ -204,8 +204,8 @@
                     $guru = Auth::user()->guru(Auth::user()->id_card);
                 ?>
                 @if(Auth::user()->role == "Guru" && $guru && $guru->walikelas != null)
-                <li class="nav-item has-treeview" id="liNilaiGuru">
-                    <a href="#" class="nav-link" id="NilaiGuru">
+                <li class="nav-item has-treeview" id="liNilaiRapotGuru">
+                    <a href="#" class="nav-link" id="NilaiRapotGuru">
                         <i class="nav-icon fas fa-file-signature"></i>
                         <p>
                             Nilai Rapot

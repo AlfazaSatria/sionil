@@ -1,11 +1,11 @@
 @extends('template_backend.home')
 <?php
-    $title = "Entry Nilai Health Condition ";
+    $title = "Entry Nilai Teacher Remarks ";
 ?>
 @section('heading', $title)
 @section('page')
   <li class="breadcrumb-item ">Entry Nilai</li>
-  <li class="breadcrumb-item active">Health Condition</li>
+  <li class="breadcrumb-item active">Teacher Remarks</li>
 @endsection
 @section('content')
 <div class="col-md-12">
@@ -116,8 +116,7 @@
 @endsection
 @section('script')
     <script>
-        $("#NilaiTahfiz").addClass("active");
-        $("#liNilaiTahfiz").addClass("menu-open");
-        $("#NilaiTahfiz").addClass("active");
+        $("#liNilaiRapotGuru").addClass("menu-open");
+        $("#RemarkGuru").addClass("active");
     </script>
 @endsection
