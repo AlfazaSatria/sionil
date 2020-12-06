@@ -16,6 +16,7 @@ use App\Siswa;
 use App\Kelas;
 use App\Pyhsic;
 use App\Mapel;
+use App\Remark;
 use App\Jadwal;
 use App\Rapot;
 use App\Sikap;
@@ -454,6 +455,37 @@ class RapotController extends Controller
                 'height_sem1' => $request->height_sem1,
                 'weight_sem2' => $request->weight_sem2,
                 'height_sem2' => $request->height_sem2,
+            ]
+        );
+        return redirect()->back()->with('success', 'Success!');
+    }
+
+    public function indexremark(Request $request){
+        $user= $request->user();
+        $guru= Guru::firstWhere('walikelas', $user->walikelas);
+        $kelas= Kelas::firstWhere('nama_kelas', $guru->walikelas);
+        $siswa= Siswa::where('kelas_id', $kelas->id)->get();
+        
+        return view('guru.rapot.remark', compact('user', 'guru','kelas','siswa'));
+    }
+
+    public function input_remark(Request $request){
+        $id = null;
+        $existing = Remark::where([
+            ['siswa_id', '=', $request->siswa_id],
+        ])
+        ->get()
+        ->first();
+
+        if ($existing) {
+            $id = $existing->id;
+        }
+
+        Remark::updateOrCreate(
+            [ 'id' => $id ],
+            [
+                'siswa_id' => $request->siswa_id,
+                'note' => $request->note
             ]
         );
         return redirect()->back()->with('success', 'Success!');

@@ -243,6 +243,12 @@
                                 <p>Pyhsical Appearance</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('guru.remark-rapot') }}" class="nav-link" id="RemarkGuru">
+                                <i class="fas fa-tasks nav-icon"></i>
+                                <p>Teacher's Remark</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 @endif

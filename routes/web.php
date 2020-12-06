@@ -110,6 +110,8 @@ Route::middleware(['auth'])->group(function () {
           Route::post('/attendance/inputnilai', 'RapotController@input_attendance')->name('guru.input-nilai-attendance');
           Route::get('/pyhsic', 'RapotController@indexpyhsic')->name('guru.pyhsic-rapot');
           Route::post('/pyhsic/inputnilai', 'RapotController@input_pyhsic')->name('guru.input-nilai-pyhsic');
+          Route::get('/remark', 'RapotController@indexremark')->name('guru.remark-rapot');
+          Route::post('/remark/inputnilai', 'RapotController@input_remark')->name('guru.input-nilai-remark');
           Route::get('/indikator/{encryption}', 'IndikatorController@show')->name('guru.show-indikator');
           Route::post('/indikator/inputnilai', 'IndikatorController@input_nilai')->name('guru.input-nilai-indikator');
           Route::post('/indikator/bulkinputnilai', 'IndikatorController@bulk_input_nilai')->name('guru.bulk-input-nilai-indikator');
