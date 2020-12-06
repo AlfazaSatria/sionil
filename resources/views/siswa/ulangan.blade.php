@@ -72,10 +72,7 @@
                         <tr>
                             <th class="ctr">No.</th>
                             <th>Mata Pelajaran</th>
-                            <th class="ctr">ULHA 1</th>
-                            <th class="ctr">ULHA 2</th>
                             <th class="ctr">UTS</th>
-                            <th class="ctr">ULHA 3</th>
                             <th class="ctr">UAS</th>
                         </tr>
                     </thead>
@@ -85,10 +82,7 @@
                                 <?php $data = $data[0]; ?>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $data->mapel->nama_mapel }}</td>
-                                <td class="ctr">{{ $data->ulangan($val)['ulha_1'] }}</td>
-                                <td class="ctr">{{ $data->ulangan($val)['ulha_2'] }}</td>
                                 <td class="ctr">{{ $data->ulangan($val)['uts'] }}</td>
-                                <td class="ctr">{{ $data->ulangan($val)['ulha_3'] }}</td>
                                 <td class="ctr">{{ $data->ulangan($val)['uas'] }}</td>
                             </tr>
                         @endforeach
