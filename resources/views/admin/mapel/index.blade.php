@@ -85,7 +85,9 @@
                     <select id="kelompok" name="kelompok" class="select2bs4 form-control @error('kelompok') is-invalid @enderror">
                       <option value="">-- Pilih Kelompok Mapel --</option>
                       <option value="A">Pelajaran Umum</option>
-                      <option value="B">Klub/Ekstrakurikuler</option>
+                      <option value="B">Thematic Learning</option>
+                      <option value="C">Islamic Studies</option>
+                      <option value="D">Klub/Ekstrakurikuler</option>
                     </select>
                 </div>
               </div>

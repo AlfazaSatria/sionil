@@ -298,7 +298,7 @@ class RapotController extends Controller
 
     public function indexekstrakulikuler(Request $request){
         $user= $request->user();
-        $mapel = Mapel::where('kelompok','B')->get();
+        $mapel = Mapel::where('kelompok','D')->get();
         $guru= Guru::firstWhere('walikelas', $user->walikelas);
         $kelas= Kelas::firstWhere('nama_kelas', $guru->walikelas);
         $siswa= Siswa::where('kelas_id', $kelas->id)->get();
