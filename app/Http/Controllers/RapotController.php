@@ -31,8 +31,13 @@ class RapotController extends Controller
     public function index()
     {
         $guru = Guru::where('id_card', Auth::user()->id_card)->first();
-        $jadwal = Jadwal::where('guru_id', $guru->id)->orderBy('kelas_id')->get();
-        $kelas = $jadwal->groupBy('kelas_id');
+        $kelas = DB::table('kelas')
+            ->join('guru', 'kelas.guru_id', '=', 'guru.id')
+            ->join('mapel', 'guru.mapel_id', '=', 'mapel.id')
+            ->join('jadwal', 'jadwal.guru_id', '=', 'guru.id')
+            ->where([
+                ['guru.id', '=', $guru->id]
+            ])->get();
 
         return view('guru.rapot.kelas', compact('kelas', 'guru'));
     }
@@ -132,10 +137,10 @@ class RapotController extends Controller
         if ($tipe == 'uts') {
             foreach ($data_siswa as $item) {
                 $nilai_keterampilan = ($tipe_uts == 1) ?
-                    ( $item->nilai_ulangan('uts', $guru->mapel_id)->uts + $this->get_indikator_avg($guru->id, $item->id, 1)) / 2 :
+                    ( $item->nilai_ulangan($guru->mapel_id)->uts + $this->get_indikator_avg($guru->id, $item->id, 1)) / 2 :
                     $this->get_indikator_avg($guru->id, $item->id, 1);
                 $nilai_pengetahuan = ($tipe_uts == 0) ?
-                    ( $item->nilai_ulangan('uts', $guru->mapel_id)->uts + $this->get_indikator_avg($guru->id, $item->id, 0)) / 2 :
+                    ( $item->nilai_ulangan($guru->mapel_id)->uts + $this->get_indikator_avg($guru->id, $item->id, 0)) / 2 :
                     $this->get_indikator_avg($guru->id, $item->id, 0);
                 $predikat_keterampilan = $this->get_predikat($guru->id, $nilai_keterampilan);
                 $predikat_pengetahuan = $this->get_predikat($guru->id, $nilai_pengetahuan);
@@ -158,10 +163,10 @@ class RapotController extends Controller
         } else {
             foreach ($data_siswa as $item) {
                 $nilai_keterampilan = ($tipe_uas == 1) ?
-                    ( $item->nilai_ulangan('uas', $guru->mapel_id)->uas + $this->get_indikator_avg($guru->id, $item->id, 1)) / 2 :
+                    ( $item->nilai_ulangan($guru->mapel_id)->uas + $this->get_indikator_avg($guru->id, $item->id, 1)) / 2 :
                     $this->get_indikator_avg($guru->id, $item->id, 1);
                 $nilai_pengetahuan = ($tipe_uas == 0) ?
-                    ( $item->nilai_ulangan('uas', $guru->mapel_id)->uas + $this->get_indikator_avg($guru->id, $item->id, 0)) / 2 :
+                    ( $item->nilai_ulangan($guru->mapel_id)->uas + $this->get_indikator_avg($guru->id, $item->id, 0)) / 2 :
                     $this->get_indikator_avg($guru->id, $item->id, 0);
                 $predikat_keterampilan = $this->get_predikat($guru->id, $nilai_keterampilan);
                 $predikat_pengetahuan = $this->get_predikat($guru->id, $nilai_pengetahuan);
@@ -182,7 +187,6 @@ class RapotController extends Controller
                 array_push($siswa, $data);
             }
         }
-
 
         return view('guru.rapot.rapot', compact('tipe','guru', 'kelas', 'siswa'));
     }

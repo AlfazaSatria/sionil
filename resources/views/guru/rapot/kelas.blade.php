@@ -32,16 +32,39 @@
                     <th>Aksi</th>
                 </thead>
                 <tbody>
-                  @foreach ($kelas as $val => $data)
+                  @foreach ($kelas as $data)
+                    <?php
+                        $nilai_uts = DB::table('ulangan')
+                            ->join('kelas', 'ulangan.kelas_id', '=', 'kelas.id')
+                            ->join('siswa', 'ulangan.siswa_id', '=', 'siswa.id')
+                            ->where([
+                                ['kelas.id', '=', $data->id],
+                            ])
+                            ->whereNotNull('ulangan.uts')
+                            ->count();
+                        $nilai_uas = DB::table('ulangan')
+                            ->join('kelas', 'ulangan.kelas_id', '=', 'kelas.id')
+                            ->join('siswa', 'ulangan.siswa_id', '=', 'siswa.id')
+                            ->where([
+                                ['kelas.id', '=', $data->id],
+                            ])
+                            ->whereNotNull('ulangan.uas')
+                            ->count();
+                        $siswa = \App\Siswa::where([
+                            ['kelas_id', '=', $data->id],
+                        ])->count();
+                    ?>
                     <tr>
                       <td>{{ $loop->iteration }}</td>
-                      <td>{{ $data[0]->rapot($val)->nama_kelas }}</td>
+                      <td>{{ $data->nama_kelas }}</td>
                       <td>
-                          <a href="{{ route('guru.show-rapot', Crypt::encrypt(['id' => $val, 'tipe' => 'uts'])) }}" class="btn btn-primary btn-sm">
+                          <a href="{{ route('guru.show-rapot', Crypt::encrypt(['id' => $data->id, 'tipe' => 'uts'])) }}"
+                             class="btn btn-primary btn-sm <?= ($siswa != $nilai_uts) ? "disabled":"" ?>">
                               <i class="nav-icon fas fa-pen"></i> &nbsp;
                               Rapot Tengah Semester
                           </a>
-                          <a href="{{ route('guru.show-rapot', Crypt::encrypt(['id' => $val, 'tipe' => 'uas'])) }}" class="btn btn-primary btn-sm">
+                          <a href="{{ route('guru.show-rapot', Crypt::encrypt(['id' => $data->id, 'tipe' => 'uas'])) }}"
+                             class="btn btn-primary btn-sm <?= ($siswa != $nilai_uas) ? "disabled":"" ?>">
                               <i class="nav-icon fas fa-pen"></i> &nbsp;
                               Rapot Akhir Semester
                           </a>
