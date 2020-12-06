@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Achievement;
 use App\Indikator;
 use App\NilaiIndikator;
 use App\Ulangan;
@@ -342,6 +343,41 @@ class RapotController extends Controller
             [ 'id' => $id ],
             [
                 'siswa_id' => $request->siswa_id,
+                'name' => $request->name,
+                'description' => $request->description,
+            ]
+        );
+        return redirect()->back()->with('success', 'Success!');
+    }
+
+    public function indexachievement(Request $request){
+        $user= $request->user();
+        $guru= Guru::firstWhere('walikelas', $user->walikelas);
+        $mapel = Mapel::where('kelompok', 'B')->get();
+        $kelas= Kelas::firstWhere('nama_kelas', $guru->walikelas);
+        $siswa= Siswa::where('kelas_id', $kelas->id)->get();
+        
+        return view('guru.rapot.achievement', compact('user', 'guru','kelas','siswa','mapel'));
+    }
+
+    public function input_achievement(Request $request){
+        $id = null;
+        $existing = Achievement::where([
+            ['mapel_id', '=', $request->mapel_id],
+            ['siswa_id', '=', $request->siswa_id],
+        ])
+        ->get()
+        ->first();
+
+        if ($existing) {
+            $id = $existing->id;
+        }
+
+        Achievement::updateOrCreate(
+            [ 'id' => $id ],
+            [
+                'siswa_id' => $request->siswa_id,
+                'mapel_id' => $request->mapel_id,
                 'name' => $request->name,
                 'description' => $request->description,
             ]

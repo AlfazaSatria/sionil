@@ -15,8 +15,8 @@ class CreateAchievementTable extends Migration
     {
         Schema::create('achievement', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('kelas_id');
             $table->bigInteger('siswa_id');
+            $table->bigInteger('mapel_id');
             $table->string('name');
             $table->text('description');
             $table->timestamps();

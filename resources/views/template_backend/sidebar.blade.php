@@ -226,7 +226,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('guru.index-nilai') }}" class="nav-link" id="DesGuru">
+                            <a href="{{ route('guru.achievement-rapot') }}" class="nav-link" id="DesGuru">
                                 <i class="fas fa-file-alt nav-icon"></i>
                                 <p>Achievement</p>
                             </a>
