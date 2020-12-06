@@ -10,7 +10,6 @@ class Achievement extends Model
 
     protected $fillable=[
         'siswa_id',
-        'mapel_id',
         'name',
         'description'
     ];

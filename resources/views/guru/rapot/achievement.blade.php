@@ -66,29 +66,8 @@
                         <tr>
                             <th>No.</th>
                             <th>Nama Siswa</th>
-                            @foreach($mapel as $key => $mapels)
-                            <th>
-                                Klub {{ $key+1 }}
-                                <i class="fas fa-info-circle text-gray" 
-                                    style="cursor:pointer"
-                                    data-toggle="modal" 
-                                    data-target="{{ "#indikatorDialog".$key }}"></i>
-                                <div id="{{ "indikatorDialog".$key }}" class="modal fade">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <i class="fas fa-info-circle fa-lg text-gray"></i> &nbsp;&nbsp;
-                                                Klub {{ $key+1 }}
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            </div>
-                                            <div class="modal-body" style="font-weight:lighter">
-                                                {{ $mapels->nama_mapel }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </th>
-                            @endforeach
+                            <th>Kind Of Achievement</th>
+                            <th>Description</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -96,32 +75,39 @@
                             <tr>
                                 <td>{{ $key+1 }}</td>
                                 <td>{{ $siswa->nama_siswa }}</td>
-                                @foreach($mapel as $key => $mapels)
+                                
                                 <?php
+                                    $name="";
                                     $desc="";
                                     $achievement = \App\Achievement::where([
                                         'siswa_id' => $siswa->id,
-                                        'mapel_id' => $mapels->id,
                                     ])->get()->first();
                                     if ($achievement) {
                                         $desc = $achievement->description;
                                     }
                                 ?>
-                                <td>
+                                
                                     <form action="{{ route('guru.input-nilai-achievement') }}" method="post" class="input-group">
                                         @csrf
                                         <input type="hidden" name="siswa_id" value="{{ $siswa->id }}">
-                                        <input type="hidden" name="mapel_id" value="{{ $mapels->id}}">
-                                        <input type="hidden" name="name" value="{{ $mapels->nama_mapel}}">
+                                        <td>
+                                            <input type="text" class="form-control" name="name" value="{{$name}}" placeholder="name">
+                                        </td>
+                                        <td>
+                                            
                                         <input type="text" class="form-control" name="description" value="{{$desc}}" placeholder="Description">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-info btn-sm" type="submit">
-                                                <i class="fas fa fa-save"></i>
-                                            </button>
-                                        </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group-append">
+                                                <button class="btn btn-info btn-sm" type="submit">
+                                                    <i class="fas fa fa-save"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                        
                                     </form>
-                                </td>
-                                @endforeach
+                                
+                               
                             </tr>
                         @endforeach
                     </tbody>

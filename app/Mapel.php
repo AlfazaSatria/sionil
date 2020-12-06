@@ -40,7 +40,7 @@ class Mapel extends Model
         return $nilai;
     }
 
-    public function nilaiAchiev($siswa_id) {
+    public function nilaiEkstra($siswa_id) {
         $nilai = Achievement::where([
             ['mapel_id', '=', $this->id],
             ['siswa_id', '=', $siswa_id],
