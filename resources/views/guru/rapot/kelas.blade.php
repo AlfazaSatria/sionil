@@ -36,19 +36,11 @@
                   @foreach ($kelas as $data)
                     <?php
                         $nilai_uts = DB::table('ulangan')
-                            ->join('kelas', 'ulangan.kelas_id', '=', 'kelas.id')
-                            ->join('siswa', 'ulangan.siswa_id', '=', 'siswa.id')
-                            ->where([
-                                ['kelas.id', '=', $data->id],
-                            ])
+                            ->where('mapel_id', $guru->mapel->id)
                             ->whereNotNull('ulangan.uts')
                             ->count();
                         $nilai_uas = DB::table('ulangan')
-                            ->join('kelas', 'ulangan.kelas_id', '=', 'kelas.id')
-                            ->join('siswa', 'ulangan.siswa_id', '=', 'siswa.id')
-                            ->where([
-                                ['kelas.id', '=', $data->id],
-                            ])
+                            ->where('mapel_id', $guru->mapel->id)
                             ->whereNotNull('ulangan.uas')
                             ->count();
                         $siswa = \App\Siswa::where([
