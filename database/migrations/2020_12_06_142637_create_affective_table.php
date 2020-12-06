@@ -16,9 +16,8 @@ class CreateAffectiveTable extends Migration
         Schema::create('affective', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('siswa_id');
-            $table->bigInteger('kelas_id');
-            $table->enum('name',['spritual','social']);
-            $table->text('description');
+            $table->text('spiritual');
+            $table->text('social');
             $table->timestamps();
         });
     }
