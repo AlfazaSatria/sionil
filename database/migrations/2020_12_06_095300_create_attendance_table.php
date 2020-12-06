@@ -15,10 +15,11 @@ class CreateAttendanceTable extends Migration
     {
         Schema::create('attendance', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('kelas_id');
             $table->bigInteger('siswa_id');
-            $table->enum('name',['sick','permission','absent','late']);
-            $table->double('score');
+            $table->double('sick')->nullable();
+            $table->double('permission')->nullable();
+            $table->double('absent')->nullable();
+            $table->double('late')->nullable();
             $table->timestamps();
         });
     }

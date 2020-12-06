@@ -9,6 +9,7 @@ use App\Ulangan;
 use App\Ekstrakulikuler;
 use Illuminate\Support\Facades\Auth;
 use App\Nilai;
+use App\Attendance;
 use App\Health;
 use App\Guru;
 use App\Siswa;
@@ -380,6 +381,40 @@ class RapotController extends Controller
                 'mapel_id' => $request->mapel_id,
                 'name' => $request->name,
                 'description' => $request->description,
+            ]
+        );
+        return redirect()->back()->with('success', 'Success!');
+    }
+
+    public function indexattendance(Request $request){
+        $user= $request->user();
+        $guru= Guru::firstWhere('walikelas', $user->walikelas);
+        $kelas= Kelas::firstWhere('nama_kelas', $guru->walikelas);
+        $siswa= Siswa::where('kelas_id', $kelas->id)->get();
+        
+        return view('guru.rapot.attendance', compact('user', 'guru','kelas','siswa'));
+    }
+
+    public function input_attendance(Request $request){
+        $id = null;
+        $existing = Attendance::where([
+            ['siswa_id', '=', $request->siswa_id],
+        ])
+        ->get()
+        ->first();
+
+        if ($existing) {
+            $id = $existing->id;
+        }
+
+        Attendance::updateOrCreate(
+            [ 'id' => $id ],
+            [
+                'siswa_id' => $request->siswa_id,
+                'sick' => $request->sick,
+                'permission' => $request->permission,
+                'absent' => $request->absent,
+                'late' => $request->late,
             ]
         );
         return redirect()->back()->with('success', 'Success!');

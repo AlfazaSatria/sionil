@@ -226,9 +226,15 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('guru.achievement-rapot') }}" class="nav-link" id="DesGuru">
+                            <a href="{{ route('guru.achievement-rapot') }}" class="nav-link" id="AchievementGuru">
                                 <i class="fas fa-file-alt nav-icon"></i>
                                 <p>Achievement</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('guru.attendance-rapot') }}" class="nav-link" id="AttendanceGuru">
+                                <i class="fas fa-file-alt nav-icon"></i>
+                                <p>Attendance</p>
                             </a>
                         </li>
                     </ul>
