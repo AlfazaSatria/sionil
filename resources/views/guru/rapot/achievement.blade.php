@@ -98,11 +98,13 @@
                                 <td>{{ $siswa->nama_siswa }}</td>
                                 @foreach($mapel as $key => $mapels)
                                 <?php
-                                    $name = "";
                                     $desc="";
-                                    $data_nilai = $mapels->nilaiAchiev($siswa->id);
-                                    if (count($data_nilai) > 0) {
-                                        $desc = $data_nilai[0]->description;
+                                    $achievement = \App\Achievement::where([
+                                        'siswa_id' => $siswa->id,
+                                        'mapel_id' => $mapels->id,
+                                    ])->get()->first();
+                                    if ($achievement) {
+                                        $desc = $achievement->description;
                                     }
                                 ?>
                                 <td>
