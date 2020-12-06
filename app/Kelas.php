@@ -23,4 +23,14 @@ class Kelas extends Model
     public function nilaitahfiz(){
         return $this->hasMany('App\NilaiTahfiz');
     }
+
+    public function ulangan()
+    {
+        return $this->hasMany('App\Ulangan', 'kelas_id');
+    }
+
+    public function siswa()
+    {
+        return $this->hasMany('App\Siswa', 'kelas_id');
+    }
 }

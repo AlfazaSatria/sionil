@@ -24,10 +24,9 @@ class Siswa extends Model
         return $nilai;
     }
 
-    public function nilai_ulangan($tipe, $mapel_id)
+    public function nilai_ulangan($mapel_id)
     {
-        return Ulangan::select($tipe)
-            ->where([
+        return Ulangan::where([
                 ['siswa_id', '=', $this->id],
                 ['mapel_id', '=', $mapel_id],
                 ])
