@@ -92,6 +92,32 @@
                                         <option value="0" {{ ($nilai && !$tipe_uts) ? "selected" : "" }}>Teori</option>
                                         <option value="1" {{ ($nilai && $tipe_uts) ? "selected" : "" }}>Praktikum</option>
                                     </select>
+                                    <div class="input-group-append">
+                                        <button class="btn-default btn"
+                                                data-toggle="modal"
+                                                data-target="#dialogUTS">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </button>
+                                        <div id="dialogUTS" class="modal fade">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <i class="fas fa-warning fa-2x text-gray"></i> &nbsp;&nbsp;
+                                                        Warning!
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    </div>
+                                                    <div class="modal-body" style="font-weight:lighter">
+                                                        Apakah anda yakin ingin mengubah tipe UTS? <br/>
+                                                        Berpontensi merubah kalkulasi nilai UTS tiap anak!
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn btn-danger" id="editUTS" data-dismiss="modal">Ya, saya yakin</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Tidak</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </th>
                             <th class="ctr">
@@ -105,6 +131,32 @@
                                         <option value="0" {{ ($nilai && !$tipe_uas) ? "selected" : "" }}>Teori</option>
                                         <option value="1" {{ ($nilai && $tipe_uas) ? "selected" : "" }}>Praktikum</option>
                                     </select>
+                                    <div class="input-group-append">
+                                        <button class="btn-default btn"
+                                                data-toggle="modal"
+                                                data-target="#dialogUAS">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </button>
+                                        <div id="dialogUAS" class="modal fade">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <i class="fas fa-warning fa-2x text-gray"></i> &nbsp;&nbsp;
+                                                        Warning!
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    </div>
+                                                    <div class="modal-body" style="font-weight:lighter">
+                                                        Apakah anda yakin ingin mengubah tipe UAS? <br/>
+                                                        Berpontensi merubah kalkulasi nilai UAS tiap anak!
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn btn-danger" id="editUAS" data-dismiss="modal">Ya, saya yakin</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Tidak</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </th>
                             <th class="ctr">Aksi</th>
@@ -163,6 +215,13 @@
         $("#NilaiGuru").addClass("active");
         $("#liNilaiGuru").addClass("menu-open");
         $("#UlanganGuru").addClass("active");
+
+        $("#editUTS").click(function() {
+           $("#tipe_uts").attr("disabled", false);
+        });
+        $("#editUAS").click(function() {
+            $("#tipe_uas").attr("disabled", false);
+        });
 
         function save(siswaId) {
             var data = {

@@ -173,11 +173,17 @@
                     <a href="#" class="nav-link" id="NilaiGuru">
                         <i class="nav-icon fas fa-file-signature"></i>
                         <p>
-                            Nilai
+                            Penilaian
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview ml-4">
+                        <li class="nav-item">
+                            <a href="{{ route('guru.index-nilai') }}" class="nav-link" id="DesGuru">
+                                <i class="fas fa-file-alt nav-icon"></i>
+                                <p>Deskripsi Predikat</p>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="{{ route('guru.index-ulangan') }}" class="nav-link" id="UlanganGuru">
                                 <i class="fas fa-file-alt nav-icon"></i>
@@ -187,13 +193,7 @@
                         <li class="nav-item">
                             <a href="{{ route('guru.index-rapot') }}" class="nav-link" id="RapotGuru">
                                 <i class="fas fa-file-alt nav-icon"></i>
-                                <p>Entry Nilai Rapot</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('guru.index-nilai') }}" class="nav-link" id="DesGuru">
-                                <i class="fas fa-file-alt nav-icon"></i>
-                                <p>Deskripsi Predikat</p>
+                                <p>Rekapitulasi Nilai</p>
                             </a>
                         </li>
                     </ul>

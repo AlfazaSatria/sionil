@@ -80,7 +80,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($siswa as $key => $siswa) 
+                        @foreach($siswa as $key => $siswa)
                             <tr>
                                 <td>{{ $key+1 }}</td>
                                 <td>{{ $siswa->nama_siswa }}</td>
@@ -88,18 +88,24 @@
                                 <?php
                                     $name = "";
                                     $description="";
-                                    
+                                    $health = \App\Health::where([
+                                        'siswa_id' => $siswa->id,
+                                    ])->get()->first();
+                                    if ($health) {
+                                        $name = $health->name;
+                                        $description = $health->description;
+                                    }
                                 ?>
                                 
                                     <form action="{{ route('guru.input-nilai-health') }}" method="post" class="input-group">
+                                        <input type="hidden" name="siswa_id" value="{{ $siswa->id }}"/>
                                         @csrf
                                         <div class="form-group">
-                                            
                                         <td>
-                                            <textarea type="text" class="form-control" name="name" value="{{$name}}" placeholder="Name" rows="2"></textarea>
+                                            <textarea type="text" class="form-control" name="name" placeholder="Name" rows="2">{{ $name }}</textarea>
                                         </td>
                                         <td>
-                                            <textarea type="text" class="form-control" name="description" value="{{$description}}" placeholder="Description" rows="2"></textarea>
+                                            <textarea type="text" class="form-control" name="description" placeholder="Description" rows="2">{{ $description }}</textarea>
                                             
                                         </td>
                                         <td>
