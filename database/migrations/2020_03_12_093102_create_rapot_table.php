@@ -15,6 +15,7 @@ class CreateRapotTable extends Migration
     {
         Schema::create('rapot', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->boolean('tipe_rapot')->nullable();
             $table->integer('siswa_id');
             $table->integer('kelas_id');
             $table->integer('guru_id');

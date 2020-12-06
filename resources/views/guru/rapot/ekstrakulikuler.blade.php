@@ -137,8 +137,7 @@
 @endsection
 @section('script')
     <script>
-        $("#NilaiTahfiz").addClass("active");
-        $("#liNilaiTahfiz").addClass("menu-open");
-        $("#NilaiTahfiz").addClass("active");
+        $("#liNilaiRapotGuru").addClass("menu-open");
+        $("#EkstrakulikulerGuru").addClass("active");
     </script>
 @endsection

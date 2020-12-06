@@ -1,11 +1,11 @@
 @extends('template_backend.home')
 <?php
-    $title = "Entry Nilai Health Condition ";
+    $title = "Entry Nilai Teacher Remarks ";
 ?>
 @section('heading', $title)
 @section('page')
   <li class="breadcrumb-item ">Entry Nilai</li>
-  <li class="breadcrumb-item active">Health Condition</li>
+  <li class="breadcrumb-item active">Teacher Remarks</li>
 @endsection
 @section('content')
 <div class="col-md-12">
@@ -82,7 +82,13 @@
                                 <td>{{ $siswa->nama_siswa }}</td>
                                 
                                 <?php
-                                    $note = "";  
+                                    $desc = "";
+                                    $remark = \App\Remark::where([
+                                        'siswa_id' => $siswa->id,
+                                    ])->get()->first();
+                                    if ($remark) {
+                                        $desc = $remark->note;
+                                    }
                                 ?>
                                     <form action="{{ route('guru.input-nilai-remark') }}" method="post" class="input-group">
                                         @csrf
@@ -90,7 +96,7 @@
                                         <div class="form-group">
                                             
                                         <td>
-                                            <textarea type="text" class="form-control" name="note" value="{{$note}}" placeholder="Remark" rows="2"></textarea>
+                                            <textarea type="text" class="form-control" name="note" placeholder="Remark" rows="2">{{$desc}}</textarea>
                                         </td>
                                         <td>
                                             <div class="input-group-append">
@@ -116,8 +122,7 @@
 @endsection
 @section('script')
     <script>
-        $("#NilaiTahfiz").addClass("active");
-        $("#liNilaiTahfiz").addClass("menu-open");
-        $("#NilaiTahfiz").addClass("active");
+        $("#liNilaiRapotGuru").addClass("menu-open");
+        $("#RemarkGuru").addClass("active");
     </script>
 @endsection
