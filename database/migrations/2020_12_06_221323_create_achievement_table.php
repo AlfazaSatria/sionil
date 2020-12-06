@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEkstrakulikulerTable extends Migration
+class CreateAchievementTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateEkstrakulikulerTable extends Migration
      */
     public function up()
     {
-        Schema::create('ekstrakulikuler', function (Blueprint $table) {
+        Schema::create('achievement', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('siswa_id');
             $table->string('name');
-            $table->double('score');
             $table->text('description');
             $table->timestamps();
         });
@@ -30,6 +29,6 @@ class CreateEkstrakulikulerTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ekstrakulikuler');
+        Schema::dropIfExists('achievement');
     }
 }

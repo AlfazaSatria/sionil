@@ -6,12 +6,11 @@ use App\Achievement;
 use App\Indikator;
 use App\NilaiIndikator;
 use App\Ulangan;
-use Cassandra\Map;
-use Faker\ORM\Spot\EntityPopulator;
 use App\Ekstrakulikuler;
 use Illuminate\Support\Facades\Auth;
 use App\Nilai;
 use App\Attendance;
+use Illuminate\Support\Facades\DB;
 use App\Health;
 use App\Guru;
 use App\Siswa;
@@ -25,7 +24,7 @@ use App\Sikap;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
-use DB;
+// use DB;
 use Dompdf\Dompdf;
 
 class RapotController extends Controller
@@ -307,7 +306,7 @@ class RapotController extends Controller
 
     public function indexekstrakulikuler(Request $request){
         $user= $request->user();
-        $mapel = Mapel::where('kelompok', 'C')->get();
+        $mapel = Mapel::where('kelompok','B')->get();
         $guru= Guru::firstWhere('walikelas', $user->walikelas);
         $kelas= Kelas::firstWhere('nama_kelas', $guru->walikelas);
         $siswa= Siswa::where('kelas_id', $kelas->id)->get();
@@ -318,6 +317,7 @@ class RapotController extends Controller
     public function inputekstrakulikuler(Request $request){
         $id = null;
         $existing = Ekstrakulikuler::where([
+            ['mapel_id', '=', $request->mapel_id],
             ['siswa_id', '=', $request->siswa_id],
         ])
         ->get()
@@ -332,7 +332,8 @@ class RapotController extends Controller
             [ 'id' => $id ],
             [
                 'siswa_id' => $request->siswa_id,
-                'name' => $request->name,
+                'mapel_id' => $request->mapel_id,
+                'mapel_name' => $request->mapel_name,
                 'score' => $request->score,
                 'description' => $request->description,
 
@@ -377,17 +378,15 @@ class RapotController extends Controller
     public function indexachievement(Request $request){
         $user= $request->user();
         $guru= Guru::firstWhere('walikelas', $user->walikelas);
-        $mapel = Mapel::where('kelompok', 'B')->get();
         $kelas= Kelas::firstWhere('nama_kelas', $guru->walikelas);
         $siswa= Siswa::where('kelas_id', $kelas->id)->get();
         
-        return view('guru.rapot.achievement', compact('user', 'guru','kelas','siswa','mapel'));
+        return view('guru.rapot.achievement', compact('user', 'guru','kelas','siswa'));
     }
 
     public function input_achievement(Request $request){
         $id = null;
         $existing = Achievement::where([
-            ['mapel_id', '=', $request->mapel_id],
             ['siswa_id', '=', $request->siswa_id],
         ])
         ->get()
@@ -401,7 +400,6 @@ class RapotController extends Controller
             [ 'id' => $id ],
             [
                 'siswa_id' => $request->siswa_id,
-                'mapel_id' => $request->mapel_id,
                 'name' => $request->name,
                 'description' => $request->description,
             ]

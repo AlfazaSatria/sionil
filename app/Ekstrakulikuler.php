@@ -10,7 +10,8 @@ class Ekstrakulikuler extends Model
 
     protected $fillable=[
         'siswa_id',
-        'name',
+        'mapel_id',
+        'mapel_name',
         'score',
         'description'
     ];
