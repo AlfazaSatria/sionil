@@ -80,42 +80,61 @@
                                 <td>{{ $siswa->nama_siswa }}</td>
                                 
                                 <?php
-                                    $height_sem1="";
-                                    $height_sem2="";
-                                    $weight_sem1="";
-                                    $weight_sem2="";
-                                   
+                                    $hs1="";
+                                    $hs2="";
+                                    $ws1="";
+                                    $ws2="";
+                                   $physic = \App\Pyhsic::where([
+                                       'siswa_id' => $siswa->id,
+                                   ])->get()->first();
+                                   if ($physic) {
+                                       $hs1=$physic->height_sem1;
+                                       $hs2=$physic->height_sem2;
+                                       $ws1=$physic->weight_sem1;
+                                       $ws2=$physic->weight_sem2;
+                                   }
                                 ?>
-                                
-                                    <form action="{{ route('guru.input-nilai-pyhsic') }}" method="post" class="input-group">
-                                        @csrf
-                                        <input type="hidden" name="siswa_id" value="{{ $siswa->id }}">
-                                        <td>
-                                            <textarea type="number" class="form-control" name="weight_sem1" value="{{$weight_sem1}}" placeholder="Weight Semester 1" rows="1"></textarea>
-                                            
-                                        </td>
-                                        <td>
-                                            <textarea type="number" class="form-control" name="height_sem1" value="{{ $height_sem1}}" placeholder="Height Semester 1" rows="1"></textarea>
-                                            
-                                        </td>
-                                        <td>
-                                            <textarea type="number" class="form-control" name="weight_sem2" value="{{$weight_sem2}}" placeholder="Weight Semester 2" rows="1"></textarea>
-                                            
-                                        </td>
-                                        <td>
-                                            <textarea type="number" class="form-control" name="height_sem2" value="{{$height_sem2}}" placeholder="Height Semester 2" rows="1"></textarea>
-                                            
-                                        </td>
-                                        
-                                        <td><div class="input-group-append">
-                                            <button class="btn btn-info btn-sm" type="submit">
-                                                <i class="fas fa fa-save"></i>
-                                            </button>
-                                        </div></td>
-                                        
-                                    </form>
-                                
-                               
+                                <form action="{{ route('guru.input-nilai-pyhsic') }}" method="post" class="input-group">
+                                    @csrf
+                                    <input type="hidden" name="siswa_id" value="{{ $siswa->id }}"/>
+                                    <td>
+                                        <div class="input-group input-group-sm">
+                                            <input class="form-control form-control-sm"
+                                                   type="number"
+                                                   name="ws1"
+                                                   value="{{ $ws1 }}"/>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group input-group-sm">
+                                            <input class="form-control form-control-sm"
+                                                   type="number"
+                                                   name="hs1"
+                                                   value="{{ $hs1 }}"/>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group input-group-sm">
+                                            <input class="form-control form-control-sm"
+                                                   type="number"
+                                                   name="ws2"
+                                                   value="{{ $ws2 }}"/>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group input-group-sm">
+                                            <input class="form-control form-control-sm"
+                                                   type="number"
+                                                   name="hs2"
+                                                   value="{{ $hs2 }}"/>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-info btn-sm" type="submit">
+                                            <i class="fas fa fa-save"></i>
+                                        </button>
+                                    </td>
+                                </form>
                             </tr>
                         @endforeach
                     </tbody>
@@ -132,6 +151,6 @@
 @section('script')
     <script>
         $("#liNilaiRapotGuru").addClass("menu-open");
-        $("#PyhsicGuru").addClass("active");
+        $("#PyhsicGuru").addClass("active")
     </script>
 @endsection

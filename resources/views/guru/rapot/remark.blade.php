@@ -82,7 +82,13 @@
                                 <td>{{ $siswa->nama_siswa }}</td>
                                 
                                 <?php
-                                    $note = "";  
+                                    $desc = "";
+                                    $remark = \App\Remark::where([
+                                        'siswa_id' => $siswa->id,
+                                    ])->get()->first();
+                                    if ($remark) {
+                                        $desc = $remark->note;
+                                    }
                                 ?>
                                     <form action="{{ route('guru.input-nilai-remark') }}" method="post" class="input-group">
                                         @csrf
@@ -90,7 +96,7 @@
                                         <div class="form-group">
                                             
                                         <td>
-                                            <textarea type="text" class="form-control" name="note" value="{{$note}}" placeholder="Remark" rows="2"></textarea>
+                                            <textarea type="text" class="form-control" name="note" placeholder="Remark" rows="2">{{$desc}}</textarea>
                                         </td>
                                         <td>
                                             <div class="input-group-append">

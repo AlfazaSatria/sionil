@@ -465,15 +465,16 @@ class RapotController extends Controller
         }
 
         Pyhsic::updateOrCreate(
-            [ 'id' => $id ],
+            ['id' => $id],
             [
-                'siswa_id' => $request->siswa_id,
-                'weight_sem1' => $request->weight_sem1,
-                'height_sem1' => $request->height_sem1,
-                'weight_sem2' => $request->weight_sem2,
-                'height_sem2' => $request->height_sem2,
+                'siswa_id' => $request['siswa_id'],
+                'height_sem1' => $request['hs1'],
+                'height_sem2' => $request['hs2'],
+                'weight_sem1' => $request['ws1'],
+                'weight_sem2' => $request['ws2'],
             ]
         );
+
         return redirect()->back()->with('success', 'Success!');
     }
 
