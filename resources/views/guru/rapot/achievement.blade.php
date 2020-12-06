@@ -1,11 +1,11 @@
 @extends('template_backend.home')
 <?php
-    $title = "Entry Nilai Ekstrakulikuler ";
+    $title = "Entry Nilai Achievement ";
 ?>
 @section('heading', $title)
 @section('page')
   <li class="breadcrumb-item ">Entry Nilai</li>
-  <li class="breadcrumb-item active">Ekstrakulikuler</li>
+  <li class="breadcrumb-item active">Achievement</li>
 @endsection
 @section('content')
 <div class="col-md-12">
@@ -98,11 +98,13 @@
                                 <td>{{ $siswa->nama_siswa }}</td>
                                 @foreach($mapel as $key => $mapels)
                                 <?php
-                                    $name = "";
                                     $desc="";
-                                    $data_nilai = $mapels->nilaiAchiev($siswa->id);
-                                    if (count($data_nilai) > 0) {
-                                        $desc = $data_nilai[0]->description;
+                                    $achievement = \App\Achievement::where([
+                                        'siswa_id' => $siswa->id,
+                                        'mapel_id' => $mapels->id,
+                                    ])->get()->first();
+                                    if ($achievement) {
+                                        $desc = $achievement->description;
                                     }
                                 ?>
                                 <td>
@@ -135,8 +137,7 @@
 @endsection
 @section('script')
     <script>
-        $("#NilaiTahfiz").addClass("active");
-        $("#liNilaiTahfiz").addClass("menu-open");
-        $("#NilaiTahfiz").addClass("active");
+        $("#liNilaiRapotGuru").addClass("menu-open");
+        $("#AchievementGuru").addClass("active");
     </script>
 @endsection

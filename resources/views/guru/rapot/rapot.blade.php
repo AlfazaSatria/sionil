@@ -107,8 +107,6 @@ $matchThese = [
                                     ->get()
                                     ->first();
                                 $exists = ($nilai) ? true : false;
-
-                                var_dump($exists);
                             ?>
 
                             <tr>

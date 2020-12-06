@@ -1,7 +1,8 @@
 @extends('template_backend.home')
-@section('heading', 'Rapot')
+@section('heading', 'Penilaian')
 @section('page')
-  <li class="breadcrumb-item active">Rapot</li>
+    <li class="breadcrumb-item active">Penilaian</li>
+    <li class="breadcrumb-item active">Nilai Semester</li>
 @endsection
 @section('content')
 <div class="col-md-12">
@@ -61,12 +62,12 @@
                           <a href="{{ route('guru.show-rapot', Crypt::encrypt(['id' => $data->id, 'tipe' => 'uts'])) }}"
                              class="btn btn-primary btn-sm <?= ($siswa != $nilai_uts) ? "disabled":"" ?>">
                               <i class="nav-icon fas fa-pen"></i> &nbsp;
-                              Rapot Tengah Semester
+                              Nilai Tengah Semester
                           </a>
                           <a href="{{ route('guru.show-rapot', Crypt::encrypt(['id' => $data->id, 'tipe' => 'uas'])) }}"
                              class="btn btn-primary btn-sm <?= ($siswa != $nilai_uas) ? "disabled":"" ?>">
                               <i class="nav-icon fas fa-pen"></i> &nbsp;
-                              Rapot Akhir Semester
+                              Nilai Akhir Semester
                           </a>
                       </td>
                     </tr>
