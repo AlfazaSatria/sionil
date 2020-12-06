@@ -323,11 +323,28 @@
 {{--                        <p>Sikap</p>--}}
 {{--                    </a>--}}
 {{--                </li>--}}
-                <li class="nav-item">
-                    <a href="{{ route('rapot.siswa') }}" class="nav-link" id="RapotSiswa">
-                        <i class="fas fa-file-alt nav-icon"></i>
-                        <p>Rapot</p>
+                <li class="nav-item has-treeview" id="liNilaiRapotSiswa">
+                    <a href="#" class="nav-link" id="NilaiRapotSiswa">
+                        <i class="nav-icon fas fa-file-signature"></i>
+                        <p>
+                            Rapot
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
                     </a>
+                    <ul class="nav nav-treeview ml-4">
+                        <li class="nav-item">
+                            <a href="{{ route('rapot.siswa', Crypt::encrypt(0)) }}" class="nav-link" id="RapotSiswaUTS">
+                                <i class="fas fa-file-alt nav-icon"></i>
+                                <p>Tengah Semester</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('rapot.siswa', Crypt::encrypt(1)) }}" class="nav-link" id="RapotSiswaUAS">
+                                <i class="fas fa-file-alt nav-icon"></i>
+                                <p>Akhir Semester</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 
                     <li class="nav-item">

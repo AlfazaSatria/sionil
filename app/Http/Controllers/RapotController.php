@@ -35,11 +35,11 @@ class RapotController extends Controller
     {
         $guru = Guru::where('id_card', Auth::user()->id_card)->first();
         $kelas = DB::table('kelas')
-            ->join('guru', 'kelas.guru_id', '=', 'guru.id')
-            ->join('mapel', 'guru.mapel_id', '=', 'mapel.id')
-            ->join('jadwal', 'jadwal.guru_id', '=', 'guru.id')
+            ->select('kelas.id', 'kelas.nama_kelas', 'kelas.guru_id')
+            ->join('jadwal', 'kelas.id', '=', 'jadwal.kelas_id')
+            ->join('mapel', 'jadwal.mapel_id', '=', 'mapel.id')
             ->where([
-                ['guru.id', '=', $guru->id]
+                ['mapel.id', '=', $guru->mapel->id]
             ])->get();
 
         return view('guru.rapot.kelas', compact('kelas', 'guru'));
@@ -283,13 +283,107 @@ class RapotController extends Controller
         return response()->json($newForm);
     }
 
-    public function siswa()
+    public function siswa($tipe_rapot)
     {
+        $tipe = Crypt::decrypt($tipe_rapot);
         $siswa = Siswa::where('no_induk', Auth::user()->no_induk)->first();
         $kelas = Kelas::findorfail($siswa->kelas_id);
-        $jadwal = Jadwal::where('kelas_id', $kelas->id)->orderBy('mapel_id')->get();
-        $mapel = $jadwal->groupBy('mapel_id');
-        return view('siswa.rapot', compact('siswa', 'kelas', 'mapel'));
+
+        $nilai_a_p = [];
+        $nilai_a_k = [];
+        $rapot_a = DB::table('rapot')
+            ->select(
+                'rapot.id', 'rapot.tipe_rapot', 'rapot.p_nilai', 'rapot.p_predikat', 'rapot.p_deskripsi',
+                'rapot.k_nilai', 'rapot.k_predikat', 'rapot.k_deskripsi', 'mapel.nama_mapel'
+            )
+            ->join('mapel', 'mapel.id', '=', 'rapot.mapel_id')
+            ->where([
+                'mapel.kelompok' => 'A',
+                'rapot.siswa_id' => $siswa->id,
+                'rapot.tipe_rapot' => $tipe,
+            ])
+            ->get();
+        foreach ($rapot_a as $item) {
+            array_push($nilai_a_p, $item->p_nilai);
+            array_push($nilai_a_k, $item->k_nilai);
+        }
+
+        $nilai_b_p = [];
+        $nilai_b_k = [];
+        $rapot_b = DB::table('rapot')
+            ->select(
+                'rapot.id', 'rapot.tipe_rapot', 'rapot.p_nilai', 'rapot.p_predikat', 'rapot.p_deskripsi',
+                'rapot.k_nilai', 'rapot.k_predikat', 'rapot.k_deskripsi', 'mapel.nama_mapel'
+            )
+            ->join('mapel', 'mapel.id', '=', 'rapot.mapel_id')
+            ->where([
+                'mapel.kelompok' => 'B',
+                'rapot.siswa_id' => $siswa->id,
+                'rapot.tipe_rapot' => $tipe,
+            ])
+            ->get();
+        foreach ($rapot_b as $item) {
+            array_push($nilai_b_p, $item->p_nilai);
+            array_push($nilai_b_k, $item->k_nilai);
+        }
+
+        $nilai_c_p = [];
+        $nilai_c_k = [];
+        $rapot_c = DB::table('rapot')
+            ->select(
+                'rapot.id', 'rapot.tipe_rapot', 'rapot.p_nilai', 'rapot.p_predikat', 'rapot.p_deskripsi',
+                'rapot.k_nilai', 'rapot.k_predikat', 'rapot.k_deskripsi', 'mapel.nama_mapel'
+            )
+            ->join('mapel', 'mapel.id', '=', 'rapot.mapel_id')
+            ->where([
+                'mapel.kelompok' => 'C',
+                'rapot.siswa_id' => $siswa->id,
+                'rapot.tipe_rapot' => $tipe,
+            ])
+            ->get();
+        foreach ($rapot_c as $item) {
+            array_push($nilai_c_p, $item->p_nilai);
+            array_push($nilai_c_k, $item->k_nilai);
+        }
+
+
+        $total_a_p = array_sum($nilai_a_p);
+        $total_a_k = array_sum($nilai_a_k);
+        $total_b_p = array_sum($nilai_b_p);
+        $total_b_k = array_sum($nilai_b_k);
+        $total_c_p = array_sum($nilai_c_p);
+        $total_c_k = array_sum($nilai_c_k);
+
+        $extracurricular = Ekstrakulikuler::where([
+            'siswa_id' => $siswa->id,
+        ])->get();
+
+        $remark = Remark::where([
+            'siswa_id' => $siswa->id,
+        ])->get()->first();
+
+        $physical = Pyhsic::where([
+            'siswa_id' => $siswa->id,
+        ])->get()->first();
+
+        $health = Health::where([
+            'siswa_id' => $siswa->id,
+        ])->get();
+
+        $achievement = Achievement::where([
+            'siswa_id' => $siswa->id,
+        ])->get();
+
+        $attendance = Attendance::where([
+            'siswa_id' => $siswa->id,
+        ])->get()->first();
+
+        return view('siswa.rapot', compact(
+            'siswa',
+            'kelas', 'rapot_a', 'rapot_b', 'rapot_c',
+            'total_a_p', 'total_a_k', 'total_b_p', 'total_b_k', 'total_c_p', 'total_c_k',
+            'extracurricular', 'remark', 'physical', 'health', 'achievement', 'attendance'
+        ));
     }
 
     public function indexekstrakulikuler(Request $request){
