@@ -90,28 +90,36 @@
                                 <td>{{ $key+1 }}</td>
                                 <td>{{ $siswa->nama_siswa }}</td>
                                 <?php
-                                    $nilai = "";
                                     $membaca="";
                                     $mendengarkan="";
                                     $mengikuti="";
                                     $menghafal="";
                                     
+                                    $rapot = \App\RapotTahfiz::where([
+                                        'siswa_id' => $siswa->id,
+                                    ])->get()->first();
+                                    if ($rapot) {
+                                        $membaca = $rapot->membaca;
+                                        $mendengarkan = $rapot->mendengarkan;
+                                        $mengikuti = $rapot->mengikuti;
+                                        $menghafal = $rapot->menghafal;
+                                    }
                                 ?>
                                 
                                     <form action="{{ route('tahfiz.input-nilai-rapot') }}" method="post" class="input-group">
                                         @csrf
                                         <input type="hidden" name="siswa_id" value="{{ $siswa->id }}">
                                         <td> 
-                                            <input type="text" class="form-control " name="membaca" value="{{$membaca}}">
+                                            <textarea type="number" class="form-control " name="membaca" value="{{$membaca}}"></textarea>
                                         </td>
                                         <td>  
-                                                <input type="text" class="form-control" name="mendengarkan" value="{{$mendengarkan}}">
+                                                <textarea type="number" class="form-control" name="mendengarkan" value="{{$mendengarkan}}"></textarea>
                                         </td>
                                         <td>
-                                                <input type="text" class="form-control" name="mengikuti" value="{{$mengikuti}}">
+                                                <textarea type="number" class="form-control" name="mengikuti" value="{{$mengikuti}}"></textarea>
                                         </td>
                                         <td>
-                                                <input type="text" class="form-control" name="menghafal"  value="{{$menghafal}}">
+                                                <textarea type="number" class="form-control" name="menghafal"  value="{{$menghafal}}"></textarea>
                                         </td>
                                         <td>
                                             <div class="input-group-append">
