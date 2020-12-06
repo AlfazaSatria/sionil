@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Indikator;
 use App\NilaiIndikator;
 use App\Ulangan;
+use Cassandra\Map;
 use Faker\ORM\Spot\EntityPopulator;
 use Illuminate\Support\Facades\Auth;
 use App\Nilai;
@@ -61,26 +62,40 @@ class RapotController extends Controller
      */
     public function store(Request $request)
     {
-        $guru = Guru::findorfail($request->guru_id);
-        $cekJadwal = Jadwal::where('guru_id', $guru->id)->where('kelas_id', $request->kelas_id)->count();
-        if ($cekJadwal >= 1) {
-            Rapot::updateOrCreate(
-                [
-                    'id' => $request->id
-                ],
-                [
-                    'siswa_id' => $request->siswa_id,
-                    'kelas_id' => $request->kelas_id,
-                    'guru_id' => $request->guru_id,
-                    'mapel_id' => $guru->mapel_id,
-                    'k_nilai' => $request->nilai,
-                    'k_predikat' => $request->predikat,
-                    'k_deskripsi' => $request->deskripsi,
-                ]
-            );
-            return response()->json(['success' => 'Nilai rapot siswa berhasil ditambahkan!']);
-        } else {
-            return response()->json(['error' => 'Maaf guru ini tidak mengajar kelas ini!']);
+        try {
+            $guru = Guru::findorfail($request->guru_id);
+            $cekJadwal = Jadwal::where('guru_id', $guru->id)->where('kelas_id', $request->kelas_id)->count();
+            if ($cekJadwal >= 1) {
+                Rapot::updateOrCreate(
+                    [
+                        'id' => $request->id
+                    ],
+                    [
+                        'siswa_id' => $request->siswa_id,
+                        'kelas_id' => $request->kelas_id,
+                        'guru_id' => $request->guru_id,
+                        'mapel_id' => $guru->mapel_id,
+                        'p_nilai' => $request->p_nilai,
+                        'p_predikat' => $request->p_predikat,
+                        'p_deskripsi' => $request->p_deskripsi,
+                        'k_nilai' => $request->k_nilai,
+                        'k_predikat' => $request->k_predikat,
+                        'k_deskripsi' => $request->k_deskripsi,
+                        'tipe_rapot' => $request->tipe_rapot,
+                    ]
+                );
+                return response()->json([
+                    'message' => 'Data nilai rapot tersimpan!',
+                ], 200);
+            } else {
+                return response()->json([
+                    'message' => 'Maaf guru ini tidak mengajar kelas ini!',
+                ], 500);
+            }
+        } catch (\Exception $err) {
+            return response()->json([
+                'message' => 'Error 500',
+            ], 500);
         }
     }
 
@@ -127,6 +142,7 @@ class RapotController extends Controller
         $id = $items['id'];
         $tipe = $items['tipe'];
         $guru = Guru::where('id_card', Auth::user()->id_card)->get()->first();
+        $mapel = $guru->mapel;
         $kelas = Kelas::where('id', $id)->get()->first();
         $data_siswa = Siswa::where('kelas_id', $id)->get();
         $tipe_ulangan = Ulangan::select('tipe_uts', 'tipe_uas')->where('kelas_id', $kelas->id)->get()->first();
@@ -188,7 +204,7 @@ class RapotController extends Controller
             }
         }
 
-        return view('guru.rapot.rapot', compact('tipe','guru', 'kelas', 'siswa'));
+        return view('guru.rapot.rapot', compact('tipe','guru', 'mapel', 'kelas', 'siswa'));
     }
 
     /**

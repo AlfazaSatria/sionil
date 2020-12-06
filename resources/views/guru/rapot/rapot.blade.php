@@ -1,11 +1,18 @@
 @extends('template_backend.home')
 <?php
-$tipe = ($tipe == 'uts') ? "Tengah" : "Akhir";
+$tipe_ujian = ($tipe == 'uts') ? "Tengah" : "Akhir";
+$tipe_rapot = ($tipe == 'uts') ? 0 : 1;
+$matchThese = [
+    'tipe_rapot' => $tipe_rapot,
+    'kelas_id' => $kelas->id,
+    'guru_id' => $guru->id,
+    'mapel_id' => $mapel->id,
+];
 ?>
-@section('heading', 'Rapot '.$tipe.' Semester')
+@section('heading', 'Rapot '.$tipe_ujian.' Semester')
 @section('page')
     <li class="breadcrumb-item">Rapot</li>
-  <li class="breadcrumb-item active">{{$tipe}} Semester</li>
+  <li class="breadcrumb-item active">{{$tipe_ujian}} Semester</li>
 @endsection
 @section('content')
 <div class="col-md-12">
@@ -94,15 +101,52 @@ $tipe = ($tipe == 'uts') ? "Tengah" : "Akhir";
                     </thead>
                     <tbody>
                         @foreach($siswa as $key => $val)
+                            <?php
+                                $nilai = \App\Rapot::where($matchThese)
+                                    ->where('siswa_id', $val['id'])
+                                    ->get()
+                                    ->first();
+                                $exists = ($nilai) ? true : false;
+
+                                var_dump($exists);
+                            ?>
+
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{$val['nama']}}</td>
-                                <td>{{$val['pengetahuan']['nilai']}}</td>
-                                <td>{{$val['pengetahuan']['predikat']}}</td>
-                                <td>{{$val['pengetahuan']['deskripsi']}}</td>
-                                <td>{{$val['keterampilan']['nilai']}}</td>
-                                <td>{{$val['keterampilan']['predikat']}}</td>
-                                <td>{{$val['keterampilan']['deskripsi']}}</td>
+                                <td>
+                                    {{$val['pengetahuan']['nilai']}}
+                                    <input type="hidden" id="p_nilai_{{$val['id']}}" value="{{$val['pengetahuan']['nilai']}}"/>
+                                </td>
+                                <td>
+                                    {{$val['pengetahuan']['predikat']}}
+                                    <input type="hidden" id="p_predikat_{{$val['id']}}" value="{{$val['pengetahuan']['predikat']}}"/>
+                                </td>
+                                <td>
+                                    {{$val['pengetahuan']['deskripsi']}}
+                                    <input type="hidden" id="p_deskripsi_{{$val['id']}}" value="{{$val['pengetahuan']['deskripsi']}}"/>
+                                </td>
+                                <td>
+                                    {{$val['keterampilan']['nilai']}}
+                                    <input type="hidden" id="k_nilai_{{$val['id']}}" value="{{$val['keterampilan']['nilai']}}"/>
+                                </td>
+                                <td>
+                                    {{$val['keterampilan']['predikat']}}
+                                    <input type="hidden" id="k_predikat_{{$val['id']}}" value="{{$val['keterampilan']['predikat']}}"/>
+                                </td>
+                                <td>
+                                    {{$val['keterampilan']['deskripsi']}}
+                                    <input type="hidden" id="k_deskripsi_{{$val['id']}}" value="{{$val['keterampilan']['deskripsi']}}"/>
+                                </td>
+                                <td>
+                                    <button class="btn btn-default btn-sm form-control form-control-sm"
+                                            id="saveBtn{{$val['id']}}"
+                                            {{ ($exists) ? "disabled":"" }}
+                                            onclick="save('{{$val['id']}}')">
+                                        <i class="fas fa-save"></i> &nbsp;
+                                        Simpan
+                                    </button>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -117,6 +161,40 @@ $tipe = ($tipe == 'uts') ? "Tengah" : "Akhir";
 @endsection
 @section('script')
     <script>
+        $("#RapotGuru").addClass("active");
+        $("#liNilaiGuru").addClass("menu-open");
 
+        function save(siswaId) {
+            let data = {
+                _token: "{{ csrf_token() }}",
+                tipe_rapot: "{{ $tipe_rapot }}",
+                siswa_id: siswaId,
+                kelas_id: {{ $kelas->id }},
+                guru_id: {{ $guru->id }},
+                mapel_id: {{ $guru->mapel->id }},
+                p_nilai: $("#p_nilai_"+siswaId).val(),
+                p_predikat: $("#p_predikat_"+siswaId).val(),
+                p_deskripsi: $("#p_deskripsi_"+siswaId).val(),
+                k_nilai: $("#k_nilai_"+siswaId).val(),
+                k_predikat: $("#k_predikat_"+siswaId).val(),
+                k_deskripsi: $("#k_deskripsi_"+siswaId).val(),
+            };
+
+            console.log(data);
+
+            $.ajax({
+                url: '{{ route('guru.store-rapot') }}',
+                type: "POST",
+                dataType: "JSON",
+                data: data,
+                success: (response) => {
+                    $("#saveBtn"+siswaId).attr("disabled", true);
+                    toastr.success(response.message);
+                },
+                error: (err) => {
+                    toastr.warning(response.message);
+                }
+            })
+        }
     </script>
 @endsection

@@ -84,7 +84,6 @@ Route::middleware(['auth'])->group(function () {
               'names' => [
                   'index' => 'guru.index-rapot',
                   'show' => 'guru.show-rapot',
-                  'create' => 'guru.create-rapot',
                   'store' => 'guru.store-rapot',
                   'destroy' => 'guru.destroy-rapot',
                   'predikat' => 'guru.predikat-rapot'
