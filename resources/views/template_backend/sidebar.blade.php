@@ -348,9 +348,9 @@
                 </li>
                 
                     <li class="nav-item">
-                        <a href="{{ route('cetak.rapot') }}">
+                        <a href="{{ route('cetak.rapot') }}" class="nav-link">
                             <i class="fas fa-file-alt nav-icon"></i>
-                            <p>Cetak</p>
+                            <p>Cetak Raport Tahfiz</p>
                         </a>
                     </li>
                 

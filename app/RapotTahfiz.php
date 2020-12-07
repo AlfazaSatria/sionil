@@ -13,7 +13,11 @@ class RapotTahfiz extends Model
         'membaca',
         'mendengarkan',
         'mengikuti',
-        'menghafal'    
+        'menghafal',
+        'predikat_membaca',
+        'predikat_mendengarkan',
+        'predikat_mengikuti',
+        'predikat_menghafal',  
     ];
 
 

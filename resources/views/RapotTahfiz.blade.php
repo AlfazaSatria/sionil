@@ -14,11 +14,10 @@
           </tr>
         </thead>
         <tbody>
-            <div>
-                <td>Nama Siswa</td>
-                        <td>:</td>
-                        <td>{{ $siswa->nama_siswa }}</td>
-            </div>
+            <th>Nama Siswa</th>
+            <th>{{$siswa->no_induk}}</th>
+            <th>{{$nilai->predikat}}</th>
+            {{-- <th>{{$indikatorTahfiz->indikator}}</th> --}}
           <tr class="bg-success" style="height: 40px; font-size:15px;">
             <th ><p style="text-align:center;">Weak</p></th>
             <th ><p style="text-align:center;">Acceptable</p></th>
@@ -26,72 +25,72 @@
             <th ><p style="text-align:center;">Very Good</p></th>
             <th ><p style="text-align:center;">Excellent</p></th>
             <th ><p style="text-align:center;">Capabilities</p></th>
-            <th style="font-size:10px;" width="40px">Term</th>
-            <th style="font-size:10px;" width="40px">Year</th>
+            <th width="40px"><p class="text-align:center;">Term</p></th>
+            <th width="40px"><p class="text-algin:center;">Year</p></th>
           </tr>
           
           <tr class="bg-success" >
-            <th style="font-size:10px" width="70px">NI</th>
-            <th style="font-size:10px" width="70px">P</th>
-            <th style="font-size:10px" width="70px">C</th>
-            <th style="font-size:10px" width="70px">D</th>
-            <th style="font-size:10px" width="70px">HD</th>
+            <th style="font-size:10px" width="65px">NI</th>
+            <th style="font-size:10px" width="65px">P</th>
+            <th style="font-size:10px" width="65px">C</th>
+            <th style="font-size:10px" width="65px">D</th>
+            <th style="font-size:10px" width="65px">HD</th>
             <th style="font-size:10px">Abilities</th>
             <th></th>
             <th></th>
           </tr>
-          @foreach($indikatorTahfiz as $key => $indikator)
+          
           <tr style="height: 50px; font-size:15px;" >
             <th></th>
             <th></th>
             <th></th>
             <th></th>
             
-            <th></th>
+            <th><span class="check">&#10003</span></th>
            
-            <th>{{ $indikator->indikator }}</th>
+            <th>Al-Baqarah - An-Nisa</th>
            
-            <th rowspan="7"><p class="text-align:center;">3</p></th>
-            <th rowspan="7"><p class="text-align:center;">7</p></th>
+            <th rowspan="4"><p class="text-align:center;">3</p></th>
+            <th rowspan="4"><p class="text-align:center;">7</p></th>
           </tr>
-          @endforeach
+      
           <tr style="height: 50px; font-size:15px;">
             <th ></th>
-            <th><span class="check">&#10003</span></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            
-            
-          </tr>
-          <tr style="height: 50px; font-size:15px;">
-            <th ></th>
-            <th></th>
-            <th><span class="check">&#10003</span></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            
-            
-          </tr>
-          <tr style="height: 50px; font-size:15px;">
-            <th ><span class="check">&#10003</span></th>
-            <th></th>
             <th></th>
             <th></th>
             <th><span class="check">&#10003</span></th>
             <th></th>
+            <th>Al-Mulk - Nuh</th>
             
             
           </tr>
           <tr style="height: 50px; font-size:15px;">
             <th ></th>
-            <th></th>
             <th></th>
             <th></th>
             <th></th>
             <th><span class="check">&#10003</span></th>
+            <th>Al Ikhlas - Ad-Dhuha</th>
+            
+            
+          </tr>
+          <tr style="height: 50px; font-size:15px;">
+            <th ></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th><span class="check">&#10003</span></th>
+            <th>Al-Ikhlas - An-Nass</th>
+           
+            
+          </tr>
+          {{-- <tr style="height: 50px; font-size:15px;">
+            <th ></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
             
            
           </tr>
@@ -114,13 +113,13 @@
             <th></th>
            
             
-          </tr>
+          </tr> --}}
         </tbody>
       </table>
       
       <table class="table table-bordered">
         <tbody>
-          <tr class="bg-success" style="height: 40px; font-size:15px;">
+          <tr class="bg-success" style="height: 40px; font-size:15px;" width="100px;">
             <th ><p style="text-align:center;">Weak</p></th>
             <th ><p style="text-align:center;">Acceptable</p></th>
             <th ><p style="text-align:center;">Good</p></th>
@@ -129,41 +128,41 @@
             <th ><p style="text-align:center;">Behavior and enthusiasm</p></th>
           </tr>
           <tr class="bg-success" >
-            <th style="font-size:10px" width="70px">NI</th>
-            <th style="font-size:10px" width="70px">P</th>
-            <th style="font-size:10px" width="70px">C</th>
-            <th style="font-size:10px" width="70px">D</th>
-            <th style="font-size:10px" width="70px">HD</th>
+            <th style="font-size:10px" width="75px">NI</th>
+            <th style="font-size:10px" width="75px">P</th>
+            <th style="font-size:10px" width="75px">C</th>
+            <th style="font-size:10px" width="75px">D</th>
+            <th style="font-size:10px" width="75px">HD</th>
             <th style="font-size:10px">Tahfiz Habits</th>
           </tr>
-          <tr style="height: 50px; font-size:15px;" >
-            <th >✓</th>
+          <tr style="height: 55px; font-size:15px;" >
             <th></th>
             <th></th>
             <th></th>
             <th></th>
+            <th><span class="check">&#10003</span></th>
             <th>
             
               <p style="text-align:left;">Able to read Al Quran with tartil</p>
             </th>
             
           </tr>
-          <tr style="height: 50px; font-size:15px;">
+          <tr style="height: 55px; font-size:15px;">
             <th ></th>
             <th></th>
             <th></th>
-            <th></th>
+            <th><span class="check">&#10003</span></th>
             <th></th>
             <th>
              
               <p style="text-align:left;">Able to listen to the teachers reading</p>
             </th>
           </tr>
-          <tr style="height: 50px; font-size:15px;">
+          <tr style="height: 55px; font-size:15px;">
             <th ></th>
             <th></th>
             <th></th>
-            <th></th>
+            <th><span class="check">&#10003</span></th>
             <th></th>
             <th>
              
@@ -172,12 +171,12 @@
             
             
           </tr>
-          <tr style="height: 50px; font-size:15px;">
+          <tr style="height: 55px; font-size:15px;">
             <th ></th>
             <th></th>
             <th></th>
             <th></th>
-            <th></th>
+            <th><span class="check">&#10003</span></th>
             <th>
             
               <p style="text-align:left;">Able to memorize Al-Quran fluently</p>
