@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Achievement;
+use App\Affective;
 use App\Indikator;
 use App\NilaiIndikator;
 use App\Ulangan;
 use App\Ekstrakulikuler;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Nilai;
 use App\Attendance;
@@ -292,9 +294,10 @@ class RapotController extends Controller
         $tipe = Crypt::decrypt($tipe_rapot);
         $siswa = Siswa::where('no_induk', Auth::user()->no_induk)->first();
         $kelas = Kelas::findorfail($siswa->kelas_id);
+        $walikelas = Guru::where('walikelas', $kelas->nama_kelas)->get()->first();
 
-        $nilai_a_p = [];
-        $nilai_a_k = [];
+
+
         $rapot_a = DB::table('rapot')
             ->select(
                 'rapot.id', 'rapot.tipe_rapot', 'rapot.p_nilai', 'rapot.p_predikat', 'rapot.p_deskripsi',
@@ -307,13 +310,7 @@ class RapotController extends Controller
                 'rapot.tipe_rapot' => $tipe,
             ])
             ->get();
-        foreach ($rapot_a as $item) {
-            array_push($nilai_a_p, $item->p_nilai);
-            array_push($nilai_a_k, $item->k_nilai);
-        }
 
-        $nilai_b_p = [];
-        $nilai_b_k = [];
         $rapot_b = DB::table('rapot')
             ->select(
                 'rapot.id', 'rapot.tipe_rapot', 'rapot.p_nilai', 'rapot.p_predikat', 'rapot.p_deskripsi',
@@ -326,13 +323,8 @@ class RapotController extends Controller
                 'rapot.tipe_rapot' => $tipe,
             ])
             ->get();
-        foreach ($rapot_b as $item) {
-            array_push($nilai_b_p, $item->p_nilai);
-            array_push($nilai_b_k, $item->k_nilai);
-        }
 
-        $nilai_c_p = [];
-        $nilai_c_k = [];
+
         $rapot_c = DB::table('rapot')
             ->select(
                 'rapot.id', 'rapot.tipe_rapot', 'rapot.p_nilai', 'rapot.p_predikat', 'rapot.p_deskripsi',
@@ -345,18 +337,51 @@ class RapotController extends Controller
                 'rapot.tipe_rapot' => $tipe,
             ])
             ->get();
+
+
+        if (count($rapot_a) < 1 || count($rapot_b)) {
+
+        }
+
+        $nilai_a_p = [];
+        $nilai_a_k = [];
+        foreach ($rapot_a as $item) {
+            array_push($nilai_a_p, $item->p_nilai);
+            array_push($nilai_a_k, $item->k_nilai);
+        }
+
+        $nilai_b_p = [];
+        $nilai_b_k = [];
+        foreach ($rapot_b as $item) {
+            array_push($nilai_b_p, $item->p_nilai);
+            array_push($nilai_b_k, $item->k_nilai);
+        }
+
+        $nilai_c_p = [];
+        $nilai_c_k = [];
         foreach ($rapot_c as $item) {
             array_push($nilai_c_p, $item->p_nilai);
             array_push($nilai_c_k, $item->k_nilai);
         }
 
-
         $total_a_p = array_sum($nilai_a_p);
         $total_a_k = array_sum($nilai_a_k);
         $total_b_p = array_sum($nilai_b_p);
         $total_b_k = array_sum($nilai_b_k);
+
+        $total_a_b_p = $total_a_p + $total_b_p;
+        $avg_a_b_p  = $total_a_b_p / (count($rapot_a) + count($rapot_b));
+        $total_a_b_k = $total_a_k + $total_b_k;
+        $avg_a_b_k  = $total_a_b_k / (count($rapot_a) + count($rapot_b));
+
         $total_c_p = array_sum($nilai_c_p);
+        $avg_c_p = $total_c_p / count($rapot_c);
         $total_c_k = array_sum($nilai_c_k);
+        $avg_c_k = $total_c_k / count($rapot_c);
+
+        $affective = Affective::where([
+            'siswa_id' => $siswa->id,
+        ])->get()->first();
 
         $extracurricular = Ekstrakulikuler::where([
             'siswa_id' => $siswa->id,
@@ -382,12 +407,297 @@ class RapotController extends Controller
             'siswa_id' => $siswa->id,
         ])->get()->first();
 
-        return view('siswa.rapot', compact(
-            'siswa',
-            'kelas', 'rapot_a', 'rapot_b', 'rapot_c',
-            'total_a_p', 'total_a_k', 'total_b_p', 'total_b_k', 'total_c_p', 'total_c_k',
-            'extracurricular', 'remark', 'physical', 'health', 'achievement', 'attendance'
-        ));
+        $tipe_rapot = ($tipe == 1) ? "Akhir" : "Tengah";
+
+        $dateNow = Carbon::now()->format('Y/m/d');
+
+        $h = "<!DOCTYPE html>";
+        $h.= "<html>";
+        $h.= "<body>";
+        $h.= "<h2 style='margin-bottom: 0;text-align: center;'>Rapor ". $tipe_rapot ." Semester</h2>";
+        $h.= "<h3 style='margin-top: 2px;text-align: center;'>MI Mumtaza Islamic School</h3>";
+        $h.= "<table style='width: 100%;border-collapse: collapse;font-size: 14px;'>";
+        $h.= "    <tr style='padding: 0; margin: 0'>";
+        $h.= "        <td style='border:1px solid black;border-right:none;text-align: left;padding: 4px;' width='75'>Student's Name</td>";
+        $h.= "        <td style='border:1px solid black;border-right:none;border-left:none;text-align: center;padding: 4px;' width='5'>:</td>";
+        $h.= "        <td style='border:1px solid black;border-left:none;text-align: left;padding: 4px;'>". $siswa->nama_siswa ."</td>";
+        $h.= "        <td style='border:1px solid black;border-right:none;;text-align: left;padding: 4px;' width='100'>Class</td>";
+        $h.= "        <td style='border:1px solid black;border-right:none;border-left:none;text-align: center;padding: 4px;' width='5'>:</td>";
+        $h.= "        <td style='border:1px solid black;border-left:none;text-align: left;padding: 4px;'>". $kelas->nama_kelas ."</td>";
+        $h.= "    </tr>";
+        $h.= "    <tr style='padding: 0;margin: 0'>";
+        $h.= "        <td style='border:1px solid black;border-right:none;text-align: left;padding: 4px;' width='75' rowspan='2'>Teacher's Name</td>";
+        $h.= "        <td style='border:1px solid black;border-right:none;border-left:none;text-align: center;padding: 4px;' rowspan='2'>:</td>";
+        $h.= "        <td style='border:1px solid black;border-left:none;text-align: left;padding: 4px;' rowspan='2'>". $walikelas->nama_guru ."</td>";
+        $h.= "        <td style='border:1px solid black;border-right:none;text-align: left;padding: 4px;' width='100'>Assesment Period</td>";
+        $h.= "        <td style='border:1px solid black;border-right:none;border-left:none;text-align: center;padding: 4px;' width='5'>:</td>";
+        $h.= "        <td style='border:1px solid black;border-left:none;text-align: left;padding: 4px;'></td>";
+        $h.= "    </tr>";
+        $h.= "    <tr style='padding: 0; margin: 0'>";
+        $h.= "        <td style='border:1px solid black;border-right:none;text-align: left;padding: 4px;' width='100'>Delivered On</td>";
+        $h.= "        <td style='border:1px solid black;border-right:none;border-left:none;text-align: center;padding: 4px;' width='5'>:</td>";
+        $h.= "        <td style='border:1px solid black;border-left:none;text-align: left;padding: 4px;'>". $dateNow ."</td>";
+        $h.= "    </tr>";
+        $h.= "</table>";
+
+        $h.= "<h3 style='margin-top:15px; margin-bottom: 0; padding: 3px'>A. Affective</h3>";
+        $h.= "<table style='border:1px solid black; width: 100%; border-collapse: collapse; font-size: 14px;'>";
+        $h.= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' colspan='2'>Description</th>";
+        $h.= "    </tr>";
+        $h.= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+        $h.= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>1. Spiritual Attitude</th>";
+        $h.= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>". $siswa->nama_siswa ."</b>, ". $affective->spiritual ."</td>";
+        $h.= "    </tr>";
+        $h.= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+        $h.= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>2. Social Attitude</th>";
+        $h.= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>". $siswa->nama_siswa ."</b>, ". $affective->social ."</td>";
+        $h.= "    </tr>";
+        $h.= "</table>";
+
+        $h.= "<h3 style='margin-top:15px; margin-bottom: 0; padding: 3px'>B. Cognitive & Psychomotor</h3>";
+        $h.= "<table style='border:1px solid black; width: 100%; border-collapse: collapse; font-size: 14px;'>";
+        $h.= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' rowspan='2' colspan='2'>Subject</th>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' colspan='3'>Cognitive</th>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' colspan='3'>Psychomotor</th>";
+        $h.= "    </tr>";
+        $h.= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='40'>N</th>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='40'>P</th>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>Deskripsi</th>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='40'>N</th>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='40'>P</th>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>Deskripsi</th>";
+        $h.= "    </tr>";
+        foreach ($rapot_a as $key => $item) {
+            $index = $key+1;
+            $h.= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+            $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>". $index .".</th>";
+            $h.= "        <th style='text-align: left;padding: 4px; border: 1px solid black;'>". $item->nama_mapel ."</th>";
+            $h.= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='40'>". $item->p_nilai ."</td>";
+            $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='40'>". $item->p_predikat ."</th>";
+            $h.= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>". $item->p_deskripsi ."</td>";
+            $h.= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='40'>". $item->k_nilai ."</td>";
+            $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='40'>". $item->k_predikat ."</th>";
+            $h.= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>". $item->k_deskripsi ."</td>";
+            $h.= "    </tr>";
+        }
+        $last_count = count($rapot_a)+1;
+        $h.= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>". $last_count .".</th>";
+        $h.= "        <th style='text-align: left;padding: 4px; border: 1px solid black;'>Thematic Learning</th>";
+        $h.= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='40'></td>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='40'></th>";
+        $h.= "        <td style='text-align: center;padding: 4px; border: 1px solid black;'></td>";
+        $h.= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='40'></td>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='40'></th>";
+        $h.= "        <td style='text-align: center;padding: 4px; border: 1px solid black;'></td>";
+        $h.= "    </tr>";
+        foreach ($rapot_b as $key => $item) {
+            $index = $key+1;
+            $h.= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+            $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='30'></th>";
+            $h.= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>(". $index .".) ". $item->nama_mapel ."</td>";
+            $h.= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='40'>". $item->p_nilai ."</td>";
+            $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='40'>". $item->p_predikat ."</th>";
+            $h.= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>". $item->p_deskripsi ."</td>";
+            $h.= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='40'>". $item->k_nilai ."</td>";
+            $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='40'>". $item->k_predikat ."</th>";
+            $h.= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>". $item->k_deskripsi ."</td>";
+            $h.= "    </tr>";
+        }
+        $h.= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+        $h.= "        <th style='text-align: right;padding: 4px; border: 1px solid black;' colspan='2'>Total Score</th>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>". $total_a_b_p  ."</th>";
+        $h.= "        <th style='text-align: right;padding: 4px; border: 1px solid black;' colspan='2'></th>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>". $total_a_b_k  ."</th>";
+        $h.= "        <th style='text-align: right;padding: 4px; border: 1px solid black;' colspan='2'></th>";
+        $h.= "    </tr>";
+        $h.= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+        $h.= "        <th style='text-align: right;padding: 4px; border: 1px solid black;' colspan='2'>Average</th>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>".  $avg_a_b_p   ."</th>";
+        $h.= "        <th style='text-align: right;padding: 4px; border: 1px solid black;' colspan='2'></th>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>". $avg_a_b_k  ."</th>";
+        $h.= "        <th style='text-align: right;padding: 4px; border: 1px solid black;' colspan='2'></th>";
+        $h.= "    </tr>";
+        $last_count = count($rapot_a)+count($rapot_b)+1;
+        $h.= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>". $last_count .".</th>";
+        $h.= "        <th style='text-align: left;padding: 4px; border: 1px solid black;'>Islamic Learnings</th>";
+        $h.= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='40'></td>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='40'></th>";
+        $h.= "        <td style='text-align: center;padding: 4px; border: 1px solid black;'></td>";
+        $h.= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='40'></td>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='40'></th>";
+        $h.= "        <td style='text-align: center;padding: 4px; border: 1px solid black;'></td>";
+        $h.= "    </tr>";
+        foreach ($rapot_c as $key => $item) {
+            $index = $key+1;
+            $h.= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+            $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='30'></th>";
+            $h.= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>(". $index .".) ". $item->nama_mapel ."</td>";
+            $h.= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='40'>". $item->p_nilai ."</td>";
+            $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='40'>". $item->p_predikat ."</th>";
+            $h.= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>". $item->p_deskripsi ."</td>";
+            $h.= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='40'>". $item->k_nilai ."</td>";
+            $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='40'>". $item->k_predikat ."</th>";
+            $h.= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>". $item->k_deskripsi ."</td>";
+            $h.= "    </tr>";
+        }
+        $h.= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+        $h.= "        <th style='text-align: right;padding: 4px; border: 1px solid black;' colspan='2'>Total Score</th>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>". $total_c_p  ."</th>";
+        $h.= "        <th style='text-align: right;padding: 4px; border: 1px solid black;' colspan='2'></th>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>". $total_c_k  ."</th>";
+        $h.= "        <th style='text-align: right;padding: 4px; border: 1px solid black;' colspan='2'></th>";
+        $h.= "    </tr>";
+        $h.= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+        $h.= "        <th style='text-align: right;padding: 4px; border: 1px solid black;' colspan='2'>Average</th>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>".  $avg_c_p   ."</th>";
+        $h.= "        <th style='text-align: right;padding: 4px; border: 1px solid black;' colspan='2'></th>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>". $avg_c_k  ."</th>";
+        $h.= "        <th style='text-align: right;padding: 4px; border: 1px solid black;' colspan='2'></th>";
+        $h.= "    </tr>";
+        $h.= "</table>";
+
+        $h.= "<h3 style='margin-top:15px; margin-bottom: 0; padding: 3px'>C. Extra Curricular</h3>";
+        $h.= "<table style='border:1px solid black; width: 100%; border-collapse: collapse; font-size: 14px;'>";
+        $h.= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>No.</th>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>Extra Curricular Activity</th>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='70'>Score</th>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>Description</th>";
+        $h.= "    </tr>";
+        foreach ($extracurricular as $key => $item) {
+            $index = $key+1;
+            $h.= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+            $h.= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>". $index .".</td>";
+            $h.= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>$item->mapel_name</td>";
+            $h.= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='70'>$item->score</td>";
+            $h.= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>$item->description</td>";
+            $h.= "    </tr>";
+        }
+        $h.= "</table>";
+
+        $h.= "<h3 style='margin-top:15px; margin-bottom: 0; padding: 3px'>D. Teacher Remarks</h3>";
+        $h.= "<table style='border:1px solid black; width: 100%; border-collapse: collapse; font-size: 14px;'>";
+        $h.= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+        $h.= "        <td style='text-align: left;padding: 12px 8px 12px 8px; border: 1px solid black;'>". $remark->note ."</td>";
+        $h.= "    </tr>";
+        $h.= "</table>";
+
+        $h.= "<h3 style='margin-top:15px; margin-bottom: 0; padding: 3px'>F. Health Condition</h3>";
+        $h.= "<table style='border:1px solid black; width: 100%; border-collapse: collapse; font-size: 14px;'>";
+        $h.= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>No.</th>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>Physical Aspect</th>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>Description</th>";
+        $h.= "    </tr>";
+        foreach ($health as $key => $item) {
+            $index = $key+1;
+            $h.= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+            $h.= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>". $index .".</td>";
+            $h.= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>$item->name</td>";
+            $h.= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>$item->description</td>";
+            $h.= "    </tr>";
+        }
+        $h.= "</table>";
+
+        $h.= "<h3 style='margin-top:15px; margin-bottom: 0; padding: 3px'>G. Achievement</h3>";
+        $h.= "<table style='border:1px solid black; width: 100%; border-collapse: collapse; font-size: 14px;'>";
+        $h.= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>No.</th>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>Kind of Achievement</th>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>Description</th>";
+        $h.= "    </tr>";
+        foreach ($achievement as $key => $item) {
+            $index = $key+1;
+            $h.= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+            $h.= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>". $index .".</td>";
+            $h.= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>$item->name</td>";
+            $h.= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>$item->description</td>";
+            $h.= "    </tr>";
+        }
+        $h.= "</table>";
+
+        $h.= "<table style='margin-top: 15px; border:1px solid black; width: 30%; border-collapse: collapse; font-size: 14px;'>";
+        $h.= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+        $h.= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' colspan='3'>Attendance</th>";
+        $h.= "    </tr>";
+        $h.= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+        $h.= "        <td style='text-align: left;padding: 4px 5px 2px 6px;'>Sick</td>";
+        $h.= "        <td style='text-align: center;padding: 2px 5px 2px 0;'>:</td>";
+        $h.= "        <td style='text-align: left;padding: 2px 5px 2px 0;'>". $attendance->sick ." Day(s)</td>";
+        $h.= "    </tr>";
+        $h.= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+        $h.= "        <td style='text-align: left;padding: 2px 5px 2px 6px;'>Permission</td>";
+        $h.= "        <td style='text-align: center;padding: 2px 5px 2px 0;'>:</td>";
+        $h.= "        <td style='text-align: left;padding: 2px 5px 2px 0;'>". $attendance->permission ." Day(s)</td>";
+        $h.= "    </tr>";
+        $h.= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+        $h.= "        <td style='text-align: left;padding: 2px 5px 2px 6px;'>Absent</td>";
+        $h.= "        <td style='text-align: center;padding: 2px 5px 2px 0;'>:</td>";
+        $h.= "        <td style='text-align: left;padding: 2px 5px 2px 0;'>". $attendance->absent ." Day(s)</td>";
+        $h.= "    </tr>";
+        $h.= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+        $h.= "        <td style='text-align: left;padding: 2px 5px 4px 6px;'>Late</td>";
+        $h.= "        <td style='text-align: center;padding: 2px 5px 4px 0;'>:</td>";
+        $h.= "        <td style='text-align: left;padding: 2px 5px 4px 0;'>". $attendance->late ." Day(s)</td>";
+        $h.= "    </tr>";
+        $h.= "</table>";
+
+        $h.= "<p style='margin-top:20px;margin-bottom: 0;padding: 3px;font-size: 14px'>Acknowleged by</p>";
+        $h.= "<table style='width: 100%; font-size: 14px;'>";
+        $h.= "    <tr style='padding: 0; margin: 0'>";
+        $h.= "        <th style='text-align: center;margin:0 4px 0 4px;padding: 4px;' width='25%'>1st Teacher</th>";
+        $h.= "        <th style='text-align: center;margin:0 4px 0 4px;padding: 4px;' width='25%'>2nd Teacher</th>";
+        $h.= "        <th style='text-align: center;margin:0 4px 0 4px;padding: 4px;' width='25%'>Parent</th>";
+        $h.= "        <th style='text-align: center;margin:0 4px 0 4px;padding: 4px;' width='25%'>Principal</th>";
+        $h.= "    </tr>";
+        $h.= "    <tr style='padding: 0; margin: 0'>";
+        $h.= "        <th style='text-align: center;margin:0 4px 0 4px;padding: 4px;' width='25%'>";
+        $h.= "           <div style='width: 100%;height: 72px'></div>";
+        $h.= "        </th>";
+        $h.= "        <th style='text-align: center;margin:0 4px 0 4px;padding: 4px;' width='25%'>";
+        $h.= "           <div style='width: 100%;height: 72px'></div>";
+        $h.= "        </th>";
+        $h.= "        <th style='text-align: center;margin:0 4px 0 4px;padding: 4px;' width='25%'>";
+        $h.= "           <div style='width: 100%;height: 72px'></div>";
+        $h.= "        </th>";
+        $h.= "        <th style='text-align: center;margin:0 4px 0 4px;padding: 4px;' width='25%'>";
+        $h.= "           <div style='width: 100%;height: 72px'></div>";
+        $h.= "        </th>";
+        $h.= "    </tr>";
+        $h.= "    <tr style='padding: 0; margin: 0'>";
+        $h.= "        <th style='text-align: center;margin:0 4px 0 4px;padding: 4px;' width='25%'>";
+        $h.= "           ". $walikelas->nama_guru ."";
+        $h.= "           <div style='width: 90%;margin: auto;border-bottom: 1px dashed black'></div>";
+        $h.= "        </th>";
+        $h.= "        <th style='text-align: center;margin:0 4px 0 4px;padding: 4px;' width='25%'>";
+        $h.= "           &nbsp;";
+        $h.= "           <div style='width: 90%;margin: auto;border-bottom: 1px dashed black'></div>";
+        $h.= "        </th>";
+        $h.= "        <th style='text-align: center;margin:0 4px 0 4px;padding: 4px;' width='25%'>";
+        $h.= "           &nbsp;";
+        $h.= "           <div style='width: 90%;margin: auto;border-bottom: 1px dashed black'></div>";
+        $h.= "        </th>";
+        $h.= "        <th style='text-align: center;margin:0 4px 0 4px;padding: 4px;' width='25%'>";
+        $h.= "           Khalimi, M.Pd.";
+        $h.= "           <div style='width: 90%;margin: auto;border-bottom: 1px dashed black'></div>";
+        $h.= "        </th>";
+        $h.= "    </tr>";
+        $h.= "</table>";
+
+        $h.= "</body>";
+        $h.= "</html>";
+
+        $pdf = new Dompdf();
+        $pdf->loadHtml($h);
+        $pdf->set_option('isRemoteEnabled', true);
+        $pdf->setPaper('A4', 'portrait');
+        $pdf->render();
+        $pdf->stream($siswa->nama_siswa.".pdf");
     }
 
     public function indexekstrakulikuler(Request $request){
