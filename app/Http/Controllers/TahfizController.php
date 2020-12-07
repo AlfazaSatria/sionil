@@ -10,7 +10,7 @@ class TahfizController extends Controller
 {
     public function index()
     {
-        $mapel = Mapel::orderBy('nama_mapel')->get();
+        $mapel = Mapel::where('kelompok', 'E')->get();
         $max = Tahfiz::max('id_cardTahfiz');
         return view('admin.tahfiz.index', compact('mapel', 'max'));
     }

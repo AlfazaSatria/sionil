@@ -50,7 +50,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/jadwal/siswa', 'JadwalController@siswa')->name('jadwal.siswa');
     Route::get('/ulangan/siswa', 'UlanganController@siswa')->name('ulangan.siswa');
     Route::get('/sikap/siswa', 'SikapController@siswa')->name('sikap.siswa');
-    Route::get('/generate-pdf','PDFController@PDFTahfiz')->name('cetak.rapot');
+    Route::get('/generate-pdf','RapotTahfizController@Tahfiz')->name('cetak.rapot');
     Route::get('/rapot/siswa/{tipe_rapot}', 'RapotController@siswa')->name('rapot.siswa');
   });
 
@@ -100,6 +100,8 @@ Route::middleware(['auth'])->group(function () {
                 'create', 'edit', 'update',
               ],
           ]);
+          Route::get('/cetak/rapot', 'RapotController@dataRapot')->name('guru.data-rapot');
+          Route::get('/cetak/guru/{encryption}', 'RapotController@guru')->name('rapot.guru');
           Route::get('/ekstrakulikuler', 'RapotController@indexekstrakulikuler')->name('guru.ekstrakulikuler-rapot');
           Route::post('/ekstrakulikuler/inputnilai', 'RapotController@inputekstrakulikuler')->name('guru.input-nilai-ekstrakulikuler');
           Route::get('/health', 'RapotController@indexhealth')->name('guru.health-rapot');
@@ -116,7 +118,7 @@ Route::middleware(['auth'])->group(function () {
           Route::post('/indikator/inputnilai', 'IndikatorController@input_nilai')->name('guru.input-nilai-indikator');
           Route::post('/indikator/bulkinputnilai', 'IndikatorController@bulk_input_nilai')->name('guru.bulk-input-nilai-indikator');
           Route::delete('/indikator/{id}', 'IndikatorController@destroy')->name('guru.destroy-indikator');
-         
+             
           Route::get('/jadwal', 'JadwalController@guru')->name('jadwal.guru');
   });
 

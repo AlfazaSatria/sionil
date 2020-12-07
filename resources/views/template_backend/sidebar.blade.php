@@ -52,7 +52,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('jadwalTahfiz.index') }}" class="nav-link" id="DataJadwalTahfiz">
-                                <i class="fas fa-calendar-alt nav-icon"></i>
+                                <i class="fas fa-calendar nav-icon"></i>
                                 <p>Data Jadwal Tahfiz</p>
                             </a>
                         </li>
@@ -64,7 +64,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('tahfiz.index') }}" class="nav-link" id="DataTahfiz">
-                                <i class="fas fa-users nav-icon"></i>
+                                <i class="fas fa-quran nav-icon"></i>
                                 <p>Data Tahfiz</p>
                             </a>
                         </li>
@@ -239,14 +239,31 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('guru.pyhsic-rapot') }}" class="nav-link" id="PyhsicGuru">
-                                <i class="fas fa-tasks nav-icon"></i>
+                                <i class="fas fa-child nav-icon"></i>
                                 <p>Pyhsical Appearance</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('guru.remark-rapot') }}" class="nav-link" id="RemarkGuru">
-                                <i class="fas fa-tasks nav-icon"></i>
+                                <i class="fas fa-user-edit nav-icon"></i>
                                 <p>Teacher's Remark</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview" id="liNilaiRapotSiswa">
+                    <a href="#" class="nav-link" id="NilaiRapotSiswa">
+                        <i class="nav-icon fas fa-print"></i>
+                        <p>
+                            Cetak Rapot
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview ml-4">
+                        <li class="nav-item">
+                            <a href="{{ route('guru.data-rapot') }}" class="nav-link" id="DataRapotSiswa">
+                                <i class="fas fa-file-alt nav-icon"></i>
+                                <p>Data Rapot</p>
                             </a>
                         </li>
                     </ul>
@@ -317,12 +334,7 @@
                         <p>Ulangan</p>
                     </a>
                 </li>
-{{--                <li class="nav-item">--}}
-{{--                    <a href="{{ route('sikap.siswa') }}" class="nav-link" id="SikapSiswa">--}}
-{{--                        <i class="fas fa-file-alt nav-icon"></i>--}}
-{{--                        <p>Sikap</p>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
+
                 <li class="nav-item has-treeview" id="liNilaiRapotSiswa">
                     <a href="#" class="nav-link" id="NilaiRapotSiswa">
                         <i class="nav-icon fas fa-print"></i>
