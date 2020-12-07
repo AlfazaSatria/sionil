@@ -325,9 +325,9 @@
 {{--                </li>--}}
                 <li class="nav-item has-treeview" id="liNilaiRapotSiswa">
                     <a href="#" class="nav-link" id="NilaiRapotSiswa">
-                        <i class="nav-icon fas fa-file-signature"></i>
+                        <i class="nav-icon fas fa-print"></i>
                         <p>
-                            Rapot
+                            Cetak Rapot
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
