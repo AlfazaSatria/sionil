@@ -95,6 +95,13 @@
                     </ul>
                 </li>
                 @if (Auth::user()->role == "Admin")
+                <li class="nav-item " id="liBackup">
+                    <a href="{{ route('backup_database') }}" class="nav-link" id="Backup">
+                        <i class="nav-icon fas fa-database"></i>
+                        <p>
+                            Backup Database
+                        </p>
+                    </a>
                 <li class="nav-item has-treeview" id="liViewTrash">
                     <a href="#" class="nav-link" id="ViewTrash">
                         <i class="nav-icon fas fa-recycle"></i>
