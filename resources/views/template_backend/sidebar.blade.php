@@ -379,20 +379,20 @@
                         <p>Pengumuman</p>
                     </a>
                 </li>
-
-                {{-- @elseif (Auth::user()->role == 'BimbinganKonseling')
-                <li class="nav-item">
+                
+                @elseif (Auth::user()->role == 'BimbinganKonseling')
+                {{-- <li class="nav-item">
                     <a href="{{ route('bk.index') }}" class="nav-link" id="BkHome">
                         <i class="fas fa-home nav-icon"></i>
                         <p>Dashboard</p>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a href="{{ route('bk.index') }}" class="nav-link" id="Bkindex">
                         <i class="fas fa-home nav-icon"></i>
                         <p>Input Affective</p>
                     </a>
-                </li> --}}
+                </li>
                 @endif
                 
                 

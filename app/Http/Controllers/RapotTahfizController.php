@@ -16,6 +16,42 @@ use Dompdf\Dompdf;
 use Illuminate\Support\Facades\DB;
 class RapotTahfizController extends Controller
 {
+
+    public function index()
+    {
+        $tahfiz = Tahfiz::where('id_cardTahfiz', Auth::user()->id_cardTahfiz)->first();
+        $jadwalTahfiz = JadwalTahfiz::where('tahfiz_id', $tahfiz->id)->orderBy('kelas_id')->get();
+        $kelas = $jadwalTahfiz->groupBy('kelas_id');
+
+        return view('tahfiz.rapot.index', compact('tahfiz','kelas'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $kelas = Kelas::orderBy('nama_kelas')->get();
+        return view('admin.rapot.home', compact('kelas'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($encryption)
+    {
+        $id = Crypt::decrypt($encryption);
+        $tahfiz = Tahfiz::where('id_cardTahfiz', Auth::user()->id_cardTahfiz)->first();
+        $kelas = Kelas::where('id', $id)->get()->first();
+        $siswa = Siswa::where('kelas_id', $id)->get();
+        return view('tahfiz.rapot.rapot', compact('tahfiz', 'kelas', 'siswa'));
+    }
+
     public function tahfiz(){
         $siswa = Siswa::where('no_induk', Auth::user()->no_induk)->first();
        
@@ -48,6 +84,20 @@ class RapotTahfizController extends Controller
             $pdf->setPaper('A4', 'portrait');
             $pdf->render();
             $pdf->stream("RaporTahfiz" . $siswa->nama_siswa . ".pdf");
+    }
+
+    public function input_nilai(Request $request)
+    {
+        
+        RapotTahfiz::updateOrCreate(
+            [
+            'siswa_id' => $request->siswa_id,
+            'membaca' => $request->membaca,
+            'mendengarkan' => $request->mendengarkan,
+            'menghafal' => $request->menghafal,
+            'mengikuti' => $request->mengikuti,
+        ]);
+        return redirect()->back()->with('success', 'Success!');
     }
     
 }

@@ -50,7 +50,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/jadwal/siswa', 'JadwalController@siswa')->name('jadwal.siswa');
     Route::get('/ulangan/siswa', 'UlanganController@siswa')->name('ulangan.siswa');
     Route::get('/sikap/siswa', 'SikapController@siswa')->name('sikap.siswa');
-    Route::get('/generate-pdf','RapotTahfizController@Tahfiz')->name('cetak.rapot');
     Route::get('/rapot/siswa/{tipe_rapot}', 'RapotController@siswa')->name('rapot.siswa');
   });
 
@@ -118,7 +117,6 @@ Route::middleware(['auth'])->group(function () {
           Route::post('/indikator/inputnilai', 'IndikatorController@input_nilai')->name('guru.input-nilai-indikator');
           Route::post('/indikator/bulkinputnilai', 'IndikatorController@bulk_input_nilai')->name('guru.bulk-input-nilai-indikator');
           Route::delete('/indikator/{id}', 'IndikatorController@destroy')->name('guru.destroy-indikator');
-             
           Route::get('/jadwal', 'JadwalController@guru')->name('jadwal.guru');
   });
 
@@ -161,16 +159,10 @@ Route::middleware(['auth'])->group(function () {
   Route::middleware(['bimbingankonseling'])
       ->prefix('/bimbingankonseling')
       ->group(function () {
-        Route::resource('/index', 'BimbinganKonselingController', [
-          'names' => [
-              'index' => 'bk.index',
-              'store' => 'bk.store',
-          ],
-          'except' => [
-            'create', 'edit', 'update',
-          ],
-      ]);
-          
+
+      Route::get('/index', 'BKController@index')->name('bk.index');
+      Route::get('/bk/{encryption}', 'BKController@show')->name('bk.show');
+      Route::post('/bk/inputnilai', 'BKController@input_nilai')->name('bk.input_nilai');    
   });
 
   
