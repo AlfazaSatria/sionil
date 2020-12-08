@@ -340,13 +340,13 @@
                     </a>
                     <ul class="nav nav-treeview ml-4">
                         <li class="nav-item">
-                            <a href="{{ route('rapot.siswa', Crypt::encrypt(0)) }}" class="nav-link" id="RapotSiswaUTS">
+                            <a href="{{ route('rapot.siswa', Crypt::encrypt(['tipe'=>0, 'aksi'=>1])) }}" target="_blank" class="nav-link" id="RapotSiswaUTS">
                                 <i class="fas fa-file-alt nav-icon"></i>
                                 <p>Tengah Semester</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('rapot.siswa', Crypt::encrypt(1)) }}" class="nav-link" id="RapotSiswaUAS">
+                            <a href="{{ route('rapot.siswa', Crypt::encrypt(['tipe'=>1, 'aksi'=>1])) }}" target="_blank" class="nav-link" id="RapotSiswaUAS">
                                 <i class="fas fa-file-alt nav-icon"></i>
                                 <p>Akhir Semester</p>
                             </a>

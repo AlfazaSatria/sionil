@@ -289,9 +289,11 @@ class RapotController extends Controller
         return response()->json($newForm);
     }
 
-    public function siswa($tipe_rapot)
+    public function siswa($items)
     {
-        $tipe = Crypt::decrypt($tipe_rapot);
+        $items = Crypt::decrypt($items);
+        $tipe = $items['tipe'];
+        $aksi = $items['aksi'];
         $siswa = Siswa::where('no_induk', Auth::user()->no_induk)->first();
         $kelas = Kelas::findorfail($siswa->kelas_id);
         $walikelas = Guru::where('walikelas', $kelas->nama_kelas)->get()->first();
@@ -321,7 +323,6 @@ class RapotController extends Controller
                 'rapot.tipe_rapot' => $tipe,
             ])
             ->get();
-
 
         $rapot_c = DB::table('rapot')
             ->select(
@@ -401,6 +402,15 @@ class RapotController extends Controller
             'siswa_id' => $siswa->id,
         ])->get()->first();
 
+        if ($aksi == 0) {
+            return view('siswa.rapot', compact(
+                'guru', 'kelas', 'siswa',
+                'rapot_a', 'rapot_b', 'rapot_c',
+                'total_a_p', 'total_a_k', 'total_b_p', 'total_b_k', 'total_c_p', 'total_c_k',
+                'affective', 'extracurricular', 'remark', 'physical', 'health',
+                'achievement', 'attendance'
+            ));
+        }
 
         if (count($rapot_a) > 0 && count($rapot_b) > 0 && count($rapot_c) > 0 &&
             count($extracurricular) > 0 && count($health) > 0 && count($achievement) > 0 &&
@@ -696,7 +706,7 @@ class RapotController extends Controller
             $pdf->set_option('isRemoteEnabled', true);
             $pdf->setPaper('A4', 'portrait');
             $pdf->render();
-            $pdf->stream($siswa->nama_siswa . ".pdf");
+            $pdf->stream($siswa->nama_siswa . ".pdf", array("Attachment" => false));
         } else {
             return redirect()->back()->with('warning', 'Rapor belum tersedia!');
         }
