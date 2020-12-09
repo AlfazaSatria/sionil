@@ -124,7 +124,7 @@
                                         <input type="hidden" name="indikator_id" value="{{ $indikator->id }}">
                                         <input type="number" class="form-control" name="baris" value="{{$baris}}" placeholder="Baris Ayat">
                                         <input type="number" class="form-control" name="salah" value="{{$salah}}" placeholder="Baris Salah">
-                                        <input type="text" class="form-control" disabled value="{{$nilai}}">
+                                        <input type="text" class="form-control" disabled value="{{(int)$nilai}}">
                                         <div class="input-group-append">
                                             <button class="btn btn-info btn-sm" type="submit">
                                                 <i class="fas fa fa-save"></i>

@@ -88,6 +88,7 @@
                       <option value="B">Thematic Learning</option>
                       <option value="C">Islamic Studies</option>
                       <option value="D">Klub/Ekstrakurikuler</option>
+                      <option value="E">Tahfiz</option>
                     </select>
                 </div>
               </div>

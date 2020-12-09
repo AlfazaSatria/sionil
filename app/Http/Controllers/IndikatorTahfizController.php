@@ -94,17 +94,79 @@ class IndikatorTahfizController extends Controller
 
         $nilai=0;
         $nilai = 100-(100/$request->baris/3)*$request->salah;
-        NilaiIndikatorTahfiz::updateOrCreate(
-            [ 'id' => $id ],
-            [
-                'siswa_id' => $request->siswa_id,
-                'indikator_id' => $request->indikator_id,
-                'baris' => $request->baris,
-                'salah' => $request->salah,
+        
 
-                'nilai_indikator' => $nilai,
-            ]
-        );
-        return redirect()->back()->with('success', 'Success!');
+        if($nilai>90){
+            NilaiIndikatorTahfiz::updateOrCreate(
+                [ 'id' => $id ],
+                [
+                    'siswa_id' => $request->siswa_id,
+                    'indikator_id' => $request->indikator_id,
+                    'baris' => $request->baris,
+                    'salah' => $request->salah,
+                    
+                    'nilai_indikator' => $nilai,
+                    'predikat' => 'hd',
+                ]
+            );
+            return redirect()->back()->with('success', 'Success!');
+        }elseif($nilai>80){
+            NilaiIndikatorTahfiz::updateOrCreate(
+                [ 'id' => $id ],
+                [
+                    'siswa_id' => $request->siswa_id,
+                    'indikator_id' => $request->indikator_id,
+                    'baris' => $request->baris,
+                    'salah' => $request->salah,
+                    
+                    'nilai_indikator' => $nilai,
+                    'predikat' => 'd',
+                ]
+            );
+            return redirect()->back()->with('success', 'Success!');
+        }elseif($nilai>70){
+            NilaiIndikatorTahfiz::updateOrCreate(
+                [ 'id' => $id ],
+                [
+                    'siswa_id' => $request->siswa_id,
+                    'indikator_id' => $request->indikator_id,
+                    'baris' => $request->baris,
+                    'salah' => $request->salah,
+                    
+                    'nilai_indikator' => $nilai,
+                    'predikat' => 'c',
+                ]
+            );
+            return redirect()->back()->with('success', 'Success!');
+        }elseif($nilai>60){
+            NilaiIndikatorTahfiz::updateOrCreate(
+                [ 'id' => $id ],
+                [
+                    'siswa_id' => $request->siswa_id,
+                    'indikator_id' => $request->indikator_id,
+                    'baris' => $request->baris,
+                    'salah' => $request->salah,
+                    
+                    'nilai_indikator' => $nilai,
+                    'predikat' => 'p',
+                ]
+            );
+            return redirect()->back()->with('success', 'Success!');
+        }else{
+            NilaiIndikatorTahfiz::updateOrCreate(
+                [ 'id' => $id ],
+                [
+                    'siswa_id' => $request->siswa_id,
+                    'indikator_id' => $request->indikator_id,
+                    'baris' => $request->baris,
+                    'salah' => $request->salah,
+                    
+                    'nilai_indikator' => $nilai,
+                    'predikat' => 'ni',
+                ]
+            );
+            return redirect()->back()->with('success', 'Success!');
+        }
+            
     }
 }

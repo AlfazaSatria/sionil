@@ -13,6 +13,7 @@
 
 use App\Indikator;
 
+
 Route::get('/welcome', function () {
   return view('welcome');
 });
@@ -99,6 +100,8 @@ Route::middleware(['auth'])->group(function () {
                 'create', 'edit', 'update',
               ],
           ]);
+          Route::get('/cetak/rapot', 'RapotController@dataRapot')->name('guru.data-rapot');
+          Route::get('/cetak/guru/{encryption}', 'RapotController@guru')->name('rapot.guru');
           Route::get('/ekstrakulikuler', 'RapotController@indexekstrakulikuler')->name('guru.ekstrakulikuler-rapot');
           Route::post('/ekstrakulikuler/inputnilai', 'RapotController@inputekstrakulikuler')->name('guru.input-nilai-ekstrakulikuler');
           Route::get('/health', 'RapotController@indexhealth')->name('guru.health-rapot');
@@ -115,7 +118,6 @@ Route::middleware(['auth'])->group(function () {
           Route::post('/indikator/inputnilai', 'IndikatorController@input_nilai')->name('guru.input-nilai-indikator');
           Route::post('/indikator/bulkinputnilai', 'IndikatorController@bulk_input_nilai')->name('guru.bulk-input-nilai-indikator');
           Route::delete('/indikator/{id}', 'IndikatorController@destroy')->name('guru.destroy-indikator');
-         
           Route::get('/jadwal', 'JadwalController@guru')->name('jadwal.guru');
   });
 
@@ -152,22 +154,19 @@ Route::middleware(['auth'])->group(function () {
           Route::get('/rapotTahfiz/{encryption}', 'RapotTahfizController@show')->name('tahfiz.show-rapot');
           Route::post('/rapotTahfiz/inputnilai', 'RapotTahfizController@input_nilai')->name('tahfiz.input-nilai-rapot');
           Route::get('/jadwalTahfiz', 'JadwalTahfizController@tahfiz')->name('jadwal.tahfiz');
-          Route::get('/rapotpdf', 'PdfController@PDFTahfiz')->name('cetak.rapot');
+          Route::get('/export_excel/{encryption}', 'RapotTahfizController@export_excel')->name('tahfiz.export_excel');
+          Route::get('/datakelas', 'RapotTahfizController@datakelas')->name('tahfiz.data-kelas');
+          Route::get('/datasiswa/{encryption}', 'RapotTahfizController@datasiswa')->name('tahfiz.data-siswa');
+          
   });
 
   Route::middleware(['bimbingankonseling'])
       ->prefix('/bimbingankonseling')
       ->group(function () {
-        Route::resource('/index', 'BimbinganKonselingController', [
-          'names' => [
-              'index' => 'bk.index',
-              'store' => 'bk.store',
-          ],
-          'except' => [
-            'create', 'edit', 'update',
-          ],
-      ]);
-          
+
+      Route::get('/index', 'BKController@index')->name('bk.index');
+      Route::get('/bk/{encryption}', 'BKController@show')->name('bk.show');
+      Route::post('/bk/inputnilai', 'BKController@input_nilai')->name('bk.input_nilai');    
   });
 
   
@@ -196,6 +195,10 @@ Route::middleware(['auth'])->group(function () {
       Route::get('/user/trash', 'UserController@trash')->name('user.trash');
       Route::get('/user/restore/{id}', 'UserController@restore')->name('user.restore');
       Route::delete('/user/kill/{id}', 'UserController@kill')->name('user.kill');
+      Route::get('/backup', 'DatabaseController@our_backup_database')->name('backup_database');
+
+      
+
     });
     Route::get('/admin/home', 'HomeController@admin')->name('admin.home');
     Route::get('/admin/pengumuman', 'PengumumanController@index')->name('admin.pengumuman');

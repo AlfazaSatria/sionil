@@ -12,7 +12,7 @@ class Pyhsic extends Model
         'siswa_id',
         'height_sem1',
         'weight_sem1',
-        'height_sem1',
+        'height_sem2',
         'weight_sem2'
     ];
 }

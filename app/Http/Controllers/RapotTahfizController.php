@@ -9,17 +9,16 @@ use App\Siswa;
 use App\Kelas;
 use App\JadwalTahfiz;
 use App\RapotTahfiz;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\RapotExport;
 use App\NilaiIndikatorTahfiz;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
-
+use Dompdf\Dompdf;
+use Illuminate\Support\Facades\DB;
 class RapotTahfizController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $tahfiz = Tahfiz::where('id_cardTahfiz', Auth::user()->id_cardTahfiz)->first();
@@ -55,78 +54,38 @@ class RapotTahfizController extends Controller
         return view('tahfiz.rapot.rapot', compact('tahfiz', 'kelas', 'siswa'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $id = Crypt::decrypt($id);
-        $kelas = Kelas::findorfail($id);
-        $siswa = Siswa::orderBy('nama_siswa')->where('kelas_id', $id)->get();
-        return view('admin.rapot.index', compact('kelas', 'siswa'));
-    }
+    public function tahfiz(){
+        $siswa = Siswa::where('no_induk', Auth::user()->no_induk)->first();
+       
+        $nilai= DB::table('nilai_indikator_tahfiz')
+        ->select(
+            'nilai_indikator_tahfiz.id','nilai_indikator_tahfiz.nilai_indikator',
+            'nilai_indikator_tahfiz.predikat','indikator_tahfiz.indikator'
+        )
+        ->join('indikator_tahfiz','indikator_tahfiz.id','=','nilai_indikator_tahfiz.indikator_id')
+        ->where([
+            'nilai_indikator_tahfiz.siswa_id'=>$siswa->id
+        ])
+        ->get();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+        $h = "<!DOCTYPE html>";
+            $h .= "<html>";
+            $h .= "<body>";
+            $h .= "<h2 style='margin-bottom: 0;text-align: center;'>Rapor " . $nilai->predikat . " Semester</h2>";
+            
+            
+            $h .= "</table>";
 
-    public function rapot($id)
-    {
-        $id = Crypt::decrypt($id);
-        $siswa = Siswa::findorfail($id);
-        $kelas = Kelas::findorfail($siswa->kelas_id);
-        $jadwal = Jadwal::orderBy('mapel_id')->where('kelas_id', $kelas->id)->get();
-        $mapel = $jadwal->groupBy('mapel_id');
-        return view('admin.rapot.show', compact('mapel', 'siswa', 'kelas'));
-    }
+            $h .= "</body>";
+            $h .= "</html>";
 
-    public function predikat(Request $request)
-    {
-        $nilai = Nilai::where('guru_id', $request->id)->first();
-        if ($request->nilai > 90) {
-            $newForm[] = array(
-                'predikat' => 'A',
-                'deskripsi' => $nilai->deskripsi_a,
-            );
-        } else if ($request->nilai > 80) {
-            $newForm[] = array(
-                'predikat' => 'B',
-                'deskripsi' => $nilai->deskripsi_b,
-            );
-        } else if ($request->nilai > 60) {
-            $newForm[] = array(
-                'predikat' => 'C',
-                'deskripsi' => $nilai->deskripsi_c,
-            );
-        } else {
-            $newForm[] = array(
-                'predikat' => 'D',
-                'deskripsi' => $nilai->deskripsi_d,
-            );
-        }
-        return response()->json($newForm);
+            $pdf = new Dompdf();
+            $pdf->loadHtml($h);
+            $pdf->set_option('isRemoteEnabled', true);
+            $pdf->setPaper('A4', 'portrait');
+            $pdf->render();
+            $pdf->stream("RaporTahfiz" . $siswa->nama_siswa . ".pdf");
     }
 
     public function input_nilai(Request $request)
@@ -142,4 +101,27 @@ class RapotTahfizController extends Controller
         ]);
         return redirect()->back()->with('success', 'Success!');
     }
+
+    public function datakelas(){
+        $tahfiz = Tahfiz::where('id_cardTahfiz', Auth::user()->id_cardTahfiz)->first();
+        $jadwal = JadwalTahfiz::where('tahfiz_id', $tahfiz->id)->orderBy('kelas_id')->get();
+        $kelas = $jadwal->groupBy('kelas_id');
+        return view('tahfiz.rapot.datakelas', compact('kelas', 'tahfiz'));
+    }
+    
+    public function datasiswa($encryption){
+        $decrypt = Crypt::decrypt($encryption);
+        $id = $decrypt['id'];
+        $tahfiz = Tahfiz::where('id_cardTahfiz', Auth::user()->id_cardTahfiz)->first();
+        $kelas = Kelas::findorfail($id);
+        $siswa = Siswa::where('kelas_id', $id)->get();
+        return view('tahfiz.rapot.datasiswa', compact('tahfiz', 'kelas', 'siswa'));
+    }
+
+    public function export_excel($encryption)
+    {
+        $id= Crypt::decrypt($encryption);
+        return Excel::download(new RapotExport($id), 'test.xlsx');
+    }
+    
 }

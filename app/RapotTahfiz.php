@@ -9,18 +9,17 @@ class RapotTahfiz extends Model
     protected $table = 'rapot_tahfiz';
 
     protected $fillable=[
-        'indikator_id',
-        'nilai_indikator',
         'siswa_id',
         'membaca',
         'mendengarkan',
         'mengikuti',
-        'menghafal'    
+        'menghafal',
+        'membaca',
+        'mendengarkan',
+        'mengikuti',
+        'menghafal',  
     ];
 
-    public function indikator(){
-        return $this->hasMany('App\IndikatorTahfiz', 'indikator_id');
-    }
 
     public function siswa(){
         return $this->hasOne('App\Siswa', 'siswa_id');
