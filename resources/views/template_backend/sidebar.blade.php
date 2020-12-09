@@ -321,7 +321,12 @@
                     </ul>
                     
                 </li>
-
+                <li class="nav-item">
+                    <a href="{{ route('tahfiz.data-kelas') }}" class="nav-link" id="ExportRapotTahfiz">
+                        <i class="fas fa-file-alt nav-icon"></i>
+                        <p>Export Rapot</p>
+                    </a>
+                </li>
                 @elseif (Auth::user()->role == 'Siswa' && Auth::user()->siswa(Auth::user()->no_induk) == true)
                 <li class="nav-item has-treeview">
                     <a href="{{ url('/') }}" class="nav-link" id="Home">
@@ -366,12 +371,7 @@
                     </ul>
                 </li>
                 
-                    <li class="nav-item">
-                        <a href="{{ route('cetak.rapot') }}" class="nav-link">
-                            <i class="fas fa-file-alt nav-icon"></i>
-                            <p>Cetak Raport Tahfiz</p>
-                        </a>
-                    </li>
+                   
                 
                 @elseif (Auth::user()->role == 'Kepsek')
                 <li class="nav-item">

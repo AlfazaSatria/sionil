@@ -9,6 +9,8 @@ use App\Siswa;
 use App\Kelas;
 use App\JadwalTahfiz;
 use App\RapotTahfiz;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\RapotExport;
 use App\NilaiIndikatorTahfiz;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -98,6 +100,28 @@ class RapotTahfizController extends Controller
             'mengikuti' => $request->mengikuti,
         ]);
         return redirect()->back()->with('success', 'Success!');
+    }
+
+    public function datakelas(){
+        $tahfiz = Tahfiz::where('id_cardTahfiz', Auth::user()->id_cardTahfiz)->first();
+        $jadwal = JadwalTahfiz::where('tahfiz_id', $tahfiz->id)->orderBy('kelas_id')->get();
+        $kelas = $jadwal->groupBy('kelas_id');
+        return view('tahfiz.rapot.datakelas', compact('kelas', 'tahfiz'));
+    }
+    
+    public function datasiswa($encryption){
+        $decrypt = Crypt::decrypt($encryption);
+        $id = $decrypt['id'];
+        $tahfiz = Tahfiz::where('id_cardTahfiz', Auth::user()->id_cardTahfiz)->first();
+        $kelas = Kelas::findorfail($id);
+        $siswa = Siswa::where('kelas_id', $id)->get();
+        return view('tahfiz.rapot.datasiswa', compact('tahfiz', 'kelas', 'siswa'));
+    }
+
+    public function export_excel($encryption)
+    {
+        $id= Crypt::decrypt($encryption);
+        return Excel::download(new RapotExport($id), 'test.xlsx');
     }
     
 }
