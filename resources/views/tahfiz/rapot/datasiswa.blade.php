@@ -1,6 +1,6 @@
 @extends('template_backend.home')
 <?php
-    $title = "Entry Nilai Indikator ";
+    $title = "Cetak Rapot Tahfiz ";
 ?>
 @section('heading', $title)
 @section('page')

@@ -144,7 +144,7 @@
 @endsection
 @section('script')
 <script>
-        $("#NilaiTahfiz").addClass("active");
+        $("#RapotTahfiz").addClass("active");
         $("#liNilaiTahfiz").addClass("menu-open");
         $("#RapotTahfiz").addClass("active");
 </script>
