@@ -307,7 +307,7 @@
                         <li class="nav-item">
                             <a href="{{ route('tahfiz.index-data') }}" class="nav-link" id="NilaiTahfiz">
                                 <i class="fas fa-file-alt nav-icon"></i>
-                                <p>Entry Nilai Siswa</p>
+                                <p>Entry Nilai Indikator</p>
                             </a>
                         </li>
                     </ul>
@@ -315,7 +315,7 @@
                         <li class="nav-item">
                             <a href="{{ route('tahfiz.index-rapot') }}" class="nav-link" id="RapotTahfiz">
                                 <i class="fas fa-file-alt nav-icon"></i>
-                                <p>Entry Nilai Rapot</p>
+                                <p>Entry Nilai Abilities</p>
                             </a>
                         </li>
                     </ul>

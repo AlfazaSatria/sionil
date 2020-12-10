@@ -414,14 +414,14 @@ class RapotController extends Controller
             $affective && $remark && $physical && $attendance) {
 
 
-            $tipe_rapot = ($tipe == 1) ? "Akhir" : "Tengah";
+           
             $dateNow = Carbon::now()->format('Y/m/d');
 
             $h = "<!DOCTYPE html>";
             $h .= "<html>";
             $h .= "<body>";
-            $h .= "<h2 style='margin-bottom: 0;text-align: center;'>Rapor " . $tipe_rapot . " Semester</h2>";
-            $h .= "<h3 style='margin-top: 2px;text-align: center;'>MI Mumtaza Islamic School</h3>";
+            $h .= "<h2 style='margin-bottom: 0;text-align: center;'>STUDENT'S LEARNING REPORT</h2>";
+            $h .= "<h3 style='margin-top: 2px;text-align: center;'>SMP Mumtaza Islamic School</h3>";
             $h .= "<table style='width: 100%;border-collapse: collapse;font-size: 14px;'>";
             $h .= "    <tr style='padding: 0; margin: 0'>";
             $h .= "        <td style='border:1px solid black;border-right:none;text-align: left;padding: 4px;' width='75'>Student's Name</td>";
@@ -689,7 +689,7 @@ class RapotController extends Controller
             $h .= "           <div style='width: 90%;margin: auto;border-bottom: 1px dashed black'></div>";
             $h .= "        </th>";
             $h .= "        <th style='text-align: center;margin:0 4px 0 4px;padding: 4px;' width='25%'>";
-            $h .= "           Khalimi, M.Pd.";
+            $h .= "           Ibnu Mulyana, M.Pd";
             $h .= "           <div style='width: 90%;margin: auto;border-bottom: 1px dashed black'></div>";
             $h .= "        </th>";
             $h .= "    </tr>";
@@ -703,7 +703,7 @@ class RapotController extends Controller
             $pdf->set_option('isRemoteEnabled', true);
             $pdf->setPaper('A4', 'portrait');
             $pdf->render();
-            $pdf->stream($siswa->nama_siswa . ".pdf", array("Attachment" => false));
+            $pdf->stream("ReportCard_".$siswa->nama_siswa . ".pdf", array("Attachment" => false));
         } else {
             return redirect()->back()->with('warning', 'Rapor belum tersedia!');
         }
@@ -838,14 +838,14 @@ class RapotController extends Controller
             $affective && $remark && $physical && $attendance) {
 
 
-            $tipe_rapot = ($tipe == 1) ? "Akhir" : "Tengah";
+         
             $dateNow = Carbon::now()->format('Y/m/d');
 
             $h = "<!DOCTYPE html>";
             $h .= "<html>";
             $h .= "<body>";
-            $h .= "<h2 style='margin-bottom: 0;text-align: center;'>Rapor " . $tipe_rapot . " Semester</h2>";
-            $h .= "<h3 style='margin-top: 2px;text-align: center;'>MI Mumtaza Islamic School</h3>";
+            $h .= "<h2 style='margin-bottom: 0;text-align: center;'>STUDENT'S LEARNING REPORT</h2>";
+            $h .= "<h3 style='margin-top: 2px;text-align: center;'>SMP Mumtaza Islamic School</h3>";
             $h .= "<table style='width: 100%;border-collapse: collapse;font-size: 14px;'>";
             $h .= "    <tr style='padding: 0; margin: 0'>";
             $h .= "        <td style='border:1px solid black;border-right:none;text-align: left;padding: 4px;' width='75'>Student's Name</td>";
@@ -1113,7 +1113,7 @@ class RapotController extends Controller
             $h .= "           <div style='width: 90%;margin: auto;border-bottom: 1px dashed black'></div>";
             $h .= "        </th>";
             $h .= "        <th style='text-align: center;margin:0 4px 0 4px;padding: 4px;' width='25%'>";
-            $h .= "           Khalimi, M.Pd.";
+            $h .= "           Ibnu Mulyana, M.Pd";
             $h .= "           <div style='width: 90%;margin: auto;border-bottom: 1px dashed black'></div>";
             $h .= "        </th>";
             $h .= "    </tr>";
@@ -1127,7 +1127,7 @@ class RapotController extends Controller
             $pdf->set_option('isRemoteEnabled', true);
             $pdf->setPaper('A4', 'portrait');
             $pdf->render();
-            $pdf->stream($siswa->nama_siswa . ".pdf");
+            $pdf->stream("ReportCard_".$siswa->nama_siswa . ".pdf", array("Attachment" => false));
         } else {
             return redirect()->back()->with('warning', 'Rapor belum tersedia!');
         }
@@ -1214,19 +1214,18 @@ class RapotController extends Controller
     }
 
     public function input_achievement(Request $request){
-        $id = null;
-        $existing = Achievement::where([
-            ['siswa_id', '=', $request->siswa_id],
-        ])
-        ->get()
-        ->first();
+        // $id = null;
+        // $existing = Achievement::where([
+        //     ['siswa_id', '=', $request->siswa_id],
+        // ])
+        // ->get()
+        // ->first();
 
-        if ($existing) {
-            $id = $existing->id;
-        }
+        // if ($existing) {
+        //     $id = $existing->id;
+        // }
 
-        Achievement::updateOrCreate(
-            [ 'id' => $id ],
+        Achievement::Create(
             [
                 'siswa_id' => $request->siswa_id,
                 'name' => $request->name,

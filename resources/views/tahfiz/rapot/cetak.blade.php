@@ -2,35 +2,13 @@
 <html>
 
 <body>
-  {{-- <table>
-        @foreach ($nilais as $nilai)
-        <tr>
-            <td>{{ $nilai->id }}</td>
-  <td>=</td>
-  <td>{{ $nilai->predikat }}</td>
-  </tr>
-  @endforeach
-  <tr>
-    <td>MEMBACA = {{ $nilaiRapot->membaca }}</td>
-    <td>MENDENGARKAN = {{ $nilaiRapot->mendengarkan }}</td>
-    <td>MENGIKUTI = {{ $nilaiRapot->mengikuti }}</td>
-    <td>MENGHAFAL = {{ $nilaiRapot->menghafal }}</td>
-
-  </tr>
-  @foreach ($indikators as $indikator)
-  <tr>
-    <td>
-      {{$indikator->indikator}}
-    </td>
-  </tr>
-  @endforeach
-  </table> --}}
+ 
 
   <table width="100%;" style="border-collapse: collapse;font-size: 14px;">
 
     <tr style="padding: 0; margin: 0">
-      <td colspan="8" rowspan="2"
-        style="font-size=40px; background-color:#8FFFC2; border:1px solid black;border-right:none;text-align:center;padding: 4px;"
+      <td colspan="6" rowspan="2"
+        style="font-size:20px; background-color:#8FFFC2; border:1px solid black;border-right:none;text-align:center;padding: 4px;"
         height="40px;">
         <p><b>تحفيظ القرآن الكريم</b></p>
       </td>
@@ -45,8 +23,8 @@
         </th>
         <th style="text-align:center; border: 1px solid black; background-color:#8FFFC2; font-size:15px;">ممتاز</th>
         <th style="text-align:center; border: 1px solid black; background-color:#8FFFC2; font-size:15px;">قدرات</th>
-        <th style="text-align:center; border: 1px solid black; background-color:#8FFFC2; font-size:15px;"> الفصل</th>
-        <th style="text-align:center; border: 1px solid black; background-color:#8FFFC2; font-size:15px;">ال ّسنة</th>
+        {{-- <th style="text-align:center; border: 1px solid black; background-color:#8FFFC2; font-size:15px;"> الفصل</th>
+        <th style="text-align:center; border: 1px solid black; background-color:#8FFFC2; font-size:15px;">ال ّسنة</th> --}}
       </tr>
       <tr style="border: 1px solid black; padding: 0; margin: 0;">
         <th
@@ -67,26 +45,73 @@
         <th
           style="text-align:center; font-size:10px; border: 1px solid black; background-color:#8FFFC2; font-size:15px;">
           Abilities</th>
-        <th
+        {{-- <th
           style="text-align:center; font-size:10px; border: 1px solid black; background-color:#8FFFC2; font-size:15px;">
           Term</th>
         <th
           style="text-align:center; font-size:10px; border: 1px solid black; background-color:#8FFFC2; font-size:15px;">
-          Year</th>
+          Year</th> --}}
       </tr>
+  
+      @foreach ($nilais as $nilai)
+        <?php
+          $predikat= $nilai->predikat;
+          $indikator = $nilai->indikator;
+        ?>
 
-      @foreach ($indikators as $indikator)  
+      @if($predikat== 'hd')
       <tr style="border: 1px solid black; padding: 0; margin: 0;">
-        <th style="border: 1px solid black; padding: 0; margin: 0;"></th>
-        <th style="border: 1px solid black; padding: 0; margin: 0;"></th>
-        <th style="border: 1px solid black; padding: 0; margin: 0;"></th>
-        <th style="border: 1px solid black; padding: 0; margin: 0;"></th>
-        <th style="border: 1px solid black; padding: 0; margin: 0;"></th>
-        <th style="border: 1px solid black; padding: 0; margin: 0;">{{$indikator->indikator}}</th>
-        @endforeach
-        <th rowspan="7" style="border: 1px solid black; padding: 0; margin: 0;">3</th>
-        <th rowspan="7" style="border: 1px solid black; padding: 0; margin: 0;">7</th>
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;"></th>
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;"></th>
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;"></th>
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;"></th>
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;">✔</th>
+        <th style="border: 1px solid black; padding: 0; margin: 0;">{{$nilai->indikator}}</th>
+        {{-- <th rowspan="{{$nilais->count()}}" style="border: 1px solid black; padding: 0; margin: 0;">3</th>
+        <th rowspan="{{$nilais->count()}}" style="border: 1px solid black; padding: 0; margin: 0;">7</th> --}}
       </tr>
+      @elseif($predikat=='d')
+      <tr style="border: 1px solid black; padding: 0; margin: 0;">
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;"></th>
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;"></th>
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;"></th>
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;">✔</th>
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;"></th>
+        <th style="border: 1px solid black; padding: 0; margin: 0;">{{$nilai->indikator}}</th>
+       
+      </tr>
+      @elseif($predikat=='c')
+      <tr style="border: 1px solid black; padding: 0; margin: 0;">
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;"></th>
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;"></th>
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;">✔</th>
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;"></th>
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;"></th>
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;">{{$nilai->indikator}}</th>
+        
+      </tr>
+      @elseif($predikat=='p')
+      <tr style="border: 1px solid black; padding: 0; margin: 0;">
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;"></th>
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;">✔</th>
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;"></th>
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;"></th>
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;"></th>
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;">{{$nilai->indikator}}</th>
+        
+      </tr>
+      @else
+      <tr style="border: 1px solid black; padding: 0; margin: 0;">
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;">✔</th>
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;"></th>
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;"></th>
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;"></th>
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;"></th>
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;">{{$nilai->indikator}}</th>
+        
+      </tr>
+      @endif
+      @endforeach
     
 
     </tbody>

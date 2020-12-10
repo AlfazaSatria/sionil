@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRapotTahfizTable extends Migration
+class CreateEkstrakulikulerTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateRapotTahfizTable extends Migration
      */
     public function up()
     {
-        Schema::create('rapot_tahfiz', function (Blueprint $table) {
+        Schema::create('ekstrakulikuler', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('siswa_id');
-            $table->double('membaca');
-            $table->double('mendengarkan');
-            $table->double('mengikuti');
-            $table->double('menghafal');
+            $table->bigInteger('mapel_id');
+            $table->string('mapel_name');
+            $table->string('score');
+            $table->text('description');
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ class CreateRapotTahfizTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rapot_tahfiz');
+        Schema::dropIfExists('ekstrakulikuler');
     }
 }

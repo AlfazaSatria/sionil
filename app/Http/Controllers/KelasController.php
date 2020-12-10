@@ -52,7 +52,7 @@ class KelasController extends Controller
             ]);
         } else {
             $this->validate($request, [
-                'nama_kelas' => 'required|unique:kelas|min:6|max:10',
+                'nama_kelas' => 'required|unique:kelas|min:6|max:25',
                
                 'guru_id' => 'required|unique:kelas',
             ]);

@@ -121,7 +121,7 @@ class RapotTahfizController extends Controller
     public function export_excel($encryption)
     {
         $id= Crypt::decrypt($encryption);
-        return Excel::download(new RapotExport($id), 'test.xlsx');
+        return Excel::download(new RapotExport($id), 'RaportTahfiz.xlsx');
     }
     
 }
