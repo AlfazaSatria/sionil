@@ -394,15 +394,15 @@
                 </li>
                 
                 @elseif (Auth::user()->role == 'BimbinganKonseling')
-                {{-- <li class="nav-item">
-                    <a href="{{ route('bk.index') }}" class="nav-link" id="BkHome">
-                        <i class="fas fa-home nav-icon"></i>
-                        <p>Dashboard</p>
+                <li class="nav-item">
+                    <a href="{{ route('bk.deskripsi') }}" class="nav-link" id="BKDeskripsi">
+                        <i class="fas fa-pen nav-icon"></i>
+                        <p>Input Deskripsi</p>
                     </a>
-                </li> --}}
+                </li>
                 <li class="nav-item">
                     <a href="{{ route('bk.index') }}" class="nav-link" id="Bkindex">
-                        <i class="fas fa-home nav-icon"></i>
+                        <i class="fas fa-pen nav-icon"></i>
                         <p>Input Affective</p>
                     </a>
                 </li>

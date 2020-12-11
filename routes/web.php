@@ -166,7 +166,9 @@ Route::middleware(['auth'])->group(function () {
 
       Route::get('/index', 'BKController@index')->name('bk.index');
       Route::get('/bk/{encryption}', 'BKController@show')->name('bk.show');
-      Route::post('/bk/inputnilai', 'BKController@input_nilai')->name('bk.input_nilai');    
+      Route::post('/bk/inputnilai', 'BKController@input_nilai')->name('bk.input_nilai');  
+      Route::get('/datadeskripsi', 'BKController@deskripsi')->name('bk.deskripsi');
+      Route::post('/deskripsi/simpan', 'BKController@input_deskripsi')->name('bk.deskripsi.simpan'); 
   });
 
   
