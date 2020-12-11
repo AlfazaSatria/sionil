@@ -157,6 +157,12 @@
                         <p>Pengumuman</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.term') }}" class="nav-link" id="Term">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>Term & Semester</p>
+                    </a>
+                </li>
                 @elseif (Auth::user()->role == 'Guru' && Auth::user()->guru(Auth::user()->id_card) == true)
                 <li class="nav-item has-treeview">
                     <a href="{{ url('/') }}" class="nav-link" id="Home">

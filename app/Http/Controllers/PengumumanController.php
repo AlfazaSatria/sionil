@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Pengumuman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-
+use App\Term;
 class PengumumanController extends Controller
 {
     public function index()
@@ -26,6 +26,34 @@ class PengumumanController extends Controller
             ],
             [
                 'isi' => $request->isi,
+            ]
+        );
+
+        return redirect()->back()->with('success', 'Pengumuman berhasil di perbarui!');
+    }
+
+    public function DataTerm(){
+        $term = Term::where('id', 1)->first();
+        return view('admin.term',compact('term'));
+    }
+
+    public function saveTerm (Request $request){
+        $this->validate($request, [
+            'semester' => 'required',
+            'term' => 'required',
+            'kepsek' => 'required',
+            'delivered_on' => 'required'
+        ]);
+
+        Term::updateOrCreate(
+            [
+            'id' => $request->id
+            ],
+            [
+                'semester'=>$request->semester,
+                'term' => $request->term,
+                'kepsek' => $request->kepsek,
+                'delivered_on' => $request->delivered_on,
             ]
         );
 

@@ -1214,16 +1214,7 @@ class RapotController extends Controller
     }
 
     public function input_achievement(Request $request){
-        // $id = null;
-        // $existing = Achievement::where([
-        //     ['siswa_id', '=', $request->siswa_id],
-        // ])
-        // ->get()
-        // ->first();
-
-        // if ($existing) {
-        //     $id = $existing->id;
-        // }
+       
 
         Achievement::Create(
             [
