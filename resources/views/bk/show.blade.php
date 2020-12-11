@@ -48,6 +48,7 @@
                                 @csrf
                                 <input type="hidden" name="siswa_id" value="{{ $siswa->id }}">
                                 <td>
+                                    {{-- Dropdown --}}
                                     <input type="text" class="form-control" name="spiritual" value="{{ $spiritual}}" rows="2"></input>
                                 </td>
                                 <td>

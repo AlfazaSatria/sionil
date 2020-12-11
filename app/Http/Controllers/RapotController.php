@@ -579,7 +579,7 @@ class RapotController extends Controller
             $last_count = count($rapot_a) + count($rapot_b) + 1;
             $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
             $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>" . $last_count . ".</th>";
-            $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;'>Islamic Learnings</th>";
+            $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;'>Islamic Studies</th>";
             $h .= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='40'></td>";
             $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='40'></th>";
             $h .= "        <td style='text-align: center;padding: 4px; border: 1px solid black;'></td>";
@@ -1125,7 +1125,7 @@ class RapotController extends Controller
             $last_count = count($rapot_a) + count($rapot_b) + 1;
             $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
             $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>" . $last_count . ".</th>";
-            $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;'>Islamic Learnings</th>";
+            $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;'>Islamic Studies</th>";
             $h .= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='40'></td>";
             $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='40'></th>";
             $h .= "        <td style='text-align: center;padding: 4px; border: 1px solid black;'></td>";

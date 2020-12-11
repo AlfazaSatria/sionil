@@ -15,8 +15,8 @@ class CreateTermTable extends Migration
     {
         Schema::create('term', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('term');
-            $table->integer('semester');
+            $table->string('term');
+            $table->string('semester');
             $table->string('kepsek');
             $table->date('delivered_on');
             $table->timestamps();

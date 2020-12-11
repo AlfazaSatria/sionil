@@ -172,7 +172,7 @@
                     </div>
                     <div class="form-group">
                         <label for="kode">Kode Jadwal</label>
-                        <input type="text" id="kode" name="kode" maxlength="3" onkeyup="this.value = this.value.toUpperCase()" class="form-control @error('kode') is-invalid @enderror">
+                        <input type="text" id="kode" name="kode" maxlength="8" onkeyup="this.value = this.value.toUpperCase()" class="form-control @error('kode') is-invalid @enderror">
                     </div>
                     <div class="form-group">
                         <label for="foto">File input</label>

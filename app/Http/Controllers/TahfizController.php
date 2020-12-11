@@ -22,7 +22,7 @@ class TahfizController extends Controller
             'id_cardTahfiz' => 'required',
             'nama_tahfiz' => 'required',
             'mapel_id' => 'required',
-            'kode' => 'required|string|unique:tahfiz|min:2|max:3',
+            'kode' => 'required|string|unique:tahfiz|min:2|max:8',
             'jk' => 'required'
         ]);
 
