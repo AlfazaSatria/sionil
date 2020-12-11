@@ -1,11 +1,11 @@
 @extends('template_backend.home')
 <?php
-    $title = "Entry Nilai Ekstrakulikuler ";
+    $title = "Entry Nilai Affective ";
 ?>
 @section('heading', $title)
 @section('page')
 <li class="breadcrumb-item ">Entry Nilai</li>
-<li class="breadcrumb-item active">Ekstrakulikuler</li>
+<li class="breadcrumb-item active">Affective</li>
 @endsection
 @section('content')
 <div class="col-md-12">
@@ -48,10 +48,10 @@
                                 @csrf
                                 <input type="hidden" name="siswa_id" value="{{ $siswa->id }}">
                                 <td>
-                                    <textarea type="text" class="form-control" name="spiritual" value="{{ $spiritual}}" rows="2"></textarea>
+                                    <input type="text" class="form-control" name="spiritual" value="{{ $spiritual}}" rows="2"></input>
                                 </td>
                                 <td>
-                                    <textarea type="text" class="form-control" name="social" value="{{ $social}}" rows="2"></textarea>
+                                    <input type="text" class="form-control" name="social" value="{{ $social}}" rows="2"></input>
                                 </td>
                                 <td>
                                     <div class="input-group-append">

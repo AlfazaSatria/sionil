@@ -116,7 +116,7 @@
                                         <input type="hidden" name="siswa_id" value="{{ $siswa->id }}">
                                         <input type="hidden" name="mapel_name" value="{{ $mapels->nama_mapel}}">
                                         <input type="hidden" name="mapel_id" value="{{ $mapels->id}}">
-                                        <input type="number" class="form-control" name="score" value="{{$score}}" placeholder="Score">
+                                        <input type="text" class="form-control" name="score" value="{{$score}}" placeholder="Score">
                                         <input type="text" class="form-control" name="description" value="{{$description}}" placeholder="Description">
                                         <div class="input-group-append">
                                             <button class="btn btn-info btn-sm" type="submit">

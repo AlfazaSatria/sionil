@@ -79,13 +79,7 @@
                                 <?php
                                     $name="";
                                     $desc="";
-                                    $achievement = \App\Achievement::where([
-                                        'siswa_id' => $siswa->id,
-                                    ])->get()->first();
-                                    if ($achievement) {
-                                        $name = $achievement->name;
-                                        $desc = $achievement->description;
-                                    }
+                                    
                                 ?>
 
                                 <form action="{{ route('guru.input-nilai-achievement') }}" method="post"

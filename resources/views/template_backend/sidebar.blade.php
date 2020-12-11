@@ -157,6 +157,12 @@
                         <p>Pengumuman</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.term') }}" class="nav-link" id="Term">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>Term & Semester</p>
+                    </a>
+                </li>
                 @elseif (Auth::user()->role == 'Guru' && Auth::user()->guru(Auth::user()->id_card) == true)
                 <li class="nav-item has-treeview">
                     <a href="{{ url('/') }}" class="nav-link" id="Home">
@@ -307,7 +313,7 @@
                         <li class="nav-item">
                             <a href="{{ route('tahfiz.index-data') }}" class="nav-link" id="NilaiTahfiz">
                                 <i class="fas fa-file-alt nav-icon"></i>
-                                <p>Entry Nilai Siswa</p>
+                                <p>Entry Nilai Indikator</p>
                             </a>
                         </li>
                     </ul>
@@ -315,7 +321,7 @@
                         <li class="nav-item">
                             <a href="{{ route('tahfiz.index-rapot') }}" class="nav-link" id="RapotTahfiz">
                                 <i class="fas fa-file-alt nav-icon"></i>
-                                <p>Entry Nilai Rapot</p>
+                                <p>Entry Nilai Abilities</p>
                             </a>
                         </li>
                     </ul>
@@ -388,15 +394,15 @@
                 </li>
                 
                 @elseif (Auth::user()->role == 'BimbinganKonseling')
-                {{-- <li class="nav-item">
-                    <a href="{{ route('bk.index') }}" class="nav-link" id="BkHome">
-                        <i class="fas fa-home nav-icon"></i>
-                        <p>Dashboard</p>
+                <li class="nav-item">
+                    <a href="{{ route('bk.deskripsi') }}" class="nav-link" id="BKDeskripsi">
+                        <i class="fas fa-pen nav-icon"></i>
+                        <p>Input Deskripsi</p>
                     </a>
-                </li> --}}
+                </li>
                 <li class="nav-item">
                     <a href="{{ route('bk.index') }}" class="nav-link" id="Bkindex">
-                        <i class="fas fa-home nav-icon"></i>
+                        <i class="fas fa-pen nav-icon"></i>
                         <p>Input Affective</p>
                     </a>
                 </li>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Achievement;
 use App\Affective;
+use App\Term;
 use App\Indikator;
 use App\NilaiIndikator;
 use App\Ulangan;
@@ -12,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Nilai;
 use App\Attendance;
+use App\DescriptionAffective;
 use Illuminate\Support\Facades\DB;
 use App\Health;
 use App\Guru;
@@ -23,6 +25,7 @@ use Dompdf\Dompdf;
 use App\Remark;
 use App\Jadwal;
 use App\Rapot;
+use Hamcrest\Description;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 
@@ -395,6 +398,14 @@ class RapotController extends Controller
             'siswa_id' => $siswa->id,
         ])->get();
 
+        $paramid=1;
+        $term= Term::where('id', $paramid)->first();
+
+
+        $param =1;
+        $deskripsi = DescriptionAffective::where('id', $param)->first();
+        
+
         $attendance = Attendance::where([
             'siswa_id' => $siswa->id,
         ])->get()->first();
@@ -410,18 +421,15 @@ class RapotController extends Controller
         }
 
         if (count($rapot_a) > 0 && count($rapot_b) > 0 && count($rapot_c) > 0 &&
-            count($extracurricular) > 0 && count($health) > 0 && count($achievement) > 0 &&
-            $affective && $remark && $physical && $attendance) {
+            count($extracurricular) > 0 && $affective && $remark && $attendance) {
 
 
-            $tipe_rapot = ($tipe == 1) ? "Akhir" : "Tengah";
-            $dateNow = Carbon::now()->format('Y/m/d');
 
             $h = "<!DOCTYPE html>";
             $h .= "<html>";
             $h .= "<body>";
-            $h .= "<h2 style='margin-bottom: 0;text-align: center;'>Rapor " . $tipe_rapot . " Semester</h2>";
-            $h .= "<h3 style='margin-top: 2px;text-align: center;'>MI Mumtaza Islamic School</h3>";
+            $h .= "<h2 style='margin-bottom: 0;text-align: center;'>STUDENT'S LEARNING REPORT</h2>";
+            $h .= "<h3 style='margin-top: 2px;text-align: center;'>SMP Mumtaza Islamic School</h3>";
             $h .= "<table style='width: 100%;border-collapse: collapse;font-size: 14px;'>";
             $h .= "    <tr style='padding: 0; margin: 0'>";
             $h .= "        <td style='border:1px solid black;border-right:none;text-align: left;padding: 4px;' width='75'>Student's Name</td>";
@@ -435,14 +443,14 @@ class RapotController extends Controller
             $h .= "        <td style='border:1px solid black;border-right:none;text-align: left;padding: 4px;' width='75' rowspan='2'>Teacher's Name</td>";
             $h .= "        <td style='border:1px solid black;border-right:none;border-left:none;text-align: center;padding: 4px;' rowspan='2'>:</td>";
             $h .= "        <td style='border:1px solid black;border-left:none;text-align: left;padding: 4px;' rowspan='2'>" . $walikelas->nama_guru . "</td>";
-            $h .= "        <td style='border:1px solid black;border-right:none;text-align: left;padding: 4px;' width='100'>Assesment Period</td>";
+            $h .= "        <td style='border:1px solid black;border-right:none;text-align: left;padding: 4px;' width='100'>Term/Semester</td>";
             $h .= "        <td style='border:1px solid black;border-right:none;border-left:none;text-align: center;padding: 4px;' width='5'>:</td>";
-            $h .= "        <td style='border:1px solid black;border-left:none;text-align: left;padding: 4px;'></td>";
+            $h .= "        <td style='border:1px solid black;border-left:none;text-align: left;padding: 4px;'>".$term->term."/".$term->semester."</td>";
             $h .= "    </tr>";
             $h .= "    <tr style='padding: 0; margin: 0'>";
             $h .= "        <td style='border:1px solid black;border-right:none;text-align: left;padding: 4px;' width='100'>Delivered On</td>";
             $h .= "        <td style='border:1px solid black;border-right:none;border-left:none;text-align: center;padding: 4px;' width='5'>:</td>";
-            $h .= "        <td style='border:1px solid black;border-left:none;text-align: left;padding: 4px;'>" . $dateNow . "</td>";
+            $h .= "        <td style='border:1px solid black;border-left:none;text-align: left;padding: 4px;'>" . $term->delivered_on . "</td>";
             $h .= "    </tr>";
             $h .= "</table>";
 
@@ -451,14 +459,55 @@ class RapotController extends Controller
             $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
             $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' colspan='2'>Description</th>";
             $h .= "    </tr>";
+            if($affective->spiritual=='A'){
             $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
             $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>1. Spiritual Attitude</th>";
-            $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $affective->spiritual . "</td>";
+            $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_a_sp . "</td>";
             $h .= "    </tr>";
-            $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+            }
+            elseif($affective->spiritual=='B'){
+                $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+                $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>1. Spiritual Attitude</th>";
+                $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_b_sp . "</td>";
+                $h .= "    </tr>";
+                }
+                elseif($affective->spiritual=='C'){
+                    $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+                    $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>1. Spiritual Attitude</th>";
+                    $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_c_sp . "</td>";
+                    $h .= "    </tr>";
+                    }
+                    else{
+                        $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+                        $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>1. Spiritual Attitude</th>";
+                        $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_d_sp . "</td>";
+                        $h .= "    </tr>";
+                        }
+            if($affective->social=='A'){
+                $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
             $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>2. Social Attitude</th>";
-            $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $affective->social . "</td>";
+            $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_a_so . "</td>";
             $h .= "    </tr>";
+            }
+            elseif($affective->social=='B'){
+                $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+            $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>2. Social Attitude</th>";
+            $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_b_so . "</td>";
+            $h .= "    </tr>";
+            }
+                elseif($affective->social=='C'){
+                    $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+                $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>2. Social Attitude</th>";
+                $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_c_so . "</td>";
+                $h .= "    </tr>";
+                }
+                    else{
+                        $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+                    $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>2. Social Attitude</th>";
+                    $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_d_so . "</td>";
+                    $h .= "    </tr>";
+                    }
+            
             $h .= "</table>";
 
             $h .= "<h3 style='margin-top:15px; margin-bottom: 0; padding: 3px'>B. Cognitive & Psychomotor</h3>";
@@ -593,39 +642,75 @@ class RapotController extends Controller
             $h .= "    </tr>";
             $h .= "</table>";
 
-            $h .= "<h3 style='margin-top:15px; margin-bottom: 0; padding: 3px'>F. Health Condition</h3>";
-            $h .= "<table style='border:1px solid black; width: 100%; border-collapse: collapse; font-size: 14px;'>";
-            $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
-            $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>No.</th>";
-            $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>Physical Aspect</th>";
-            $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>Description</th>";
-            $h .= "    </tr>";
-            foreach ($health as $key => $item) {
-                $index = $key + 1;
+            if(count($health)>0){
+                $h .= "<h3 style='margin-top:15px; margin-bottom: 0; padding: 3px'>F. Health Condition</h3>";
+                $h .= "<table style='border:1px solid black; width: 100%; border-collapse: collapse; font-size: 14px;'>";
                 $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
-                $h .= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>" . $index . ".</td>";
-                $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>$item->name</td>";
-                $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>$item->description</td>";
+                $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>No.</th>";
+                $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>Physical Aspect</th>";
+                $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>Description</th>";
                 $h .= "    </tr>";
-            }
-            $h .= "</table>";
+                    foreach ($health as $key => $item) {
+                        $index = $key + 1;
+                        $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+                        $h .= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>" . $index . ".</td>";
+                        $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>$item->name</td>";
+                        $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>$item->description</td>";
+                        $h .= "    </tr>";
+                    }
+                    $h .= "</table>";
+                }else{
+                    $h .= "<h3 style='margin-top:15px; margin-bottom: 0; padding: 3px'>F. Health Condition</h3>";
+                $h .= "<table style='border:1px solid black; width: 100%; border-collapse: collapse; font-size: 14px;'>";
+                $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+                $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>No.</th>";
+                $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>Physical Aspect</th>";
+                $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>Description</th>";
+                $h .= "    </tr>";
+                    
+                        $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+                        $h .= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='30'></td>";
+                        $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'></td>";
+                        $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'></td>";
+                        $h .= "    </tr>";
+                    
+                    $h .= "</table>";
+                }
 
-            $h .= "<h3 style='margin-top:15px; margin-bottom: 0; padding: 3px'>G. Achievement</h3>";
-            $h .= "<table style='border:1px solid black; width: 100%; border-collapse: collapse; font-size: 14px;'>";
-            $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
-            $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>No.</th>";
-            $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>Kind of Achievement</th>";
-            $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>Description</th>";
-            $h .= "    </tr>";
-            foreach ($achievement as $key => $item) {
-                $index = $key + 1;
+                if(count($achievement)>0){
+                    $h .= "<h3 style='margin-top:15px; margin-bottom: 0; padding: 3px'>G. Achievement</h3>";
+                $h .= "<table style='border:1px solid black; width: 100%; border-collapse: collapse; font-size: 14px;'>";
                 $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
-                $h .= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>" . $index . ".</td>";
-                $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>$item->name</td>";
-                $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>$item->description</td>";
+                $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>No.</th>";
+                $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>Kind of Achievement</th>";
+                $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>Description</th>";
                 $h .= "    </tr>";
-            }
-            $h .= "</table>";
+                foreach ($achievement as $key => $item) {
+                    $index = $key + 1;
+                    $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+                    $h .= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>" . $index . ".</td>";
+                    $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>$item->name</td>";
+                    $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>$item->description</td>";
+                    $h .= "    </tr>";
+                }
+                $h .= "</table>";
+                }else{
+                    $h .= "<h3 style='margin-top:15px; margin-bottom: 0; padding: 3px'>G. Achievement</h3>";
+                $h .= "<table style='border:1px solid black; width: 100%; border-collapse: collapse; font-size: 14px;'>";
+                $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+                $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>No.</th>";
+                $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>Kind of Achievement</th>";
+                $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>Description</th>";
+                $h .= "    </tr>";
+                
+                    $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+                    $h .= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='30'></td>";
+                    $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'></td>";
+                    $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'></td>";
+                    $h .= "    </tr>";
+                
+                $h .= "</table>";
+                }
 
             $h .= "<table style='margin-top: 15px; border:1px solid black; width: 30%; border-collapse: collapse; font-size: 14px;'>";
             $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
@@ -689,7 +774,7 @@ class RapotController extends Controller
             $h .= "           <div style='width: 90%;margin: auto;border-bottom: 1px dashed black'></div>";
             $h .= "        </th>";
             $h .= "        <th style='text-align: center;margin:0 4px 0 4px;padding: 4px;' width='25%'>";
-            $h .= "           Khalimi, M.Pd.";
+            $h .= "           Ibnu Mulyana, M.Pd";
             $h .= "           <div style='width: 90%;margin: auto;border-bottom: 1px dashed black'></div>";
             $h .= "        </th>";
             $h .= "    </tr>";
@@ -703,7 +788,7 @@ class RapotController extends Controller
             $pdf->set_option('isRemoteEnabled', true);
             $pdf->setPaper('A4', 'portrait');
             $pdf->render();
-            $pdf->stream($siswa->nama_siswa . ".pdf", array("Attachment" => false));
+            $pdf->stream("ReportCard_".$siswa->nama_siswa . ".pdf", array("Attachment" => false));
         } else {
             return redirect()->back()->with('warning', 'Rapor belum tersedia!');
         }
@@ -831,21 +916,26 @@ class RapotController extends Controller
         $attendance = Attendance::where([
             'siswa_id' => $siswa->id,
         ])->get()->first();
+        
+        $paramid=1;
+        $term= Term::where('id', $paramid)->first();
 
 
+        $param =1;
+        $deskripsi = DescriptionAffective::where('id', $param)->first();
+        
         if (count($rapot_a) > 0 && count($rapot_b) > 0 && count($rapot_c) > 0 &&
-            count($extracurricular) > 0 && count($health) > 0 && count($achievement) > 0 &&
-            $affective && $remark && $physical && $attendance) {
+            count($extracurricular) > 0 && $affective && $remark && $attendance) {
 
 
-            $tipe_rapot = ($tipe == 1) ? "Akhir" : "Tengah";
-            $dateNow = Carbon::now()->format('Y/m/d');
+         
+           
 
             $h = "<!DOCTYPE html>";
             $h .= "<html>";
             $h .= "<body>";
-            $h .= "<h2 style='margin-bottom: 0;text-align: center;'>Rapor " . $tipe_rapot . " Semester</h2>";
-            $h .= "<h3 style='margin-top: 2px;text-align: center;'>MI Mumtaza Islamic School</h3>";
+            $h .= "<h2 style='margin-bottom: 0;text-align: center;'>STUDENT'S LEARNING REPORT</h2>";
+            $h .= "<h3 style='margin-top: 2px;text-align: center;'>SMP Mumtaza Islamic School</h3>";
             $h .= "<table style='width: 100%;border-collapse: collapse;font-size: 14px;'>";
             $h .= "    <tr style='padding: 0; margin: 0'>";
             $h .= "        <td style='border:1px solid black;border-right:none;text-align: left;padding: 4px;' width='75'>Student's Name</td>";
@@ -859,31 +949,74 @@ class RapotController extends Controller
             $h .= "        <td style='border:1px solid black;border-right:none;text-align: left;padding: 4px;' width='75' rowspan='2'>Teacher's Name</td>";
             $h .= "        <td style='border:1px solid black;border-right:none;border-left:none;text-align: center;padding: 4px;' rowspan='2'>:</td>";
             $h .= "        <td style='border:1px solid black;border-left:none;text-align: left;padding: 4px;' rowspan='2'>" . $walikelas->nama_guru . "</td>";
-            $h .= "        <td style='border:1px solid black;border-right:none;text-align: left;padding: 4px;' width='100'>Assesment Period</td>";
+            $h .= "        <td style='border:1px solid black;border-right:none;text-align: left;padding: 4px;' width='100'>Term/Semester</td>";
             $h .= "        <td style='border:1px solid black;border-right:none;border-left:none;text-align: center;padding: 4px;' width='5'>:</td>";
-            $h .= "        <td style='border:1px solid black;border-left:none;text-align: left;padding: 4px;'></td>";
+            $h .= "        <td style='border:1px solid black;border-left:none;text-align: left;padding: 4px;'>".$term->term."/".$term->semester."</td>";
             $h .= "    </tr>";
             $h .= "    <tr style='padding: 0; margin: 0'>";
             $h .= "        <td style='border:1px solid black;border-right:none;text-align: left;padding: 4px;' width='100'>Delivered On</td>";
             $h .= "        <td style='border:1px solid black;border-right:none;border-left:none;text-align: center;padding: 4px;' width='5'>:</td>";
-            $h .= "        <td style='border:1px solid black;border-left:none;text-align: left;padding: 4px;'>" . $dateNow . "</td>";
+            $h .= "        <td style='border:1px solid black;border-left:none;text-align: left;padding: 4px;'>" . $term->delivered_on . "</td>";
             $h .= "    </tr>";
             $h .= "</table>";
-
-            $h .= "<h3 style='margin-top:15px; margin-bottom: 0; padding: 3px'>A. Affective</h3>";
+                
+                    $h .= "<h3 style='margin-top:15px; margin-bottom: 0; padding: 3px'>A. Affective</h3>";
             $h .= "<table style='border:1px solid black; width: 100%; border-collapse: collapse; font-size: 14px;'>";
             $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
             $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' colspan='2'>Description</th>";
             $h .= "    </tr>";
+            if($affective->spiritual=='A'){
             $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
             $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>1. Spiritual Attitude</th>";
-            $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $affective->spiritual . "</td>";
+            $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_a_sp . "</td>";
             $h .= "    </tr>";
-            $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+            }
+            elseif($affective->spiritual=='B'){
+                $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+                $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>1. Spiritual Attitude</th>";
+                $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_b_sp . "</td>";
+                $h .= "    </tr>";
+                }
+                elseif($affective->spiritual=='C'){
+                    $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+                    $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>1. Spiritual Attitude</th>";
+                    $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_c_sp . "</td>";
+                    $h .= "    </tr>";
+                    }
+                    else{
+                        $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+                        $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>1. Spiritual Attitude</th>";
+                        $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_d_sp . "</td>";
+                        $h .= "    </tr>";
+                        }
+            if($affective->social=='A'){
+                $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
             $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>2. Social Attitude</th>";
-            $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $affective->social . "</td>";
+            $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_a_so . "</td>";
             $h .= "    </tr>";
+            }
+            elseif($affective->social=='B'){
+                $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+            $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>2. Social Attitude</th>";
+            $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_b_so . "</td>";
+            $h .= "    </tr>";
+            }
+                elseif($affective->social=='C'){
+                    $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+                $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>2. Social Attitude</th>";
+                $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_c_so . "</td>";
+                $h .= "    </tr>";
+                }
+                    else{
+                        $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+                    $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>2. Social Attitude</th>";
+                    $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_d_so . "</td>";
+                    $h .= "    </tr>";
+                    }
+            
             $h .= "</table>";
+                
+            
 
             $h .= "<h3 style='margin-top:15px; margin-bottom: 0; padding: 3px'>B. Cognitive & Psychomotor</h3>";
             $h .= "<table style='border:1px solid black; width: 100%; border-collapse: collapse; font-size: 14px;'>";
@@ -1017,6 +1150,10 @@ class RapotController extends Controller
             $h .= "    </tr>";
             $h .= "</table>";
 
+           
+            
+
+            if(count($health)>0){
             $h .= "<h3 style='margin-top:15px; margin-bottom: 0; padding: 3px'>F. Health Condition</h3>";
             $h .= "<table style='border:1px solid black; width: 100%; border-collapse: collapse; font-size: 14px;'>";
             $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
@@ -1024,17 +1161,35 @@ class RapotController extends Controller
             $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>Physical Aspect</th>";
             $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>Description</th>";
             $h .= "    </tr>";
-            foreach ($health as $key => $item) {
-                $index = $key + 1;
-                $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
-                $h .= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>" . $index . ".</td>";
-                $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>$item->name</td>";
-                $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>$item->description</td>";
-                $h .= "    </tr>";
+                foreach ($health as $key => $item) {
+                    $index = $key + 1;
+                    $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+                    $h .= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>" . $index . ".</td>";
+                    $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>$item->name</td>";
+                    $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>$item->description</td>";
+                    $h .= "    </tr>";
+                }
+                $h .= "</table>";
+            }else{
+                $h .= "<h3 style='margin-top:15px; margin-bottom: 0; padding: 3px'>F. Health Condition</h3>";
+            $h .= "<table style='border:1px solid black; width: 100%; border-collapse: collapse; font-size: 14px;'>";
+            $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+            $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>No.</th>";
+            $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>Physical Aspect</th>";
+            $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>Description</th>";
+            $h .= "    </tr>";
+                
+                    $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+                    $h .= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='30'></td>";
+                    $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'></td>";
+                    $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'></td>";
+                    $h .= "    </tr>";
+                
+                $h .= "</table>";
             }
-            $h .= "</table>";
-
-            $h .= "<h3 style='margin-top:15px; margin-bottom: 0; padding: 3px'>G. Achievement</h3>";
+            
+            if(count($achievement)>0){
+                $h .= "<h3 style='margin-top:15px; margin-bottom: 0; padding: 3px'>G. Achievement</h3>";
             $h .= "<table style='border:1px solid black; width: 100%; border-collapse: collapse; font-size: 14px;'>";
             $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
             $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>No.</th>";
@@ -1050,6 +1205,24 @@ class RapotController extends Controller
                 $h .= "    </tr>";
             }
             $h .= "</table>";
+            }else{
+                $h .= "<h3 style='margin-top:15px; margin-bottom: 0; padding: 3px'>G. Achievement</h3>";
+            $h .= "<table style='border:1px solid black; width: 100%; border-collapse: collapse; font-size: 14px;'>";
+            $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+            $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>No.</th>";
+            $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>Kind of Achievement</th>";
+            $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>Description</th>";
+            $h .= "    </tr>";
+            
+                $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+                $h .= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='30'></td>";
+                $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'></td>";
+                $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'></td>";
+                $h .= "    </tr>";
+            
+            $h .= "</table>";
+            }
+            
 
             $h .= "<table style='margin-top: 15px; border:1px solid black; width: 30%; border-collapse: collapse; font-size: 14px;'>";
             $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
@@ -1113,7 +1286,7 @@ class RapotController extends Controller
             $h .= "           <div style='width: 90%;margin: auto;border-bottom: 1px dashed black'></div>";
             $h .= "        </th>";
             $h .= "        <th style='text-align: center;margin:0 4px 0 4px;padding: 4px;' width='25%'>";
-            $h .= "           Khalimi, M.Pd.";
+            $h .= "           Ibnu Mulyana, M.Pd";
             $h .= "           <div style='width: 90%;margin: auto;border-bottom: 1px dashed black'></div>";
             $h .= "        </th>";
             $h .= "    </tr>";
@@ -1127,7 +1300,7 @@ class RapotController extends Controller
             $pdf->set_option('isRemoteEnabled', true);
             $pdf->setPaper('A4', 'portrait');
             $pdf->render();
-            $pdf->stream($siswa->nama_siswa . ".pdf");
+            $pdf->stream("ReportCard_".$siswa->nama_siswa . ".pdf", array("Attachment" => false));
         } else {
             return redirect()->back()->with('warning', 'Rapor belum tersedia!');
         }
@@ -1214,19 +1387,9 @@ class RapotController extends Controller
     }
 
     public function input_achievement(Request $request){
-        $id = null;
-        $existing = Achievement::where([
-            ['siswa_id', '=', $request->siswa_id],
-        ])
-        ->get()
-        ->first();
+       
 
-        if ($existing) {
-            $id = $existing->id;
-        }
-
-        Achievement::updateOrCreate(
-            [ 'id' => $id ],
+        Achievement::Create(
             [
                 'siswa_id' => $request->siswa_id,
                 'name' => $request->name,
