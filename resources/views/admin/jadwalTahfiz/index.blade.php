@@ -96,9 +96,9 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <label for="tahfiz_id">Kode Mapel</label>
+                  <label for="tahfiz_id">Kode Guru Tahfiz</label>
                   <select id="tahfiz_id" name="tahfiz_id" class="form-control @error('tahfiz_id') is-invalid @enderror select2bs4">
-                      <option value="">-- Pilih Kode Mapel --</option>
+                      <option value="">-- Pilih Kode Guru Tahfiz--</option>
                       @foreach ($tahfiz as $data)
                           <option value="{{ $data->id }}">{{ $data->kode }}</option>
                       @endforeach

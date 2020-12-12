@@ -53,7 +53,7 @@ class GuruController extends Controller
             'id_card' => 'required',
             'nama_guru' => 'required',
             'mapel_id' => 'required',
-            'kode' => 'required|string|unique:guru|min:2|max:3',
+            'kode' => 'required|string|unique:guru|min:2|max:8',
             'jk' => 'required'
         ]);
 

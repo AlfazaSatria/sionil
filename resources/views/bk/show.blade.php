@@ -48,10 +48,26 @@
                                 @csrf
                                 <input type="hidden" name="siswa_id" value="{{ $siswa->id }}">
                                 <td>
-                                    <input type="text" class="form-control" name="spiritual" value="{{ $spiritual}}" rows="2"></input>
+                                    <div class="input-group mb-3">
+                                        <select class="custom-select" id="inputGroupSelect01" name="spiritual">
+                                          <option selected value="{{$spiritual}}">{{$spiritual}}</option>
+                                          <option value="A">A</option>
+                                          <option value="B">B</option>
+                                          <option value="C">C</option>
+                                          <option value="D">D</option>
+                                        </select>
+                                      </div>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" name="social" value="{{ $social}}" rows="2"></input>
+                                    <div class="input-group mb-3">
+                                        <select class="custom-select" id="inputGroupSelect01" name="social">
+                                          <option selected value="{{$social}}">{{$social}}</option>
+                                          <option value="A">A</option>
+                                          <option value="B">B</option>
+                                          <option value="C">C</option>
+                                          <option value="D">D</option>
+                                        </select>
+                                      </div>
                                 </td>
                                 <td>
                                     <div class="input-group-append">

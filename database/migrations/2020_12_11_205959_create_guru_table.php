@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTahfizTable extends Migration
+class CreateGuruTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,15 @@ class CreateTahfizTable extends Migration
      */
     public function up()
     {
-        Schema::create('tahfiz', function (Blueprint $table) {
+        Schema::create('guru', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('id_cardTahfiz', 10);
+            $table->string('id_card', 10);
             $table->string('nip', 30)->nullable();
-            $table->string('nama_tahfiz', 50);
+            $table->string('nama_guru', 50);
             $table->integer('mapel_id');
-            $table->string('kode', 5)->nullable();
+            $table->string('kode', 8)->nullable();
             $table->enum('jk', ['L', 'P']);
+            $table->string('walikelas')->nullable();
             $table->string('telp', 15)->nullable();
             $table->string('tmp_lahir', 50)->nullable();
             $table->date('tgl_lahir')->nullable();
@@ -37,6 +38,6 @@ class CreateTahfizTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tahfiz');
+        Schema::dropIfExists('guru');
     }
 }
