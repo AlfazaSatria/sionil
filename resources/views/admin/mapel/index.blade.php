@@ -70,16 +70,6 @@
                   <label for="nama_mapel">Nama Mapel</label>
                   <input type="text" id="nama_mapel" name="nama_mapel" class="form-control @error('nama_mapel') is-invalid @enderror" placeholder="{{ __('Nama Mata Pelajaran') }}">
                 </div>
-                {{-- <div class="form-group">
-                  <label for="paket_id">Paket</label>
-                  <select id="paket_id" name="paket_id" class="form-control @error('paket_id') is-invalid @enderror select2bs4">
-                    <option value="">-- Pilih Paket Mapel --</option>
-                    <option value="9">Semua</option>
-                    @foreach ($paket as $data)
-                      <option value="{{ $data->id }}">{{ $data->ket }}</option>
-                    @endforeach
-                  </select>
-                </div> --}}
                 <div class="form-group">
                     <label for="kelompok">Kelompok</label>
                     <select id="kelompok" name="kelompok" class="select2bs4 form-control @error('kelompok') is-invalid @enderror">
@@ -89,6 +79,7 @@
                       <option value="C">Islamic Studies</option>
                       <option value="D">Klub/Ekstrakurikuler</option>
                       <option value="E">Tahfiz</option>
+                      <option value="F">Local Content</option>
                     </select>
                 </div>
               </div>

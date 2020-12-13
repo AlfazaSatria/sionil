@@ -16,7 +16,7 @@ class CreateMapelTable extends Migration
         Schema::create('mapel', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nama_mapel', 50);
-            $table->enum('kelompok', ['A', 'B','C','D','E']);
+            $table->enum('kelompok', ['A', 'B','C','D','E','F']);
             $table->timestamps();
             $table->softDeletes();
         });

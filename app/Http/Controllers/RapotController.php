@@ -122,7 +122,7 @@ class RapotController extends Controller
             ])->get()->first();
             array_push($scores, $nilai->nilai_indikator);
         }
-        return array_sum($scores)/count($scores);
+        return array_sum($scores) / count($scores);
     }
 
     private function get_predikat($guru_id, $score)
@@ -161,10 +161,10 @@ class RapotController extends Controller
         if ($tipe == 'uts') {
             foreach ($data_siswa as $item) {
                 $nilai_keterampilan = ($tipe_uts == 1) ?
-                    ( $item->nilai_ulangan($guru->mapel_id)->uts + $this->get_indikator_avg($guru->id, $item->id, 1)) / 2 :
+                    ($item->nilai_ulangan($guru->mapel_id)->uts + $this->get_indikator_avg($guru->id, $item->id, 1)) / 2 :
                     $this->get_indikator_avg($guru->id, $item->id, 1);
                 $nilai_pengetahuan = ($tipe_uts == 0) ?
-                    ( $item->nilai_ulangan($guru->mapel_id)->uts + $this->get_indikator_avg($guru->id, $item->id, 0)) / 2 :
+                    ($item->nilai_ulangan($guru->mapel_id)->uts + $this->get_indikator_avg($guru->id, $item->id, 0)) / 2 :
                     $this->get_indikator_avg($guru->id, $item->id, 0);
                 $predikat_keterampilan = $this->get_predikat($guru->id, $nilai_keterampilan);
                 $predikat_pengetahuan = $this->get_predikat($guru->id, $nilai_pengetahuan);
@@ -187,10 +187,10 @@ class RapotController extends Controller
         } else {
             foreach ($data_siswa as $item) {
                 $nilai_keterampilan = ($tipe_uas == 1) ?
-                    ( $item->nilai_ulangan($guru->mapel_id)->uas + $this->get_indikator_avg($guru->id, $item->id, 1)) / 2 :
+                    ($item->nilai_ulangan($guru->mapel_id)->uas + $this->get_indikator_avg($guru->id, $item->id, 1)) / 2 :
                     $this->get_indikator_avg($guru->id, $item->id, 1);
                 $nilai_pengetahuan = ($tipe_uas == 0) ?
-                    ( $item->nilai_ulangan($guru->mapel_id)->uas + $this->get_indikator_avg($guru->id, $item->id, 0)) / 2 :
+                    ($item->nilai_ulangan($guru->mapel_id)->uas + $this->get_indikator_avg($guru->id, $item->id, 0)) / 2 :
                     $this->get_indikator_avg($guru->id, $item->id, 0);
                 $predikat_keterampilan = $this->get_predikat($guru->id, $nilai_keterampilan);
                 $predikat_pengetahuan = $this->get_predikat($guru->id, $nilai_pengetahuan);
@@ -212,7 +212,7 @@ class RapotController extends Controller
             }
         }
 
-        return view('guru.rapot.rapot', compact('tipe','guru', 'mapel', 'kelas', 'siswa'));
+        return view('guru.rapot.rapot', compact('tipe', 'guru', 'mapel', 'kelas', 'siswa'));
     }
 
     /**
@@ -300,8 +300,15 @@ class RapotController extends Controller
 
         $rapot_a = DB::table('rapot')
             ->select(
-                'rapot.id', 'rapot.tipe_rapot', 'rapot.p_nilai', 'rapot.p_predikat', 'rapot.p_deskripsi',
-                'rapot.k_nilai', 'rapot.k_predikat', 'rapot.k_deskripsi', 'mapel.nama_mapel'
+                'rapot.id',
+                'rapot.tipe_rapot',
+                'rapot.p_nilai',
+                'rapot.p_predikat',
+                'rapot.p_deskripsi',
+                'rapot.k_nilai',
+                'rapot.k_predikat',
+                'rapot.k_deskripsi',
+                'mapel.nama_mapel'
             )
             ->join('mapel', 'mapel.id', '=', 'rapot.mapel_id')
             ->where([
@@ -313,8 +320,15 @@ class RapotController extends Controller
 
         $rapot_b = DB::table('rapot')
             ->select(
-                'rapot.id', 'rapot.tipe_rapot', 'rapot.p_nilai', 'rapot.p_predikat', 'rapot.p_deskripsi',
-                'rapot.k_nilai', 'rapot.k_predikat', 'rapot.k_deskripsi', 'mapel.nama_mapel'
+                'rapot.id',
+                'rapot.tipe_rapot',
+                'rapot.p_nilai',
+                'rapot.p_predikat',
+                'rapot.p_deskripsi',
+                'rapot.k_nilai',
+                'rapot.k_predikat',
+                'rapot.k_deskripsi',
+                'mapel.nama_mapel'
             )
             ->join('mapel', 'mapel.id', '=', 'rapot.mapel_id')
             ->where([
@@ -326,12 +340,39 @@ class RapotController extends Controller
 
         $rapot_c = DB::table('rapot')
             ->select(
-                'rapot.id', 'rapot.tipe_rapot', 'rapot.p_nilai', 'rapot.p_predikat', 'rapot.p_deskripsi',
-                'rapot.k_nilai', 'rapot.k_predikat', 'rapot.k_deskripsi', 'mapel.nama_mapel'
+                'rapot.id',
+                'rapot.tipe_rapot',
+                'rapot.p_nilai',
+                'rapot.p_predikat',
+                'rapot.p_deskripsi',
+                'rapot.k_nilai',
+                'rapot.k_predikat',
+                'rapot.k_deskripsi',
+                'mapel.nama_mapel'
             )
             ->join('mapel', 'mapel.id', '=', 'rapot.mapel_id')
             ->where([
                 'mapel.kelompok' => 'C',
+                'rapot.siswa_id' => $siswa->id,
+                'rapot.tipe_rapot' => $tipe,
+            ])
+            ->get();
+
+            $rapot_f = DB::table('rapot')
+            ->select(
+                'rapot.id',
+                'rapot.tipe_rapot',
+                'rapot.p_nilai',
+                'rapot.p_predikat',
+                'rapot.p_deskripsi',
+                'rapot.k_nilai',
+                'rapot.k_predikat',
+                'rapot.k_deskripsi',
+                'mapel.nama_mapel'
+            )
+            ->join('mapel', 'mapel.id', '=', 'rapot.mapel_id')
+            ->where([
+                'mapel.kelompok' => 'F',
                 'rapot.siswa_id' => $siswa->id,
                 'rapot.tipe_rapot' => $tipe,
             ])
@@ -359,6 +400,13 @@ class RapotController extends Controller
             array_push($nilai_c_k, $item->k_nilai);
         }
 
+        $nilai_f_p = [];
+        $nilai_f_k = [];
+        foreach ($rapot_f as $item) {
+            array_push($nilai_f_p, $item->p_nilai);
+            array_push($nilai_f_k, $item->k_nilai);
+        }
+
         $total_a_p = array_sum($nilai_a_p);
         $total_a_k = array_sum($nilai_a_k);
         $total_b_p = array_sum($nilai_b_p);
@@ -373,6 +421,11 @@ class RapotController extends Controller
         $avg_c_p = $total_c_p / count($rapot_c);
         $total_c_k = array_sum($nilai_c_k);
         $avg_c_k = $total_c_k / count($rapot_c);
+
+        $total_f_p = array_sum($nilai_f_p);
+        $avg_f_p = $total_f_p / count($rapot_f);
+        $total_f_k = array_sum($nilai_f_k);
+        $avg_f_k = $total_f_k / count($rapot_f);
 
         $affective = Affective::where([
             'siswa_id' => $siswa->id,
@@ -398,13 +451,13 @@ class RapotController extends Controller
             'siswa_id' => $siswa->id,
         ])->get();
 
-        $paramid=1;
-        $term= Term::where('id', $paramid)->first();
+        $paramid = 1;
+        $term = Term::where('id', $paramid)->first();
 
 
-        $param =1;
+        $param = 1;
         $deskripsi = DescriptionAffective::where('id', $param)->first();
-        
+
 
         $attendance = Attendance::where([
             'siswa_id' => $siswa->id,
@@ -412,16 +465,32 @@ class RapotController extends Controller
 
         if ($aksi == 0) {
             return view('siswa.rapot', compact(
-                'guru', 'kelas', 'siswa',
-                'rapot_a', 'rapot_b', 'rapot_c',
-                'total_a_p', 'total_a_k', 'total_b_p', 'total_b_k', 'total_c_p', 'total_c_k',
-                'affective', 'extracurricular', 'remark', 'physical', 'health',
-                'achievement', 'attendance'
+                'guru',
+                'kelas',
+                'siswa',
+                'rapot_a',
+                'rapot_b',
+                'rapot_c',
+                'total_a_p',
+                'total_a_k',
+                'total_b_p',
+                'total_b_k',
+                'total_c_p',
+                'total_c_k',
+                'affective',
+                'extracurricular',
+                'remark',
+                'physical',
+                'health',
+                'achievement',
+                'attendance'
             ));
         }
 
-        if (count($rapot_a) > 0 && count($rapot_b) > 0 && count($rapot_c) > 0 &&
-            count($extracurricular) > 0 && $affective && $remark && $attendance) {
+        if (
+            count($rapot_a) > 0 && count($rapot_b) > 0 && count($rapot_c) > 0 && count($rapot_f) > 0 &&
+            count($extracurricular) > 0 && $affective && $remark && $attendance
+        ) {
 
 
 
@@ -445,7 +514,7 @@ class RapotController extends Controller
             $h .= "        <td style='border:1px solid black;border-left:none;text-align: left;padding: 4px;' rowspan='2'>" . $walikelas->nama_guru . "</td>";
             $h .= "        <td style='border:1px solid black;border-right:none;text-align: left;padding: 4px;' width='100'>Term/Semester</td>";
             $h .= "        <td style='border:1px solid black;border-right:none;border-left:none;text-align: center;padding: 4px;' width='5'>:</td>";
-            $h .= "        <td style='border:1px solid black;border-left:none;text-align: left;padding: 4px;'>".$term->term."/".$term->semester."</td>";
+            $h .= "        <td style='border:1px solid black;border-left:none;text-align: left;padding: 4px;'>" . $term->term . "/" . $term->semester . "</td>";
             $h .= "    </tr>";
             $h .= "    <tr style='padding: 0; margin: 0'>";
             $h .= "        <td style='border:1px solid black;border-right:none;text-align: left;padding: 4px;' width='100'>Delivered On</td>";
@@ -459,49 +528,43 @@ class RapotController extends Controller
             $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
             $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' colspan='2'>Description</th>";
             $h .= "    </tr>";
-            if($affective->spiritual=='A'){
+            if ($affective->spiritual == 'A') {
                 $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
                 $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>1. Spiritual Attitude</th>";
                 $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_a_sp . "</td>";
                 $h .= "    </tr>";
-            }
-            elseif($affective->spiritual=='B'){
+            } elseif ($affective->spiritual == 'B') {
                 $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
                 $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>1. Spiritual Attitude</th>";
                 $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_b_sp . "</td>";
                 $h .= "    </tr>";
-            }
-            elseif($affective->spiritual=='C'){
+            } elseif ($affective->spiritual == 'C') {
                 $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
                 $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>1. Spiritual Attitude</th>";
                 $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_c_sp . "</td>";
                 $h .= "    </tr>";
-            }
-            else{
+            } else {
                 $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
                 $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>1. Spiritual Attitude</th>";
                 $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_d_sp . "</td>";
                 $h .= "    </tr>";
             }
-            if($affective->social=='A'){
+            if ($affective->social == 'A') {
                 $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
                 $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>2. Social Attitude</th>";
                 $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_a_so . "</td>";
                 $h .= "    </tr>";
-            }
-            elseif($affective->social=='B'){
+            } elseif ($affective->social == 'B') {
                 $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
                 $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>2. Social Attitude</th>";
                 $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_b_so . "</td>";
                 $h .= "    </tr>";
-            }
-            elseif($affective->social=='C'){
+            } elseif ($affective->social == 'C') {
                 $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
                 $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>2. Social Attitude</th>";
                 $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_c_so . "</td>";
                 $h .= "    </tr>";
-            }
-            else{
+            } else {
                 $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
                 $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>2. Social Attitude</th>";
                 $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_d_so . "</td>";
@@ -614,6 +677,43 @@ class RapotController extends Controller
             $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>" . $avg_c_k . "</th>";
             $h .= "        <th style='text-align: right;padding: 4px; border: 1px solid black;' colspan='2'></th>";
             $h .= "    </tr>";
+            $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+            $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>" . $last_count . ".</th>";
+            $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;'>Local Content</th>";
+            $h .= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='40'></td>";
+            $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='40'></th>";
+            $h .= "        <td style='text-align: center;padding: 4px; border: 1px solid black;'></td>";
+            $h .= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='40'></td>";
+            $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='40'></th>";
+            $h .= "        <td style='text-align: center;padding: 4px; border: 1px solid black;'></td>";
+            $h .= "    </tr>";
+            foreach ($rapot_f as $key => $item) {
+                $index = $key + 1;
+                $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+                $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='30'></th>";
+                $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>(" . $index . ".) " . $item->nama_mapel . "</td>";
+                $h .= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='40'>" . $item->p_nilai . "</td>";
+                $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='40'>" . $item->p_predikat . "</th>";
+                $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>" . $item->p_deskripsi . "</td>";
+                $h .= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='40'>" . $item->k_nilai . "</td>";
+                $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='40'>" . $item->k_predikat . "</th>";
+                $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>" . $item->k_deskripsi . "</td>";
+                $h .= "    </tr>";
+            }
+            $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+            $h .= "        <th style='text-align: right;padding: 4px; border: 1px solid black;' colspan='2'>Total Score</th>";
+            $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>" . $total_f_p . "</th>";
+            $h .= "        <th style='text-align: right;padding: 4px; border: 1px solid black;' colspan='2'></th>";
+            $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>" . $total_f_k . "</th>";
+            $h .= "        <th style='text-align: right;padding: 4px; border: 1px solid black;' colspan='2'></th>";
+            $h .= "    </tr>";
+            $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+            $h .= "        <th style='text-align: right;padding: 4px; border: 1px solid black;' colspan='2'>Average</th>";
+            $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>" . $avg_f_p . "</th>";
+            $h .= "        <th style='text-align: right;padding: 4px; border: 1px solid black;' colspan='2'></th>";
+            $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>" . $avg_f_k . "</th>";
+            $h .= "        <th style='text-align: right;padding: 4px; border: 1px solid black;' colspan='2'></th>";
+            $h .= "    </tr>";
             $h .= "</table>";
 
             $h .= "<h3 style='margin-top:18px; margin-bottom: 0; padding: 3px'>C. Extra Curricular</h3>";
@@ -682,7 +782,7 @@ class RapotController extends Controller
             }
             $h .= "</table>";
 
-            if(count($health)>0){
+            if (count($health) > 0) {
                 $h .= "<h3 style='margin-top:18px; margin-bottom: 0; padding: 3px'>F. Health Condition</h3>";
                 $h .= "<table style='border:1px solid black; width: 100%; border-collapse: collapse; font-size: 14px;'>";
                 $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
@@ -699,7 +799,7 @@ class RapotController extends Controller
                     $h .= "    </tr>";
                 }
                 $h .= "</table>";
-            }else{
+            } else {
                 $h .= "<h3 style='margin-top:18px; margin-bottom: 0; padding: 3px'>F. Health Condition</h3>";
                 $h .= "<table style='border:1px solid black; width: 100%; border-collapse: collapse; font-size: 14px;'>";
                 $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
@@ -717,7 +817,7 @@ class RapotController extends Controller
                 $h .= "</table>";
             }
 
-            if(count($achievement)>0){
+            if (count($achievement) > 0) {
                 $h .= "<h3 style='margin-top:18px; margin-bottom: 0; padding: 3px'>G. Achievement</h3>";
                 $h .= "<table style='border:1px solid black; width: 100%; border-collapse: collapse; font-size: 14px;'>";
                 $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
@@ -734,7 +834,7 @@ class RapotController extends Controller
                     $h .= "    </tr>";
                 }
                 $h .= "</table>";
-            }else{
+            } else {
                 $h .= "<h3 style='margin-top:18px; margin-bottom: 0; padding: 3px'>G. Achievement</h3>";
                 $h .= "<table style='border:1px solid black; width: 100%; border-collapse: collapse; font-size: 14px;'>";
                 $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
@@ -828,34 +928,43 @@ class RapotController extends Controller
             $pdf->set_option('isRemoteEnabled', true);
             $pdf->setPaper('A4', 'portrait');
             $pdf->render();
-            $pdf->stream("ReportCard_".$siswa->nama_siswa . ".pdf", array("Attachment" => false));
+            $pdf->stream("ReportCard_" . $siswa->nama_siswa . ".pdf", array("Attachment" => false));
         } else {
             return redirect()->back()->with('warning', 'Rapor belum tersedia!');
         }
     }
 
-    public function dataRapot(Request $request){
-        $user= $request->user();
-        $guru= Guru::firstWhere('walikelas', $user->walikelas);
-        $kelas= Kelas::firstWhere('nama_kelas', $guru->walikelas);
-        $siswa= Siswa::where('kelas_id', $kelas->id)->get();
-        
-        return view('guru.rapot.datarapot', compact('user', 'guru','kelas','siswa'));
+    public function dataRapot(Request $request)
+    {
+        $user = $request->user();
+        $guru = Guru::firstWhere('walikelas', $user->walikelas);
+        $kelas = Kelas::firstWhere('nama_kelas', $guru->walikelas);
+        $siswa = Siswa::where('kelas_id', $kelas->id)->get();
+
+        return view('guru.rapot.datarapot', compact('user', 'guru', 'kelas', 'siswa'));
     }
 
-    public function guru($encryption){
+    public function guru($encryption)
+    {
         $decrypt = Crypt::decrypt($encryption);
         $id = $decrypt['id'];
         $tipe = $decrypt['tipe_rapot'];
-        $siswa= Siswa::where('id', $id)->first();
+        $siswa = Siswa::where('id', $id)->first();
         $guru = Guru::where('id_card', Auth::user()->id_card)->first();
         $kelas = Kelas::findorfail($guru->id);
         $walikelas = Guru::where('walikelas', $kelas->nama_kelas)->get()->first();
 
         $rapot_a = DB::table('rapot')
             ->select(
-                'rapot.id', 'rapot.tipe_rapot', 'rapot.p_nilai', 'rapot.p_predikat', 'rapot.p_deskripsi',
-                'rapot.k_nilai', 'rapot.k_predikat', 'rapot.k_deskripsi', 'mapel.nama_mapel'
+                'rapot.id',
+                'rapot.tipe_rapot',
+                'rapot.p_nilai',
+                'rapot.p_predikat',
+                'rapot.p_deskripsi',
+                'rapot.k_nilai',
+                'rapot.k_predikat',
+                'rapot.k_deskripsi',
+                'mapel.nama_mapel'
             )
             ->join('mapel', 'mapel.id', '=', 'rapot.mapel_id')
             ->where([
@@ -867,8 +976,15 @@ class RapotController extends Controller
 
         $rapot_b = DB::table('rapot')
             ->select(
-                'rapot.id', 'rapot.tipe_rapot', 'rapot.p_nilai', 'rapot.p_predikat', 'rapot.p_deskripsi',
-                'rapot.k_nilai', 'rapot.k_predikat', 'rapot.k_deskripsi', 'mapel.nama_mapel'
+                'rapot.id',
+                'rapot.tipe_rapot',
+                'rapot.p_nilai',
+                'rapot.p_predikat',
+                'rapot.p_deskripsi',
+                'rapot.k_nilai',
+                'rapot.k_predikat',
+                'rapot.k_deskripsi',
+                'mapel.nama_mapel'
             )
             ->join('mapel', 'mapel.id', '=', 'rapot.mapel_id')
             ->where([
@@ -881,8 +997,15 @@ class RapotController extends Controller
 
         $rapot_c = DB::table('rapot')
             ->select(
-                'rapot.id', 'rapot.tipe_rapot', 'rapot.p_nilai', 'rapot.p_predikat', 'rapot.p_deskripsi',
-                'rapot.k_nilai', 'rapot.k_predikat', 'rapot.k_deskripsi', 'mapel.nama_mapel'
+                'rapot.id',
+                'rapot.tipe_rapot',
+                'rapot.p_nilai',
+                'rapot.p_predikat',
+                'rapot.p_deskripsi',
+                'rapot.k_nilai',
+                'rapot.k_predikat',
+                'rapot.k_deskripsi',
+                'mapel.nama_mapel'
             )
             ->join('mapel', 'mapel.id', '=', 'rapot.mapel_id')
             ->where([
@@ -892,7 +1015,27 @@ class RapotController extends Controller
             ])
             ->get();
 
+        $rapot_f = DB::table('rapot')
+            ->select(
+                'rapot.id',
+                'rapot.tipe_rapot',
+                'rapot.p_nilai',
+                'rapot.p_predikat',
+                'rapot.p_deskripsi',
+                'rapot.k_nilai',
+                'rapot.k_predikat',
+                'rapot.k_deskripsi',
+                'mapel.nama_mapel'
+            )
+            ->join('mapel', 'mapel.id', '=', 'rapot.mapel_id')
+            ->where([
+                'mapel.kelompok' => 'F',
+                'rapot.siswa_id' => $siswa->id,
+                'rapot.tipe_rapot' => $tipe,
+            ])
+            ->get();
 
+              
         $nilai_a_p = [];
         $nilai_a_k = [];
         foreach ($rapot_a as $item) {
@@ -914,6 +1057,13 @@ class RapotController extends Controller
             array_push($nilai_c_k, $item->k_nilai);
         }
 
+        $nilai_f_p = [];
+        $nilai_f_k = [];
+        foreach ($rapot_f as $item) {
+            array_push($nilai_f_p, $item->p_nilai);
+            array_push($nilai_f_k, $item->k_nilai);
+        }
+
         $total_a_p = array_sum($nilai_a_p);
         $total_a_k = array_sum($nilai_a_k);
         $total_b_p = array_sum($nilai_b_p);
@@ -928,6 +1078,11 @@ class RapotController extends Controller
         $avg_c_p = $total_c_p / count($rapot_c);
         $total_c_k = array_sum($nilai_c_k);
         $avg_c_k = $total_c_k / count($rapot_c);
+
+        $total_f_p = array_sum($nilai_f_p);
+        $avg_f_p = $total_f_p / count($rapot_f);
+        $total_f_k = array_sum($nilai_f_k);
+        $avg_f_k = $total_f_k / count($rapot_f);
 
         $affective = Affective::where([
             'siswa_id' => $siswa->id,
@@ -956,16 +1111,18 @@ class RapotController extends Controller
         $attendance = Attendance::where([
             'siswa_id' => $siswa->id,
         ])->get()->first();
-        
-        $paramid=1;
-        $term= Term::where('id', $paramid)->first();
+
+        $paramid = 1;
+        $term = Term::where('id', $paramid)->first();
 
 
-        $param =1;
+        $param = 1;
         $deskripsi = DescriptionAffective::where('id', $param)->first();
-        
-        if (count($rapot_a) > 0 && count($rapot_b) > 0 && count($rapot_c) > 0 &&
-            count($extracurricular) > 0 && $affective && $remark && $attendance) {
+
+        if (
+            count($rapot_a) > 0 && count($rapot_b) > 0 && count($rapot_c) > 0 && count($rapot_f) > 0 &&
+            count($extracurricular) > 0 && $affective && $remark && $attendance
+        ) {
 
 
 
@@ -991,7 +1148,7 @@ class RapotController extends Controller
             $h .= "        <td style='border:1px solid black;border-left:none;text-align: left;padding: 4px;' rowspan='2'>" . $walikelas->nama_guru . "</td>";
             $h .= "        <td style='border:1px solid black;border-right:none;text-align: left;padding: 4px;' width='100'>Term/Semester</td>";
             $h .= "        <td style='border:1px solid black;border-right:none;border-left:none;text-align: center;padding: 4px;' width='5'>:</td>";
-            $h .= "        <td style='border:1px solid black;border-left:none;text-align: left;padding: 4px;'>".$term->term."/".$term->semester."</td>";
+            $h .= "        <td style='border:1px solid black;border-left:none;text-align: left;padding: 4px;'>" . $term->term . "/" . $term->semester . "</td>";
             $h .= "    </tr>";
             $h .= "    <tr style='padding: 0; margin: 0'>";
             $h .= "        <td style='border:1px solid black;border-right:none;text-align: left;padding: 4px;' width='100'>Delivered On</td>";
@@ -1005,49 +1162,43 @@ class RapotController extends Controller
             $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
             $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' colspan='2'>Description</th>";
             $h .= "    </tr>";
-            if($affective->spiritual=='A'){
+            if ($affective->spiritual == 'A') {
                 $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
                 $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>1. Spiritual Attitude</th>";
                 $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_a_sp . "</td>";
                 $h .= "    </tr>";
-            }
-            elseif($affective->spiritual=='B'){
+            } elseif ($affective->spiritual == 'B') {
                 $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
                 $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>1. Spiritual Attitude</th>";
                 $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_b_sp . "</td>";
                 $h .= "    </tr>";
-            }
-            elseif($affective->spiritual=='C'){
+            } elseif ($affective->spiritual == 'C') {
                 $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
                 $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>1. Spiritual Attitude</th>";
                 $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_c_sp . "</td>";
                 $h .= "    </tr>";
-            }
-            else{
+            } else {
                 $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
                 $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>1. Spiritual Attitude</th>";
                 $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_d_sp . "</td>";
                 $h .= "    </tr>";
             }
-            if($affective->social=='A'){
+            if ($affective->social == 'A') {
                 $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
                 $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>2. Social Attitude</th>";
                 $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_a_so . "</td>";
                 $h .= "    </tr>";
-            }
-            elseif($affective->social=='B'){
+            } elseif ($affective->social == 'B') {
                 $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
                 $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>2. Social Attitude</th>";
                 $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_b_so . "</td>";
                 $h .= "    </tr>";
-            }
-            elseif($affective->social=='C'){
+            } elseif ($affective->social == 'C') {
                 $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
                 $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>2. Social Attitude</th>";
                 $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_c_so . "</td>";
                 $h .= "    </tr>";
-            }
-            else{
+            } else {
                 $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
                 $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;' width='175'>2. Social Attitude</th>";
                 $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'><b>" . $siswa->nama_siswa . "</b>, " . $deskripsi->deskripsi_d_so . "</td>";
@@ -1160,6 +1311,43 @@ class RapotController extends Controller
             $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>" . $avg_c_k . "</th>";
             $h .= "        <th style='text-align: right;padding: 4px; border: 1px solid black;' colspan='2'></th>";
             $h .= "    </tr>";
+            $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+            $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='30'>" . $last_count . ".</th>";
+            $h .= "        <th style='text-align: left;padding: 4px; border: 1px solid black;'>Local Content</th>";
+            $h .= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='40'></td>";
+            $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='40'></th>";
+            $h .= "        <td style='text-align: center;padding: 4px; border: 1px solid black;'></td>";
+            $h .= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='40'></td>";
+            $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='40'></th>";
+            $h .= "        <td style='text-align: center;padding: 4px; border: 1px solid black;'></td>";
+            $h .= "    </tr>";
+            foreach ($rapot_f as $key => $item) {
+                $index = $key + 1;
+                $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+                $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='30'></th>";
+                $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>(" . $index . ".) " . $item->nama_mapel . "</td>";
+                $h .= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='40'>" . $item->p_nilai . "</td>";
+                $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='40'>" . $item->p_predikat . "</th>";
+                $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>" . $item->p_deskripsi . "</td>";
+                $h .= "        <td style='text-align: center;padding: 4px; border: 1px solid black;' width='40'>" . $item->k_nilai . "</td>";
+                $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;' width='40'>" . $item->k_predikat . "</th>";
+                $h .= "        <td style='text-align: left;padding: 4px; border: 1px solid black;'>" . $item->k_deskripsi . "</td>";
+                $h .= "    </tr>";
+            }
+            $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+            $h .= "        <th style='text-align: right;padding: 4px; border: 1px solid black;' colspan='2'>Total Score</th>";
+            $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>" . $total_f_p . "</th>";
+            $h .= "        <th style='text-align: right;padding: 4px; border: 1px solid black;' colspan='2'></th>";
+            $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>" . $total_f_k . "</th>";
+            $h .= "        <th style='text-align: right;padding: 4px; border: 1px solid black;' colspan='2'></th>";
+            $h .= "    </tr>";
+            $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
+            $h .= "        <th style='text-align: right;padding: 4px; border: 1px solid black;' colspan='2'>Average</th>";
+            $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>" . $avg_f_p . "</th>";
+            $h .= "        <th style='text-align: right;padding: 4px; border: 1px solid black;' colspan='2'></th>";
+            $h .= "        <th style='text-align: center;padding: 4px; border: 1px solid black;'>" . $avg_f_k . "</th>";
+            $h .= "        <th style='text-align: right;padding: 4px; border: 1px solid black;' colspan='2'></th>";
+            $h .= "    </tr>";
             $h .= "</table>";
 
             $h .= "<h3 style='margin-top:18px; margin-bottom: 0; padding: 3px'>C. Extra Curricular</h3>";
@@ -1228,7 +1416,7 @@ class RapotController extends Controller
             }
             $h .= "</table>";
 
-            if(count($health)>0){
+            if (count($health) > 0) {
                 $h .= "<h3 style='margin-top:18px; margin-bottom: 0; padding: 3px'>F. Health Condition</h3>";
                 $h .= "<table style='border:1px solid black; width: 100%; border-collapse: collapse; font-size: 14px;'>";
                 $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
@@ -1245,7 +1433,7 @@ class RapotController extends Controller
                     $h .= "    </tr>";
                 }
                 $h .= "</table>";
-            }else{
+            } else {
                 $h .= "<h3 style='margin-top:18px; margin-bottom: 0; padding: 3px'>F. Health Condition</h3>";
                 $h .= "<table style='border:1px solid black; width: 100%; border-collapse: collapse; font-size: 14px;'>";
                 $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
@@ -1263,7 +1451,7 @@ class RapotController extends Controller
                 $h .= "</table>";
             }
 
-            if(count($achievement)>0){
+            if (count($achievement) > 0) {
                 $h .= "<h3 style='margin-top:18px; margin-bottom: 0; padding: 3px'>G. Achievement</h3>";
                 $h .= "<table style='border:1px solid black; width: 100%; border-collapse: collapse; font-size: 14px;'>";
                 $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
@@ -1280,7 +1468,7 @@ class RapotController extends Controller
                     $h .= "    </tr>";
                 }
                 $h .= "</table>";
-            }else{
+            } else {
                 $h .= "<h3 style='margin-top:18px; margin-bottom: 0; padding: 3px'>G. Achievement</h3>";
                 $h .= "<table style='border:1px solid black; width: 100%; border-collapse: collapse; font-size: 14px;'>";
                 $h .= "    <tr style='border: 1px solid black; padding: 0; margin: 0'>";
@@ -1374,38 +1562,40 @@ class RapotController extends Controller
             $pdf->set_option('isRemoteEnabled', true);
             $pdf->setPaper('A4', 'portrait');
             $pdf->render();
-            $pdf->stream("ReportCard_".$siswa->nama_siswa . ".pdf", array("Attachment" => false));
+            $pdf->stream("ReportCard_" . $siswa->nama_siswa . ".pdf", array("Attachment" => false));
         } else {
             return redirect()->back()->with('warning', 'Rapor belum tersedia!');
         }
     }
 
-    public function indexekstrakulikuler(Request $request){
-        $user= $request->user();
-        $mapel = Mapel::where('kelompok','D')->get();
-        $guru= Guru::firstWhere('walikelas', $user->walikelas);
-        $kelas= Kelas::firstWhere('nama_kelas', $guru->walikelas);
-        $siswa= Siswa::where('kelas_id', $kelas->id)->get();
-        
-        return view('guru.rapot.ekstrakulikuler', compact('user', 'guru','kelas','siswa','mapel'));
+    public function indexekstrakulikuler(Request $request)
+    {
+        $user = $request->user();
+        $mapel = Mapel::where('kelompok', 'D')->get();
+        $guru = Guru::firstWhere('walikelas', $user->walikelas);
+        $kelas = Kelas::firstWhere('nama_kelas', $guru->walikelas);
+        $siswa = Siswa::where('kelas_id', $kelas->id)->get();
+
+        return view('guru.rapot.ekstrakulikuler', compact('user', 'guru', 'kelas', 'siswa', 'mapel'));
     }
 
-    public function inputekstrakulikuler(Request $request){
+    public function inputekstrakulikuler(Request $request)
+    {
         $id = null;
         $existing = Ekstrakulikuler::where([
             ['mapel_id', '=', $request->mapel_id],
             ['siswa_id', '=', $request->siswa_id],
         ])
-        ->get()
-        ->first();
+            ->get()
+            ->first();
 
         if ($existing) {
             $id = $existing->id;
         }
 
-        
+
         Ekstrakulikuler::updateOrCreate(
-            [ 'id' => $id ],
+            ['id' => $id],
             [
                 'siswa_id' => $request->siswa_id,
                 'mapel_id' => $request->mapel_id,
@@ -1413,35 +1603,37 @@ class RapotController extends Controller
                 'score' => $request->score,
                 'description' => $request->description,
 
-                
+
             ]
         );
         return redirect()->back()->with('success', 'Success!');
     }
 
-    public function indexhealth(Request $request){
-        $user= $request->user();
-        $guru= Guru::firstWhere('walikelas', $user->walikelas);
-        $kelas= Kelas::firstWhere('nama_kelas', $guru->walikelas);
-        $siswa= Siswa::where('kelas_id', $kelas->id)->get();
-        
-        return view('guru.rapot.health', compact('user', 'guru','kelas','siswa'));
+    public function indexhealth(Request $request)
+    {
+        $user = $request->user();
+        $guru = Guru::firstWhere('walikelas', $user->walikelas);
+        $kelas = Kelas::firstWhere('nama_kelas', $guru->walikelas);
+        $siswa = Siswa::where('kelas_id', $kelas->id)->get();
+
+        return view('guru.rapot.health', compact('user', 'guru', 'kelas', 'siswa'));
     }
 
-    public function input_health(Request $request){
+    public function input_health(Request $request)
+    {
         $id = null;
         $existing = Health::where([
             ['siswa_id', '=', $request->siswa_id],
         ])
-        ->get()
-        ->first();
+            ->get()
+            ->first();
 
         if ($existing) {
             $id = $existing->id;
         }
 
         Health::updateOrCreate(
-            [ 'id' => $id ],
+            ['id' => $id],
             [
                 'siswa_id' => $request->siswa_id,
                 'name' => $request->name,
@@ -1451,17 +1643,19 @@ class RapotController extends Controller
         return redirect()->back()->with('success', 'Success!');
     }
 
-    public function indexachievement(Request $request){
-        $user= $request->user();
-        $guru= Guru::firstWhere('walikelas', $user->walikelas);
-        $kelas= Kelas::firstWhere('nama_kelas', $guru->walikelas);
-        $siswa= Siswa::where('kelas_id', $kelas->id)->get();
-        
-        return view('guru.rapot.achievement', compact('user', 'guru','kelas','siswa'));
+    public function indexachievement(Request $request)
+    {
+        $user = $request->user();
+        $guru = Guru::firstWhere('walikelas', $user->walikelas);
+        $kelas = Kelas::firstWhere('nama_kelas', $guru->walikelas);
+        $siswa = Siswa::where('kelas_id', $kelas->id)->get();
+
+        return view('guru.rapot.achievement', compact('user', 'guru', 'kelas', 'siswa'));
     }
 
-    public function input_achievement(Request $request){
-       
+    public function input_achievement(Request $request)
+    {
+
 
         Achievement::Create(
             [
@@ -1473,29 +1667,31 @@ class RapotController extends Controller
         return redirect()->back()->with('success', 'Success!');
     }
 
-    public function indexattendance(Request $request){
-        $user= $request->user();
-        $guru= Guru::firstWhere('walikelas', $user->walikelas);
-        $kelas= Kelas::firstWhere('nama_kelas', $guru->walikelas);
-        $siswa= Siswa::where('kelas_id', $kelas->id)->get();
-        
-        return view('guru.rapot.attendance', compact('user', 'guru','kelas','siswa'));
+    public function indexattendance(Request $request)
+    {
+        $user = $request->user();
+        $guru = Guru::firstWhere('walikelas', $user->walikelas);
+        $kelas = Kelas::firstWhere('nama_kelas', $guru->walikelas);
+        $siswa = Siswa::where('kelas_id', $kelas->id)->get();
+
+        return view('guru.rapot.attendance', compact('user', 'guru', 'kelas', 'siswa'));
     }
 
-    public function input_attendance(Request $request){
+    public function input_attendance(Request $request)
+    {
         $id = null;
         $existing = Attendance::where([
             ['siswa_id', '=', $request->siswa_id],
         ])
-        ->get()
-        ->first();
+            ->get()
+            ->first();
 
         if ($existing) {
             $id = $existing->id;
         }
 
         Attendance::updateOrCreate(
-            [ 'id' => $id ],
+            ['id' => $id],
             [
                 'siswa_id' => $request->siswa_id,
                 'sick' => $request->sick,
@@ -1507,22 +1703,24 @@ class RapotController extends Controller
         return redirect()->back()->with('success', 'Success!');
     }
 
-    public function indexpyhsic(Request $request){
-        $user= $request->user();
-        $guru= Guru::firstWhere('walikelas', $user->walikelas);
-        $kelas= Kelas::firstWhere('nama_kelas', $guru->walikelas);
-        $siswa= Siswa::where('kelas_id', $kelas->id)->get();
-        
-        return view('guru.rapot.pyhsic', compact('user', 'guru','kelas','siswa'));
+    public function indexpyhsic(Request $request)
+    {
+        $user = $request->user();
+        $guru = Guru::firstWhere('walikelas', $user->walikelas);
+        $kelas = Kelas::firstWhere('nama_kelas', $guru->walikelas);
+        $siswa = Siswa::where('kelas_id', $kelas->id)->get();
+
+        return view('guru.rapot.pyhsic', compact('user', 'guru', 'kelas', 'siswa'));
     }
 
-    public function input_pyhsic(Request $request){
+    public function input_pyhsic(Request $request)
+    {
         $id = null;
         $existing = Pyhsic::where([
             ['siswa_id', '=', $request->siswa_id],
         ])
-        ->get()
-        ->first();
+            ->get()
+            ->first();
 
         if ($existing) {
             $id = $existing->id;
@@ -1542,29 +1740,31 @@ class RapotController extends Controller
         return redirect()->back()->with('success', 'Success!');
     }
 
-    public function indexremark(Request $request){
-        $user= $request->user();
-        $guru= Guru::firstWhere('walikelas', $user->walikelas);
-        $kelas= Kelas::firstWhere('nama_kelas', $guru->walikelas);
-        $siswa= Siswa::where('kelas_id', $kelas->id)->get();
-        
-        return view('guru.rapot.remark', compact('user', 'guru','kelas','siswa'));
+    public function indexremark(Request $request)
+    {
+        $user = $request->user();
+        $guru = Guru::firstWhere('walikelas', $user->walikelas);
+        $kelas = Kelas::firstWhere('nama_kelas', $guru->walikelas);
+        $siswa = Siswa::where('kelas_id', $kelas->id)->get();
+
+        return view('guru.rapot.remark', compact('user', 'guru', 'kelas', 'siswa'));
     }
 
-    public function input_remark(Request $request){
+    public function input_remark(Request $request)
+    {
         $id = null;
         $existing = Remark::where([
             ['siswa_id', '=', $request->siswa_id],
         ])
-        ->get()
-        ->first();
+            ->get()
+            ->first();
 
         if ($existing) {
             $id = $existing->id;
         }
 
         Remark::updateOrCreate(
-            [ 'id' => $id ],
+            ['id' => $id],
             [
                 'siswa_id' => $request->siswa_id,
                 'note' => $request->note
