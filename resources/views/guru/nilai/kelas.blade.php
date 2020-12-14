@@ -36,8 +36,6 @@
                   <?php 
                     $nama_kelas = $data[0]->rapot($val)->nama_kelas;
                     $kelas = App\Kelas::where('nama_kelas', $nama_kelas)->get()->first();
-
-                
                   ?>
                     <tr>
                       <td>{{ $loop->iteration }}</td>

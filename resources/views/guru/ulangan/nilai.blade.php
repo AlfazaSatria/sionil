@@ -163,8 +163,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <input type="hidden" id="kelas_id" value="{{ $guru->id }}" />
-                        <input type="hidden" id="guru_id" value="{{ $kelas->id }}" />
+                        <input type="hidden" id="kelas_id" value="{{ $kelas->id }}" />
+                        <input type="hidden" id="guru_id" value="{{ $guru->id }}" />
                         <input type="hidden" id="mapel_id" value="{{ $guru->mapel->id }}" />
                         @foreach($siswa as $key => $value)
                             <?php
