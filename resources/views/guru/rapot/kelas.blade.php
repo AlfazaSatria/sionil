@@ -52,10 +52,12 @@
                       <td>{{ $data->nama_kelas }}</td>
                       <td>
                           <a href="{{ route('guru.show-rapot', Crypt::encrypt(['id' => $data->id, 'tipe' => 'uts'])) }}"
+                            
                              class="btn btn-primary btn-sm ">
                               <i class="nav-icon fas fa-pen"></i> &nbsp;
                               Nilai Tengah Semester
                           </a>
+                          
                           <a href="{{ route('guru.show-rapot', Crypt::encrypt(['id' => $data->id, 'tipe' => 'uas'])) }}"
                              class="btn btn-primary btn-sm ">
                               <i class="nav-icon fas fa-pen"></i> &nbsp;

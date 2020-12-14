@@ -154,7 +154,6 @@ class RapotController extends Controller
         $kelas = Kelas::where('id', $id)->get()->first();
         $data_siswa = Siswa::where('kelas_id', $id)->get();
         $tipe_ulangan = Ulangan::select('tipe_uts', 'tipe_uas')->where('kelas_id', $kelas->id)->get()->first();
-
         $siswa = [];
         $tipe_uts = $tipe_ulangan->tipe_uts;
         $tipe_uas = $tipe_ulangan->tipe_uas;
