@@ -9,6 +9,7 @@ class RapotTahfiz extends Model
     protected $table = 'rapot_tahfiz';
 
     protected $fillable=[
+        'tahfiz_id',
         'siswa_id',
         'membaca',
         'mendengarkan',

@@ -97,6 +97,7 @@
                                     
                                     $rapot = \App\RapotTahfiz::where([
                                         'siswa_id' => $siswa->id,
+                                        'tahfiz_id' => $tahfiz->id
                                     ])->get()->first();
                                     if ($rapot) {
                                         $membaca = $rapot->membaca;
@@ -109,6 +110,7 @@
                                     <form action="{{ route('tahfiz.input-nilai-rapot') }}" method="post" class="input-group">
                                         @csrf
                                         <input type="hidden" name="siswa_id" value="{{ $siswa->id }}">
+                                        <input type="hidden" name="tahfiz_id" value="{{ $tahfiz->id }}">
                                         <td> 
                                             <textarea type="number" class="form-control " name="membaca" value="{{$membaca}}"></textarea>
                                         </td>
