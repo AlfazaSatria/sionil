@@ -14,6 +14,7 @@ use App\Ulangan;
 use App\Rapot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class UlanganController extends Controller

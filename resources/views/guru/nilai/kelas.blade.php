@@ -33,15 +33,21 @@
                 </thead>
                 <tbody>
                   @foreach ($kelas as $val => $data)
+                  <?php 
+                    $nama_kelas = $data[0]->rapot($val)->nama_kelas;
+                    $kelas = App\Kelas::where('nama_kelas', $nama_kelas)->get()->first();
+
+                
+                  ?>
                     <tr>
                       <td>{{ $loop->iteration }}</td>
-                      <td>{{ $data[0]->rapot($val)->nama_kelas }}</td>
+                      <td>{{ $kelas->nama_kelas }}</td>
                       <td>
-                        <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#chooseIndikator">
+                        <button class="btn btn-info btn-sm" data-toggle="modal" data-target="{{'#chooseIndikator'.$val}}">
                             <i class="fas fa-info-circle"></i> &nbsp; 
                             Entry Nilai Indikator
                         </button>
-                        <div id="chooseIndikator" class="modal fade">
+                        <div id="{{'chooseIndikator'.$val}}" class="modal fade">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">

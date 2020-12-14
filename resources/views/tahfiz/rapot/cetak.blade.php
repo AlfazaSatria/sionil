@@ -66,7 +66,7 @@
         <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;"></th>
         <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;"></th>
         <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;">✔</th>
-        <th style="border: 1px solid black; padding: 0; margin: 0;">{{$nilai->indikator}}</th>
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;">{{$nilai->indikator}}</th>
         {{-- <th rowspan="{{$nilais->count()}}" style="border: 1px solid black; padding: 0; margin: 0;">3</th>
         <th rowspan="{{$nilais->count()}}" style="border: 1px solid black; padding: 0; margin: 0;">7</th> --}}
       </tr>
@@ -77,7 +77,7 @@
         <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;"></th>
         <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;">✔</th>
         <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;"></th>
-        <th style="border: 1px solid black; padding: 0; margin: 0;">{{$nilai->indikator}}</th>
+        <th style="text-align:center; border: 1px solid black; padding: 0; margin: 0;">{{$nilai->indikator}}</th>
        
       </tr>
       @elseif($predikat=='c')
