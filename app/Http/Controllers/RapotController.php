@@ -108,10 +108,12 @@ class RapotController extends Controller
     }
 
 
-    private function get_indikator_avg($guru_id, $siswa_id, $tipe_indikator)
+    private function get_indikator_avg($guru_id, $siswa_id, $tipe_indikator, $nama_kelas)
     {
+        
         $indikators = Indikator::where([
             ['guru_id', '=', $guru_id],
+            ['nama_kelas', '=', $nama_kelas],
             ['tipe', '=', $tipe_indikator]
         ])->get();
         $scores = [];
@@ -154,19 +156,27 @@ class RapotController extends Controller
         $kelas = Kelas::where('id', $id)->get()->first();
         $data_siswa = Siswa::where('kelas_id', $id)->get();
         $tipe_ulangan = Ulangan::select('tipe_uts', 'tipe_uas')->where('kelas_id', $kelas->id)->get()->first();
+
+        $indikators = Indikator::where('nama_kelas', $kelas->nama_kelas)->get();
         $siswa = [];
         $tipe_uts = $tipe_ulangan->tipe_uts;
         $tipe_uas = $tipe_ulangan->tipe_uas;
         if ($tipe == 'uts') {
             foreach ($data_siswa as $item) {
-                $nilai_keterampilan = ($tipe_uts == 1) ?
-                    ($item->nilai_ulangan($guru->mapel_id)->uts + $this->get_indikator_avg($guru->id, $item->id, 1)) / 2 :
-                    $this->get_indikator_avg($guru->id, $item->id, 1);
-                $nilai_pengetahuan = ($tipe_uts == 0) ?
-                    ($item->nilai_ulangan($guru->mapel_id)->uts + $this->get_indikator_avg($guru->id, $item->id, 0)) / 2 :
-                    $this->get_indikator_avg($guru->id, $item->id, 0);
-                $predikat_keterampilan = $this->get_predikat($guru->id, $nilai_keterampilan);
-                $predikat_pengetahuan = $this->get_predikat($guru->id, $nilai_pengetahuan);
+                $nilai_ketrampilan=NULL;
+                $nilai_pengetahuan=NULL;
+                $predikat_keterampilan=NULL;
+                $predikat_pengetahuan=NULL;
+                foreach ($indikators as $indikator) {
+                    $nilai_keterampilan = ($tipe_uts == 1) ?
+                        ($item->nilai_ulangan($guru->mapel_id)->uts + $this->get_indikator_avg($guru->id, $item->id, 1, $indikator->nama_kelas)) / 2 :
+                        $this->get_indikator_avg($guru->id, $item->id, 1, $indikator->nama_kelas);
+                    $nilai_pengetahuan = ($tipe_uts == 0) ?
+                        ($item->nilai_ulangan($guru->mapel_id)->uts + $this->get_indikator_avg($guru->id, $item->id, 0, $indikator->nama_kelas)) / 2 :
+                        $this->get_indikator_avg($guru->id, $item->id, 0, $indikator->nama_kelas);
+                    $predikat_keterampilan = $this->get_predikat($guru->id, $nilai_keterampilan);
+                    $predikat_pengetahuan = $this->get_predikat($guru->id, $nilai_pengetahuan);   
+                }
                 $data = [
                     'id' => $item->id,
                     'nama' => $item->nama_siswa,
@@ -185,14 +195,21 @@ class RapotController extends Controller
             }
         } else {
             foreach ($data_siswa as $item) {
-                $nilai_keterampilan = ($tipe_uas == 1) ?
-                    ($item->nilai_ulangan($guru->mapel_id)->uas + $this->get_indikator_avg($guru->id, $item->id, 1)) / 2 :
-                    $this->get_indikator_avg($guru->id, $item->id, 1);
-                $nilai_pengetahuan = ($tipe_uas == 0) ?
-                    ($item->nilai_ulangan($guru->mapel_id)->uas + $this->get_indikator_avg($guru->id, $item->id, 0)) / 2 :
-                    $this->get_indikator_avg($guru->id, $item->id, 0);
-                $predikat_keterampilan = $this->get_predikat($guru->id, $nilai_keterampilan);
-                $predikat_pengetahuan = $this->get_predikat($guru->id, $nilai_pengetahuan);
+                $nilai_ketrampilan=NULL;
+                $nilai_pengetahuan=NULL;
+                $predikat_keterampilan=NULL;
+                $predikat_pengetahuan=NULL;
+                foreach ($indikators as $indikator) {
+                    $nilai_keterampilan = ($tipe_uas == 1) ?
+                        ($item->nilai_ulangan($guru->mapel_id)->uas + $this->get_indikator_avg($guru->id, $item->id, 1, $indikator->nama_kelas)) / 2 :
+                        $this->get_indikator_avg($guru->id, $item->id, 1, $indikator->nama_kelas);
+                    $nilai_pengetahuan = ($tipe_uas == 0) ?
+                        ($item->nilai_ulangan($guru->mapel_id)->uas + $this->get_indikator_avg($guru->id, $item->id, 0, $indikator->nama_kelas)) / 2 :
+                        $this->get_indikator_avg($guru->id, $item->id, 0, $indikator->nama_kelas);
+                    $predikat_keterampilan = $this->get_predikat($guru->id, $nilai_keterampilan);
+                    $predikat_pengetahuan = $this->get_predikat($guru->id, $nilai_pengetahuan);
+                    
+                }
                 $data = [
                     'id' => $item->id,
                     'nama' => $item->nama_siswa,
@@ -357,7 +374,7 @@ class RapotController extends Controller
             ])
             ->get();
 
-            $rapot_f = DB::table('rapot')
+        $rapot_f = DB::table('rapot')
             ->select(
                 'rapot.id',
                 'rapot.tipe_rapot',
@@ -1034,7 +1051,7 @@ class RapotController extends Controller
             ])
             ->get();
 
-              
+
         $nilai_a_p = [];
         $nilai_a_k = [];
         foreach ($rapot_a as $item) {

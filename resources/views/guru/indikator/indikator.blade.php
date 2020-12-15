@@ -19,6 +19,7 @@
                     <thead>
                     <tr>
                         <th>No.</th>
+                        <th>Kelas</th>
                         <th>Tipe Indikator</th>
                         <th>Indikator</th>
                         <th>Action</th>
@@ -28,6 +29,7 @@
                     @foreach($indikators as $key => $indikator)
                         <tr>
                             <td>{{ $key+1 }}</td>
+                            <td>{{$indikator->nama_kelas}}</td>
                             <td>{{ ($indikator->tipe == "0") ? "Pengetahuan" : "Keterampilan" }}</td>
                             <td>{{ $indikator->indikator }}</td>
                             <td>
@@ -104,47 +106,16 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="indikator">Tipe Indikator</label>
-                                    <textarea class="form-control" id="indikator" name="indikator"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer justify-content-end">
-                        <button type="submit" class="btn btn-primary"><i class="nav-icon fas fa-save"></i> &nbsp; Tambahkan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade modal-indikator-add"
-         tabindex="-1"
-         role="dialog"
-         aria-hidden="true">
-        <div class="col-md-4 offset-4">
-            <div class="modal-dialog modal-lg" role="document">
-                <form action="{{ route('guru.store-indikator') }}" method="post" class="modal-content">
-                    @csrf
-                    <input type="text" name="guru_id" value="{{ $guru->id }}" hidden/>
-                    <div class="modal-header">
-                        <h4 class="modal-title">Tambah Data Indikator</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="tipe-indikator">Tipe Indikator</label>
-                                    <select class="form-control" id="tipe-indikator" name="tipe-indikator">
-                                        <option value="0">Pengetahuan</option>
-                                        <option value="0">Keterampilan</option>
+                                    <label for="nama_kelas">Kelas</label>
+                                    <select id="nama_kelas" name="nama_kelas" class="select2bs4 form-control @error('kelas_id') is-invalid @enderror">
+                                        <option value="">-- Pilih Kelas --</option>
+                                        @foreach ($kelas as $data)
+                                            <option value="{{ $data->nama_kelas }}">{{ $data->nama_kelas }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="indikator">Tipe Indikator</label>
+                                    <label for="indikator">isi Indikator</label>
                                     <textarea class="form-control" id="indikator" name="indikator"></textarea>
                                 </div>
                             </div>
@@ -158,9 +129,10 @@
         </div>
     </div>
 
-    <div class="modal-dialog">
-
+    
     </div>
+
+    
 @endsection
 @section('script')
     <script>
