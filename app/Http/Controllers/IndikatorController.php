@@ -12,14 +12,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
-
+use App\Jadwal;
+use Illuminate\Support\Facades\DB;
 class IndikatorController extends Controller
 {
     public function index()
     {
         $guru = Guru::where('id_card', Auth::user()->id_card)->first();
         $indikators = Indikator::where('guru_id', $guru->id)->get();
-        return view('guru.indikator.indikator', compact('guru', 'indikators'));
+        $kelas = DB::table('kelas')
+        ->select('kelas.id', 'kelas.nama_kelas', 'kelas.guru_id')
+        ->join('jadwal', 'kelas.id', '=', 'jadwal.kelas_id')
+        ->join('mapel', 'jadwal.mapel_id', '=', 'mapel.id')
+        ->where([
+            ['mapel.id', '=', $guru->mapel->id]
+        ])->get();
+        
+        return view('guru.indikator.indikator', compact('guru', 'indikators','kelas'));
     }
 
 
@@ -29,6 +38,7 @@ class IndikatorController extends Controller
             [ 'id' => $request->id ],
             [
                 'guru_id' => $request->guru_id,
+                'nama_kelas'=> $request->nama_kelas,
                 'tipe' => ($request->tipe),
                 'indikator' => $request->indikator,
             ]
@@ -43,8 +53,10 @@ class IndikatorController extends Controller
         $id = $decrypt['id'];
         $tipe = $decrypt['tipe'];
         $guru = Guru::where('id_card', Auth::user()->id_card)->first();
+        $kelas = Kelas::findOrFail($id);
         $indikators = Indikator::where([
             [ 'guru_id', '=', $guru->id ],
+            ['nama_kelas','=',$kelas->nama_kelas],
             [ 'tipe', '=', $tipe ]
         ])->get();
 
@@ -54,7 +66,7 @@ class IndikatorController extends Controller
             return redirect()->back()->with('warning', 'Anda belum memiliki Indikator '.$indikator_tipe);
         }
 
-        $kelas = Kelas::findOrFail($id);
+      
         $siswa = Siswa::where('kelas_id', $id)->get();
         return view('guru.indikator.nilai', compact('guru', 'indikators', 'kelas', 'siswa'));
     }

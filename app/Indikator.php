@@ -10,6 +10,7 @@ class Indikator extends Model
         'id',
         'guru_id',
         'tipe',
+        'nama_kelas',
         'indikator'
     ];
 
